@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
+    <title>Chic Locks | User Panel</title>
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <!-- Link to external stylesheet for styling -->
+    <link rel="stylesheet" href="../frontend/style.css">
+    </head>
+<body>
+    <div class="page-container">
+        <!-- Sidebar section -->
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="#" onclick="showContent('profile')">Profile</a></li>
+                <li><a href="#" onclick="showContent('users')">Users</a></li>
+                <li><a href="#" onclick="showContent('posts')">Posts</a></li>
+                <li class="logout-btn"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i>   Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main panel section -->
+        <main class="main-panel" id="mainContent">
+            <!-- Default content (Posts) -->
+            <div id="postsContent">
+                <h2>Posts</h2>
+                <p>Welcome to the Posts section. Here, you can manage your posts.</p>
+            </div>
+
+            <!-- Users content -->
+            <div id="usersContent" style="display: none;">
+                <h2>Users</h2>
+                <p>Welcome to the Users section. Here, you can manage user information.</p>
+            </div>
+
+            <!-- Profile content -->
+            <div id="profileContent" style="display: none;">
+                <h2>Profile</h2>
+                <p>Welcome to the Profile section. Here, you can view and edit your profile.</p>
+            </div>
+        </main>
+    </div>
+    <script src="./backend.js"></script>
+</body>
+</html>
+</html>
