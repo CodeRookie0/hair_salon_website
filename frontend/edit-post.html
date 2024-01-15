@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata for character set and viewport settings -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
+    <title>Chic Locks - Salon Fryzjerski w Łodzi | Hair Salon in Łódź | Edit Post</title>
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <!-- Link to external stylesheet for styling -->
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+    <!-- Header section containing navigation and introduction -->
+    <section class="sub-header-edit-post">
+        <!-- Navigation section with logo and links -->
+        <nav>
+            <a href="index.html"><img src="images/logo.png" alt="Chic Locks Logo"></a>
+            <div class="nav-links" id="navLinks">
+                <i class="fa-solid fa-xmark" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="posts.html">POSTS</a></li>
+                    <li><a href="price.html">PRICING</a></li>
+                    <li><a href="">ABOUT</a></li>
+                    <li><a href="login.html">LOGIN</a></li>
+                    <li><a href="contact us.html">CONTACT</a></li>
+                    <li><a href="info.html">INFO</a></li>
+                </ul>
+            </div>
+            <i class="fa-solid fa-bars" onclick="showMenu()"></i>
+        </nav>
+            <h1>Edit Post</h1>
+    </section>
+
+    <section class="post-data">
+        <div>
+            <input type="number" id="postId" hidden></input>
+            <h1>Title:</h1>
+            <textarea id="postTitle" rows="1" class="edit-textarea" required></textarea>
+            <h1>Image:</h1>
+            <img id="postImage" alt="Post Image">
+            <input type="file" id="newImage" name="newImage" accept="image/*">
+            <button id="deletePostBtn" onclick="confirmDelete()">Delete Post</button>
+        </div>
+        <div>
+            <h1>Content:</h1>
+            <textarea id="postContent" rows="22" class="edit-textarea" required></textarea>
+            <button id="saveChangesBtn" onclick="saveChanges()">Save Changes</button>
+        </div>
+    </section>
+
+</body>
+    <footer>
+        <h4>About Us</h4>
+        <p>Chic Locks is a modern hairdressing salon, where an experienced 
+            team of stylists creates unique hairstyles.
+            <br>Visit us for a unique look and a moment of luxury for your hair.
+        </p>
+        <!-- Social Media Icons -->
+        <div class="icons">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-twitter"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-linkedin"></i>
+        </div>
+        <p>Made with <i class="fa-regular fa-heart"></i> by Maria Shyliankova</p>
+    </footer>
+    <script src="../backend/script.js"></script>
+    <script src="../backend/edit-post.js"></script>
+</html>

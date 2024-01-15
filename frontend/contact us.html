@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata for character set and viewport settings -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
+    <title>Chic Locks - Salon Fryzjerski w Łodzi | Hair Salon in Łódź | Contact Page</title>
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <!-- Link to external stylesheet for styling -->
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+    <!-- Header section containing navigation and introduction -->
+    <section class="sub-header-contact">
+        <!-- Navigation section with logo and links -->
+        <nav>
+            <a href="index.html"><img src="images/logo.png" alt="Chic Locks Logo"></a>
+            <div class="nav-links" id="navLinks">
+                <i class="fa-solid fa-xmark" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="posts.html">POSTS</a></li>
+                    <li><a href="price.html">PRICING</a></li>
+                    <li><a href="">ABOUT</a></li>
+                    <li><a href="login.html">LOGIN</a></li>
+                    <li><a href="contact us.html">CONTACT</a></li>
+                    <li><a href="info.html">INFO</a></li>
+                </ul>
+            </div>
+            <i class="fa-solid fa-bars" onclick="showMenu()"></i>
+        </nav>
+            <h1>Contact Us</h1>
+    </section>
+
+    <!-- Section for the contact form and map -->
+    <section class="contact-us">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <form action="https://formsubmit.co/46e5d8d35e857548e7d81587b34f3bb1" method="POST">  <!--chic.locks.msg@gmail.com-->
+                    <input name="Name" type="text" placeholder="Enter your name" required>
+                    <input name="Email" type="email" placeholder="Enter your Email address" required>
+                    <input name="Subject" type="text" placeholder="Enter your subject" required>
+                    <textarea name="Message" rows="8" placeholder="Message" class="message-textarea" required></textarea>
+                    <button type="submit" class="input-btn">Send Message</button>
+                </form>
+            </div>
+            <!-- Map -->
+            <div class="map-container">
+                <div class="mapBg">
+                </div>
+                <div class="map">
+                    <!-- Google Maps Embed -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d331.01942106217894!2d19.457185821903483!3d51.76582587227401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471bcb2aa0d6a995%3A0x70e0a9e76d6f6c15!2zUGlvdHJrb3dza2EgOTYsIDkwLTEwMyDFgcOzZMW6!5e0!3m2!1spl!2spl!4v1702063402833!5m2!1spl!2spl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row for contact information -->
+        <div class="row">
+            <div class="contact-col">
+                <div>
+                    <i class="fa fa-home"></i>
+                    <span>
+                        <h5>XYZ Road, XYZ Building</h5>
+                        <p>Poland, Łódź</p>
+                    </span>
+                </div>
+                <div>
+                    <i class="fa fa-phone"></i>
+                    <span>
+                        <h5>+48 123 456 789</h5>
+                        <p>Monday to Saturday, 10AM to 7PM</p>
+                    </span>
+                </div>
+                <div>
+                    <i class="fa fa-envelope"></i>
+                    <span>
+                        <h5>chic.locks.msg@gmail.com</h5>
+                        <p>Email us your query</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+    <!-- Footer section with information about the salon and social media icons -->
+    <footer>
+        <h4>About Us</h4>
+        <p>Chic Locks is a modern hairdressing salon, where an experienced 
+            team of stylists creates unique hairstyles.
+            <br>Visit us for a unique look and a moment of luxury for your hair.
+        </p>
+        <!-- Social Media Icons -->
+        <div class="icons">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-twitter"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-linkedin"></i>
+        </div>
+        <p>Made with <i class="fa-regular fa-heart"></i> by Maria Shyliankova</p>
+    </footer>
+    <script src="../backend/script.js"></script>
+</html>

@@ -1,0 +1,5 @@
+nie dodaje sie zdjecie jak tworze nowy post
+
+indeksy postów nie przesuwaja sie po usunieciu
+
+nie ukrywa linkow po zalodgowaniu(trzeba stworzyc osobna strone)
