@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Sprawdzenie czy rekord już istnieje w bazie danych
         checkAndAddAdminToDatabase("admin@domena.com", {
 			email: "admin@domena.com",
-			password: "admin",
+			password: "admin@domena.com",
 		}, dbLoginData, "LoginData");
     };
 });
