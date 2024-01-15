@@ -125,8 +125,7 @@ function loginButtonClick(){
 		var user = event.target.result;
 
 		if (user && user.password === passwordInput) {
-			window.location.href = "posts.html";
-			hideSpecificNavigationLinks();
+			window.location.href = "backend.html?user=" + user.email;
 		} else {
 			alert("Incorrect email or password. Please try again.");
 		}
