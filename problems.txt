@@ -1,5 +1,14 @@
-nie dodaje sie zdjecie jak tworze nowy post
+index.html :
+    -  zdjecia z czerwonym contynerem przy małym ekranie czerwone widać poniżej zdjecia
 
-indeksy postów nie przesuwaja sie po usunieciu
+posts.html
+    -nie dodaje sie zdjecie jak tworze nowy post (w edit zmienia sie)
+    -indeksy postów nie przesuwaja sie po usunieciu
+
+about.html
+    -stworzyć srtone ?!
+
+contactus.html
+    -nie wysyla email
 
 nie ukrywa linkow po zalodgowaniu(trzeba stworzyc osobna strone)
