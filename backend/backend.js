@@ -68,6 +68,10 @@ function showContent(section) {
     // Wyświetl tylko wybraną sekcję
     const content = document.getElementById(`${section}Content`);
     content.style.display = 'block';
+
+    if (section === 'posts') {
+        reloadPosts();
+    }
 }
 
 function hideAllSections() {
@@ -78,12 +82,47 @@ function hideAllSections() {
         content.style.display = 'none';
     });
 }
+function reloadPosts() {
+    const dbName = "PostsData";
+    const request = indexedDB.open(dbName, 1);
+
+    request.onerror = function (event) {
+        console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+    };
+
+    request.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction("posts", "readonly");
+        const store = transaction.objectStore("posts");
+
+        const getAllPosts = store.getAll();
+
+        getAllPosts.onsuccess = function () {
+            const postsData = getAllPosts.result;
+            // Ponownie wywołaj funkcję generującą posty z nowymi danymi
+            generatePostsFromIndexedDB(postsData);
+        };
+
+        getAllPosts.onerror = function (event) {
+            console.log("Błąd pobierania danych z IndexedDB:", event.target.errorCode);
+        };
+    };
+}
 function showEditPostSection(postId) {
     // Przekaż identyfikator posta do funkcji showContent
     showContent('editPost');
 
     // Załaduj dane posta do sekcji edycji
     loadPostData(postId);
+
+    var postImageInput = document.getElementById('newPostImage');
+    if (postImageInput) {
+        postImageInput.addEventListener('change', function () {
+            handleFileSelect(postId);
+        });
+    } else {
+        console.error("Element with id 'PostImage' not found.");
+    }
 }
 // Funkcja do pobierania i aktualizacji informacji o zalogowanym użytkowniku
 function updateLoggedInUser() {
@@ -333,10 +372,9 @@ function navigateToAddPostPage() {
 
 /* ---------------------------- Edit Post ----------------------------*/
 
-const input = document.getElementById('newImage');
+const input = document.getElementById('newPostImage');
 const img = document.getElementById('postImage');
 
-input.addEventListener('change', handleFileSelect);
 
 function getPostIdFromUrl() {
 	const urlParams = new URLSearchParams(window.location.search);
@@ -387,6 +425,9 @@ function loadPostData(postId) {
 			document.getElementById("postImage").src = "";
 			document.getElementById("postContent").value = "";
 		}
+        transaction.oncomplete = function () {
+            db.close();
+        };
 	};
 }
 function saveChanges() {
@@ -434,7 +475,13 @@ function saveChanges() {
 
 					updateRequest.onsuccess = function () {
 						console.log(`Post with ID ${postId} updated successfully.`);
-					};
+                        
+                        // Show success message
+                        alert("Post updated successfully!");
+                            
+                        // Redirect to 'posts.html' after completing the transaction
+                        showContent('posts');
+                    };
 
 					updateRequest.onerror = function (event) {
 						console.error(
@@ -456,7 +503,7 @@ function saveChanges() {
 			transaction.oncomplete = function () {
 				db.close();
 				// Redirect to 'posts.html' after completing the transaction
-				window.location.href = "posts.html";
+				showContent('posts');
 			};
 		} else {
 			if (newImageInput.files.length === 0) {
@@ -483,7 +530,6 @@ function saveChanges() {
 				// Store the new post in the database
 				const addRequest = store.add(newPost);
 				document.getElementById("postId").value = newPostId;
-				handleFileSelect();
 
 				addRequest.onsuccess = function () {
 					console.log(`New post added successfully with ID ${newPostId}.`);
@@ -506,13 +552,13 @@ function saveChanges() {
 			transaction.oncomplete = function () {
 				db.close();
 				// Redirect to 'posts.html' after completing the transaction
-				window.location.href = "posts.html";
+				showContent('posts');
 			};
 		}
 		transaction.oncomplete = function () {
 			db.close();
 			// Redirect to 'posts.html' after completing the transaction
-			window.location.href = "posts.html";
+			showContent('posts');
 		};
 	};
 }
@@ -561,7 +607,10 @@ function updateImageInIndexedDB(postId, newImage) {
 
 				updateRequest.onsuccess = function () {
 					console.log(`Post with ID ${postId} updated with new image.`);
-				};
+    
+                    // Show success message
+                    alert("Image updated successfully!");
+                };
 
 				updateRequest.onerror = function (event) {
 					console.error(
@@ -621,7 +670,7 @@ function deletePost(postId) {
 		deleteRequest.onsuccess = function () {
 			console.log(`Usunięto post o ID ${postId}`);
 			// Po usunięciu posta, przekieruj do strony posts.html
-			window.location.href = "posts.html";
+			showContent('posts');
 		};
 
 		deleteRequest.onerror = function (event) {
