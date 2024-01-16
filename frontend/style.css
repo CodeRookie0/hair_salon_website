@@ -1194,6 +1194,7 @@ footer h4 {
     flex-grow: 1;
     padding: 20px;
     background-color: #f4f4f4;
+	overflow-y: auto;
 }
 .userProfile{
 	display: flex;
@@ -1423,4 +1424,7 @@ footer h4 {
 	.edit-user-form textarea{
 		max-width: 85%;
 	}
+}
+.posts-content h1{
+	text-align: center;
 }

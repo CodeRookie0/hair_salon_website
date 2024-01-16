@@ -30,7 +30,7 @@
         <!-- Main panel section -->
         <main class="main-panel" id="mainContent">
             <!-- Profile content -->
-            <div class="profile-content">
+            <div id="profileContent" class="profile-content">
                 <div class="user-info">
                     <div class="user-name">
                         <img src="images/download.png" alt="User Image">
@@ -76,13 +76,15 @@
             </div>
 
             <!-- Default content (Posts) -->
-            <div id="postsContent" style="display: none;">
-                <h2>Posts</h2>
-                <p>Welcome to the Posts section. Here, you can manage your posts.</p>
+            <div id="postsContent" class="posts-content" style="display: none;">
+                <h1>Posts</h1>
+                <section class="posts" id="postsContainer">
+                    <!-- Posts will be dynamically generated here -->
+                </section>
             </div>
 
             <!-- Users content -->
-            <div id="usersContent" style="display: none;">
+            <div id="usersContent" class="users-content" style="display: none;">
                 <h2>Users</h2>
                 <p>Welcome to the Users section. Here, you can manage user information.</p>
             </div>
