@@ -114,7 +114,7 @@ function updateLoggedInUser() {
             // Update input values
             document.getElementById('Name').value = user.Name;
             document.getElementById('Lastname').value = user.Lastname;
-            document.getElementById('RegisterEmail').value = user.RegisterEmail;
+            document.getElementById('Email').value = user.RegisterEmail;
             document.getElementById('Telephone').value = user.Telephone;
             document.getElementById('BIO').value = user.BIO;
         } else {
@@ -132,4 +132,35 @@ function getUrlParameter(name) {
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+function enableEditMode() {
+    var button = document.querySelector('.button-section button');
+    // Sprawdź tekst przycisku za pomocą innerText
+    var buttonText = button.innerText;
+    if (buttonText=="Edit"){
+        document.querySelectorAll('.edit-user-form input, .edit-user-form textarea').forEach(function(element) {
+            element.removeAttribute('readonly');
+            element.style.backgroundColor='white';
+        });
+        document.querySelector('.button-section button').innerText = 'Save';
+    }
+    if (buttonText=="Save"){
+        document.querySelectorAll('.edit-user-form input, .edit-user-form textarea').forEach(function(element) {
+            element.readOnly = true;
+            element.style.backgroundColor='#f8f8f8';
+        });
+        document.querySelector('.button-section button').innerText = 'Edit';
+    }
+}
+// Function to update the URL with the new email
+function updateUrlWithNewEmail(newEmail) {
+    // Get the current URL without the query parameters
+    var baseUrl = window.location.href.split('?')[0];
+    
+    // Update the email parameter in the URL
+    var newUrl = baseUrl + '?user=' + encodeURIComponent(newEmail);
+
+    // Replace the current URL with the updated one
+    window.history.replaceState({}, document.title, newUrl);
 }
