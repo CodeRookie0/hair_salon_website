@@ -1212,6 +1212,7 @@ footer h4 {
 	color: #fff;
 	font-size: 18px;
 	flex-grow: 1;
+	word-wrap: break-word;
 }
 .logout-btn{
 	list-style: none;
@@ -1279,13 +1280,15 @@ footer h4 {
 .user-name p{
 	margin-top: 5px;
 	font-size: 20px;
+	font-weight:600;
 	color: #6b6b6b;
 }
 .bio {
 	height: auto;
 	max-height: 142px;
+	width: 90%;
 	overflow: hidden;
-	background-color: #fc695e;
+	background-color: #ff8c84;
 	border-radius: 15px;
 	margin: 20px;
 }
@@ -1325,7 +1328,7 @@ footer h4 {
 	margin: 0 20px;
 }
 .bio-section{
-	max-width: 305px;
+	max-width: 310px;
 }
 .button-section{
 	text-align: center;
@@ -1356,7 +1359,7 @@ footer h4 {
     width: calc(100% - 30px);
     max-width: 100%;
     border: none;
-    font-size: 13px;
+    font-size: 15px;
     padding: 15px;
     outline: none;
     margin-bottom: 15px;
@@ -1367,9 +1370,57 @@ footer h4 {
 }
 .edit-user-form textarea{
 	width: 100%;
+	margin: 0;
 }
 .edit-user-form input:focus,
 .edit-user-form textarea:focus {
     border-color: #fc695e;
     outline: none;
+}
+@media (max-width: 600px) {
+	.user-info img{
+	height: 80px;
+	width: auto;
+	}
+}
+@media (max-width: 1200px) {
+.profile-content {
+	width: 95%;
+}
+
+}
+@media (max-width: 1000px) {
+	.profile-content {
+		flex-direction: column; 
+		align-items: center;
+		gap: 20px;
+	}
+	.edit-user-form {
+		width: 90%;
+	}
+	.user-info {
+		width: 90%;
+	}
+	.lower-section{
+		margin-bottom: 20px;
+	}
+}
+@media (max-width: 700px) {
+	.upper-section,
+	.middle-section,
+	.lower-section {
+		flex-direction: column;
+	}
+	.name-section,
+	.lastname-section,
+	.email-section,
+	.telephone-section,
+	.bio-section,
+	.button-section {
+		width: 85%;
+		margin: 0 20px;
+	}
+	.edit-user-form textarea{
+		max-width: 85%;
+	}
 }

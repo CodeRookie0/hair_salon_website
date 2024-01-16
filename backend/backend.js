@@ -78,46 +78,58 @@ function hideAllSections() {
     });
 }
 
-        // Funkcja do pobierania i aktualizacji informacji o zalogowanym użytkowniku
-        function updateLoggedInUser() {
-            if (!dbUserData) {
-                console.log("UserData database is not ready.");
-                return;
-            }
-            // Pobierz adres e-mail użytkownika z adresu URL (przy użyciu funkcji getUrlParameter)
-            var userEmail = getUrlParameter('user');
+// Funkcja do pobierania i aktualizacji informacji o zalogowanym użytkowniku
+function updateLoggedInUser() {
+    if (!dbUserData) {
+        console.log("UserData database is not ready.");
+        return;
+    }
+    // Pobierz adres e-mail użytkownika z adresu URL (przy użyciu funkcji getUrlParameter)
+    var userEmail = getUrlParameter('user');
 
-            // Otwórz transakcję do odczytu danych z bazy danych "UserData"
-            var transactionUserData = dbUserData.transaction(["user"], "readonly");
-            var objectStoreUserData = transactionUserData.objectStore("user");
+    // Otwórz transakcję do odczytu danych z bazy danych "UserData"
+    var transactionUserData = dbUserData.transaction(["user"], "readonly");
+    var objectStoreUserData = transactionUserData.objectStore("user");
 
-            // Pobierz informacje o użytkowniku na podstawie adresu e-mail
-            var requestGetUser = objectStoreUserData.get(userEmail);
+    // Pobierz informacje o użytkowniku na podstawie adresu e-mail
+    var requestGetUser = objectStoreUserData.get(userEmail);
 
-            requestGetUser.onsuccess = function (event) {
-                var user = event.target.result;
+    requestGetUser.onsuccess = function (event) {
+        var user = event.target.result;
 
-                // Aktualizuj elementy HTML z informacjami o użytkowniku
-                var userProfile = document.getElementById('userProfile');
-                if (user) {
-                    userProfile.innerHTML = `
-                        <img src="${user.img}" alt="User Image" style="width: 50px; height: 50px; border-radius: 50%;">
-                        <p>${user.RegisterEmail}</p>
-                    `;
-                } else {
-                    userProfile.innerHTML = '<p>User not found</p>';
-                }
-            };
+        // Aktualizuj elementy HTML z informacjami o użytkowniku
+        var userProfile = document.getElementById('userProfile');
+        if (user) {
+            userProfile.innerHTML = `
+                <img src="${user.img}" alt="User Image" style="width: 50px; height: 50px; border-radius: 50%;">
+                <p>${user.RegisterEmail}</p>
+            `;
+            // Update user-name and bio
+            var userNameParagraph = document.querySelector('.user-name p');
+            var bioParagraph = document.querySelector('.bio p');
 
-            requestGetUser.onerror = function (event) {
-                console.log("Error retrieving user from UserData database");
-            };
+            userNameParagraph.textContent = `${user.Name} ${user.Lastname}`;
+            bioParagraph.textContent = user.BIO;
+
+            // Update input values
+            document.getElementById('Name').value = user.Name;
+            document.getElementById('Lastname').value = user.Lastname;
+            document.getElementById('RegisterEmail').value = user.RegisterEmail;
+            document.getElementById('Telephone').value = user.Telephone;
+            document.getElementById('BIO').value = user.BIO;
+        } else {
+            userProfile.innerHTML = '<p>User not found</p>';
         }
+    };
+    requestGetUser.onerror = function (event) {
+        console.log("Error retrieving user from UserData database");
+    };
+}
 
-        // Funkcja pomocnicza do pobierania parametrów z adresu URL
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
+// Funkcja pomocnicza do pobierania parametrów z adresu URL
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
