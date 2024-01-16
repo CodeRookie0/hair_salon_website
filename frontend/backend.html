@@ -7,19 +7,24 @@
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
     <!-- Link to external stylesheet for styling -->
-    <link rel="stylesheet" href="../frontend/style.css">
+    <link rel="stylesheet" href="style.css">
     </head>
 <body>
     <div class="page-container">
         <!-- Sidebar section -->
         <aside class="sidebar">
-            <h2>Menu</h2>
+            <div class="userProfile" id="userProfile">
+                <!-- Placeholder for user profile information -->
+            </div>
             <ul>
-                <li><a href="#" onclick="showContent('profile')">Profile</a></li>
-                <li><a href="#" onclick="showContent('users')">Users</a></li>
-                <li><a href="#" onclick="showContent('posts')">Posts</a></li>
-                <li class="logout-btn"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i>   Logout</a></li>
+                <li><a href="#" onclick="showContent('profile')"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                <li><a href="#" onclick="showContent('posts')"><i class="fas fa-file-alt"></i><span>Posts</span></a></li>
+                <li><a href="#" onclick="showContent('users')"><i class="fas fa-users"></i><span>Users</span></a></li>
             </ul>
+            <div class="spacer"></div>
+            <div class="logout-btn">
+                <li><a href="" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+            </div>
         </aside>
 
         <!-- Main panel section -->
@@ -43,7 +48,7 @@
             </div>
         </main>
     </div>
-    <script src="./backend.js"></script>
+    <script src="../backend/backend.js"></script>
 </body>
 </html>
 </html>

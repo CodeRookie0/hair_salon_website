@@ -1159,43 +1159,91 @@ footer h4 {
     height: 100vh;
     width: 100%;
 }
-
 .sidebar {
     width: 200px;
     background-color: #333;
     color: #fff;
-    padding: 20px;
 }
-
-.sidebar h2 {
-    margin-bottom: 20px;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
 .sidebar ul li {
-    margin-bottom: 10px;
+    height: 60px;
+    line-height: 60px;
 }
-
 .sidebar ul li a {
+    display: flex;
+    align-items: center; /* Ustawia elementy na środku pionowo */
+	text-decoration: none;
+}
+.sidebar ul li a i {
+	width: 30%;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	color: #fff;
+}
+.sidebar ul li a span {
+	width: 70%;
     color: #fff;
-    text-decoration: none;
-    font-size: 16px;
+	flex-grow: 1; /* Rozciąga span, aby zajmował dostępną przestrzeń */
+	padding-left: 10px;
+	font-size: 18px;
 }
-
-.sidebar ul li a:hover {
-    text-decoration: underline;
+.sidebar ul li:hover a {
+    background-color: #f44336;
 }
-
 .main-panel {
     flex-grow: 1;
     padding: 20px;
     background-color: #f4f4f4;
-    
+}
+.userProfile{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+	margin-bottom: 10px;
+    text-align: center;
+}
+.userProfile img{
+	width: 500px;
+	height: auto;
+}
+.userProfile p{
+	color: #fff;
+	font-size: 18px;
+	flex-grow: 1;
 }
 .logout-btn{
-	margin-top: 75vh;
+	list-style: none;
+}
+.logout-btn li{
+	height: 60px;
+    line-height: 60px;
+}
+.logout-btn li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    padding: 0;
+}
+.logout-btn li a i {
+    width: 30%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+}
+.logout-btn li a span {
+    width: 70%;
+    color: #fff;
+    flex-grow: 1;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.logout-btn li:hover a {
+    background-color: #f44336;
 }

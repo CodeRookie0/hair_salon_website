@@ -113,7 +113,10 @@ function loginButtonClick(){
         document.getElementById('Password').focus();
 		return;
     }
-
+	if (!dbLoginData) {
+        console.log("LoginData database is not ready.");
+        return;
+    }
 	// Rozpoczęcie transakcji do odczytu danych z bazy danych "LoginData"
 	var transactionLoginData = dbLoginData.transaction(["user"], "readonly");
 	var objectStoreLoginData = transactionLoginData.objectStore("user");
