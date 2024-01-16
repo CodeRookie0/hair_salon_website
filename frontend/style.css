@@ -1247,40 +1247,129 @@ footer h4 {
     background-color: #f44336;
 }
 .profile-content {
-	margin-top: 30px;
+	width: 80%;
 	display: flex;
+	justify-content: space-between;
+	margin: 30px auto 0;
 }
-.user-container{
+.user-info {
+	width: 40%;
 	background-color: #fdfdfd;
 	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-	margin-left: 20px;
+	text-align: center;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+	height:330px;
+    position: relative;
 }
-.user-info img{
-	width: 30px;
+.user-name {
+	height: 30%;
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    justify-content: center;
+	margin-top: 40px;
+	margin-bottom: 10px;
+}
+.user-name img{
+	width: 90px;
 	height: auto;
 }
-.edit-user-form{
-	margin: 5%;
+.user-name p{
+	margin-top: 5px;
+	font-size: 20px;
+	color: #6b6b6b;
 }
-.edit-user-form input, 
-.edit-user-form textarea{
-	width: 90%;
-	max-width: 700px;
-	border: none;
-	font-size: 12px;
-	padding: 15px;
-	outline: none;
-	margin-bottom: 15px;
-	background-color: #fff;
-	color: rgb(53, 53, 53);
-	border-radius: 10px;
-	border: 1.5px solid #ccc;
+.bio {
+	height: auto;
+	max-height: 142px;
+	overflow: hidden;
+	background-color: #fc695e;
+	border-radius: 15px;
+	margin: 20px;
 }
-.edit-user-form input::placeholder,
-.edit-user-form textarea::placeholder {
-    color: rgb(53, 53, 53); /* Twój kolor placeholdera */
+.bio p{
+	font-size: 17px;
+	color: #fff;
+	word-wrap: break-word;
+	margin: 10px 2px;
 }
-.edit-user-form input:focus, 
-.edit-user-form textarea:focus{
+.edit-user-form {
+    width: 57%;
+    background-color: #fdfdfd;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.upper-section{
+	margin-top: 20px;
+}
+.upper-section,
+.middle-section,
+.lower-section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+	margin-left: -20px;
+	margin-right: -20px;
+}
+.name-section,
+.lastname-section,
+.email-section,
+.telephone-section,
+.bio-section,
+.button-section {
+    width: 48%;
+	margin: 0 20px;
+}
+.bio-section{
+	max-width: 305px;
+}
+.button-section{
+	text-align: center;
+}
+.button-section button{
+	background-color: rgb(244, 67, 54, 0.9);
 	border: 1.5px solid #f44336;
+	border-radius: 10px;
+	padding: 0px calc(51% - 30px);
+	color: #fff;
+	font-size: 16px;
+	position: relative;
+	cursor: pointer;
+	height: 51px;
+	text-align:center;
+	margin: 2.5vh 0 0.5vh 2.6vh;
+}
+.edit-user-form label{
+    margin-bottom: 7px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #777;
+    padding-left: 3px;
+	display: block;
+}
+.edit-user-form input,
+.edit-user-form textarea {
+    width: calc(100% - 30px);
+    max-width: 100%;
+    border: none;
+    font-size: 13px;
+    padding: 15px;
+    outline: none;
+    margin-bottom: 15px;
+    background-color: #f8f8f8;
+    color: rgb(53, 53, 53);
+    border-radius: 10px;
+    border: 1.5px solid #ccc;
+}
+.edit-user-form textarea{
+	width: 100%;
+}
+.edit-user-form input:focus,
+.edit-user-form textarea:focus {
+    border-color: #fc695e;
+    outline: none;
 }

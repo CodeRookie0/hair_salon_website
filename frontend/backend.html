@@ -31,22 +31,46 @@
         <main class="main-panel" id="mainContent">
             <!-- Profile content -->
             <div class="profile-content">
-                <div class="user-container">
-                    <div class="user-info">
+                <div class="user-info">
+                    <div class="user-name">
                         <img src="images/download.png" alt="User Image">
-                        <input type="file" id="Image" name="Image" style="display: none;" onchange="displayImage(this)">
                         <p>Name LastName</p>
-                        <h3>BIO</h3>
-                        <p class="bio"> I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
+                    </div>
+                    <div class="bio">
+                        <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
                     </div>
                 </div>
-                <div class="user-container">
-                    <div class="edit-user-form">
-                        <input type="text" id="Name" name="Name" placeholder="Enter your name" required>
-                        <input type="text" id="Lastname" name="Lastname" placeholder="Enter your last name" required>
-                        <input type="email" id="RegisterEmail" name="Email" placeholder="Enter your email" required>
-                        <input type="text" id="Telephone" name="Telephone" value="+48 " onkeydown="preventPrefixRemoval(event)" required oninput="checkPhoneNumberInput(event); ">
-                        <textarea id="BIO" name="BIO" rows="1" placeholder="Notatka BIO" class="bio-textarea"></textarea>
+                <div class="edit-user-form">
+                    <div class="upper-section">
+                        <div class="name-section">
+                            <label for="Name">First Name</label>
+                            <input type="text" id="Name" name="Name" required readonly>
+                        </div>
+                        <div class="lastname-section">
+                            <label for="Lastname">Last Name</label>
+                            <input type="text" id="Lastname" name="Lastname" required readonly>
+                        </div>
+                    </div>
+                
+                    <div class="middle-section">
+                        <div class="email-section">
+                            <label for="RegisterEmail">Email</label>
+                            <input type="email" id="RegisterEmail" name="Email" required readonly>
+                        </div>
+                        <div class="telephone-section">
+                            <label for="Telephone">Telephone</label>
+                            <input type="text" id="Telephone" name="Telephone" onkeydown="preventPrefixRemoval(event)" required oninput="checkPhoneNumberInput(event);" readonly>
+                        </div>
+                    </div>
+                
+                    <div class="lower-section">
+                        <div class="bio-section">
+                            <label for="BIO">BIO</label>
+                            <textarea id="BIO" name="BIO" rows="1" class="bio-textarea" readonly></textarea>
+                        </div>
+                        <div class="button-section">
+                            <button type="button">Edit</button>
+                        </div>
                     </div>
                 </div>
             </div>
