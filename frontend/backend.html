@@ -29,8 +29,30 @@
 
         <!-- Main panel section -->
         <main class="main-panel" id="mainContent">
+            <!-- Profile content -->
+            <div class="profile-content">
+                <div class="user-container">
+                    <div class="user-info">
+                        <img src="images/download.png" alt="User Image">
+                        <input type="file" id="Image" name="Image" style="display: none;" onchange="displayImage(this)">
+                        <p>Name LastName</p>
+                        <h3>BIO</h3>
+                        <p class="bio"> I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
+                    </div>
+                </div>
+                <div class="user-container">
+                    <div class="edit-user-form">
+                        <input type="text" id="Name" name="Name" placeholder="Enter your name" required>
+                        <input type="text" id="Lastname" name="Lastname" placeholder="Enter your last name" required>
+                        <input type="email" id="RegisterEmail" name="Email" placeholder="Enter your email" required>
+                        <input type="text" id="Telephone" name="Telephone" value="+48 " onkeydown="preventPrefixRemoval(event)" required oninput="checkPhoneNumberInput(event); ">
+                        <textarea id="BIO" name="BIO" rows="1" placeholder="Notatka BIO" class="bio-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+
             <!-- Default content (Posts) -->
-            <div id="postsContent">
+            <div id="postsContent" style="display: none;">
                 <h2>Posts</h2>
                 <p>Welcome to the Posts section. Here, you can manage your posts.</p>
             </div>
@@ -41,11 +63,6 @@
                 <p>Welcome to the Users section. Here, you can manage user information.</p>
             </div>
 
-            <!-- Profile content -->
-            <div id="profileContent" style="display: none;">
-                <h2>Profile</h2>
-                <p>Welcome to the Profile section. Here, you can view and edit your profile.</p>
-            </div>
         </main>
     </div>
     <script src="../backend/backend.js"></script>

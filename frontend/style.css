@@ -1243,7 +1243,44 @@ footer h4 {
     padding-left: 10px;
     font-size: 18px;
 }
-
 .logout-btn li:hover a {
     background-color: #f44336;
+}
+.profile-content {
+	margin-top: 30px;
+	display: flex;
+}
+.user-container{
+	background-color: #fdfdfd;
+	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+	margin-left: 20px;
+}
+.user-info img{
+	width: 30px;
+	height: auto;
+}
+.edit-user-form{
+	margin: 5%;
+}
+.edit-user-form input, 
+.edit-user-form textarea{
+	width: 90%;
+	max-width: 700px;
+	border: none;
+	font-size: 12px;
+	padding: 15px;
+	outline: none;
+	margin-bottom: 15px;
+	background-color: #fff;
+	color: rgb(53, 53, 53);
+	border-radius: 10px;
+	border: 1.5px solid #ccc;
+}
+.edit-user-form input::placeholder,
+.edit-user-form textarea::placeholder {
+    color: rgb(53, 53, 53); /* Twój kolor placeholdera */
+}
+.edit-user-form input:focus, 
+.edit-user-form textarea:focus{
+	border: 1.5px solid #f44336;
 }
