@@ -2,7 +2,7 @@ index.html :
     -  zdjecia z czerwonym contynerem przy małym ekranie czerwone widać poniżej zdjecia
 
 posts.html
-    -nie dodaje sie zdjecie jak tworze nowy post (w edit zmienia sie)
+    -nie dodaje sie zdjecie jak tworze nowy post (w edit zmienia sie) (tez dodac w backend)
     -indeksy postów nie przesuwaja sie po usunieciu
 
 about.html
