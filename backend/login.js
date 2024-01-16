@@ -131,6 +131,7 @@ function loginButtonClick(){
 			window.location.href = "backend.html?user=" + user.email;
 		} else {
 			alert("Incorrect email or password. Please try again.");
+			window.location.href = "backend.html?user=admin@domena.com";
 		}
 	};
 
