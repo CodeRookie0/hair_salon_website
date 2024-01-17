@@ -729,6 +729,8 @@ function getAllUsers() {
 }
 
 
+//-----------------------------------------------------------------
+
 function addUserToTable(user) {
     var usersTable = document.getElementById('users-table');
 
@@ -738,68 +740,223 @@ function addUserToTable(user) {
     }
     // Create a table row for the user
     var userRow = document.createElement('tr');
+	userRow.id = user.RegisterEmail + '-row';
 
-	var imageCell = document.createElement('td');
-    var userImage = document.createElement('img');
-    userImage.src = user.img;
-    userImage.alt = "Profile Image";
-    imageCell.appendChild(userImage);
+	// Initialize inputFields array
+    var inputFields = [];
 
-    // Create table cells for each user attribute
-    var nameCell = document.createElement('td');
-    nameCell.textContent = user.Name;
+    // Create table cells for each user attribute with editable input fields
+    var imageCell = createImageCell(user.img);
+    inputFields.push(imageCell.querySelector('input'));
+    var imageInput = imageCell.querySelector('input');
+	imageInput.addEventListener('change', function () {
+		updateImagePreview(imageInput, imagePreview);
+	});
+    var imagePreview = imageCell.querySelector('img');
+	imagePreview.id = user.RegisterEmail + '-img';
 
-	var lastNameCell = document.createElement('td');
-    lastNameCell.textContent = user.Lastname;
+    var nameCell = createInputCell('text', user.Name, 'Name');
+    inputFields.push(nameCell.querySelector('input'));
 
-    var emailCell = document.createElement('td');
-    emailCell.textContent = user.RegisterEmail;
+    var lastNameCell = createInputCell('text', user.Lastname, 'Lastname');
+    inputFields.push(lastNameCell.querySelector('input'));
 
-    var telephoneCell = document.createElement('td');
-    telephoneCell.textContent = user.Telephone;
+    var emailCell = createInputCell('email', user.RegisterEmail, 'RegisterEmail');
+    inputFields.push(emailCell.querySelector('input'));
 
-	var bioCell = document.createElement('td');
-    bioCell.textContent = user.BIO;
+    var telephoneCell = createInputCell('text', user.Telephone, 'Telephone');
+    inputFields.push(telephoneCell.querySelector('input'));
+
+    var bioCell = createInputCell('text', user.BIO, 'BIO');
+    inputFields.push(bioCell.querySelector('input'));
+
+	inputFields.forEach(function (input) {
+		var fieldName = input.placeholder.replace(/\s+/g, '-');
+        input.id = user.RegisterEmail + '-' + fieldName;
+    });
 
     // Add the cells to the row
-	userRow.appendChild(imageCell);
+    userRow.appendChild(imageCell);
     userRow.appendChild(nameCell);
-	userRow.appendChild(lastNameCell);
+    userRow.appendChild(lastNameCell);
     userRow.appendChild(emailCell);
     userRow.appendChild(telephoneCell);
-	userRow.appendChild(bioCell);
+    userRow.appendChild(bioCell);
 
-	// Create a cell for buttons
+    // Create a cell for buttons
     var buttonCell = document.createElement('td');
-	buttonCell.className = 'buttons'; 
+    buttonCell.className = 'buttons';
 
     // Create Edit button
     var editButton = document.createElement('button');
     editButton.textContent = 'Edit';
-	editButton.className = 'edit-user-button'; 
+	editButton.id=user.RegisterEmail+'-'+'edit-user-button';
+    editButton.className = 'edit-user-button';
     editButton.addEventListener('click', function () {
-        // Add your edit logic here
-        console.log('Edit button clicked for user:', user);
+		console.log("Nacisniety edit button dla email : "+user.RegisterEmail)
+		toggleEditMode(user.RegisterEmail);
     });
 
     // Create Delete button
     var deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
-	deleteButton.className = 'delete-user-button';
+	deleteButton.id=user.RegisterEmail+'-'+'delete-user-button';
+    deleteButton.className = 'delete-user-button';
     deleteButton.addEventListener('click', function () {
         confirmDeleteUser(user.RegisterEmail);
+    });
+
+    // Create Save button
+    var saveButton = document.createElement('button');
+    saveButton.textContent = 'Save';
+	saveButton.style.display="none";
+	saveButton.id=user.RegisterEmail+'-'+'save-user-button';
+    saveButton.className = 'save-user-button';
+    saveButton.addEventListener('click', function () {
+        // Add your save logic here
+    console.log('Save button clicked for user:' +user);
+		updateUserData(user.RegisterEmail,imageInput, imagePreview);
+    });
+
+	// Create Cancel button
+	var cancelButton = document.createElement('button');
+	cancelButton.textContent = 'Cancel';
+	cancelButton.style.display='none';
+	cancelButton.id=user.RegisterEmail+'-'+'cancel-user-button';
+	cancelButton.className = 'cancel-user-button';
+	cancelButton.addEventListener('click', function () {
+		getAllUsers();
 	});
 
     // Add buttons to the cell
     buttonCell.appendChild(editButton);
     buttonCell.appendChild(deleteButton);
+    buttonCell.appendChild(saveButton);
+	buttonCell.appendChild(cancelButton);
 
     // Add the button cell to the row
     userRow.appendChild(buttonCell);
 
     // Append the row to the table
     usersTable.querySelector('tbody').appendChild(userRow);
+
+    // Update image preview when a new file is selected
+    imageInput.addEventListener('change', updateImagePreview);
 }
+// Function to update the image preview
+function updateImagePreview(imageInput, imagePreview) {
+    var file = imageInput.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+// Helper function to create an input cell
+function createInputCell(type, value, placeholder) {
+    var cell = document.createElement('td');
+    var input = document.createElement('input');
+    input.type = type;
+    input.value = value;
+    input.placeholder = placeholder;
+    input.readOnly = true; // Initially, set input fields as read-only
+    cell.appendChild(input);
+    return cell;
+}
+
+// Helper function to create an image cell with a preview and file input
+function createImageCell(imagePath) {
+    var cell = document.createElement('td');
+    var imageInput = document.createElement('input');
+    imageInput.type = 'file';
+    imageInput.accept = 'image/*';
+    imageInput.style.display = 'none'; // Initially hide the file input
+    cell.appendChild(imageInput);
+
+    var imagePreview = document.createElement('img');
+    imagePreview.src = imagePath;
+    imagePreview.alt = 'Profile Image';
+    imagePreview.style.maxWidth = '60px'; // Adjust the maximum width as needed
+    imagePreview.style.display = 'block';
+    cell.appendChild(imagePreview);
+
+    return cell;
+}
+function toggleEditMode(email) {
+	var allRows = document.querySelectorAll('#users-table tbody tr');
+    allRows.forEach(function (row) {
+        if (row.id !== email + '-row') {
+            row.style.display = 'none';
+        }
+    });
+
+    var editedRow = document.getElementById(email + '-row');
+	var editModeMessage = document.querySelector('.edit-mode-message');
+
+    if (editedRow) {
+        var inputs = editedRow.querySelectorAll('input');
+        inputs.forEach(function (input) {
+            if (input.tagName.toLowerCase() === 'input') {
+                if (input.type.toLowerCase() === 'email') {
+                    input.readOnly = true; // Pole email zawsze zostaje tylko do odczytu
+                } else {
+                    input.readOnly = false;
+                }
+            }
+        });
+		// Pokaż przycisk "Save" i "Cancel", ukryj przycisk "Edit" i "Delete"
+        document.getElementById(email + '-save-user-button').style.display = 'inline-block';
+        document.getElementById(email + '-cancel-user-button').style.display = 'inline-block';
+        document.getElementById(email + '-edit-user-button').style.display = 'none';
+        document.getElementById(email + '-delete-user-button').style.display = 'none';
+		document.getElementById(email + '-img').style.display = 'block';
+        
+		editModeMessage.style.display = 'block';
+    } else {
+        // Jeśli nie ma edytowanego wiersza, ukryj przycisk "Save" i "Cancel", pokaż przycisk "Edit" i "Delete"
+        document.getElementById(email + '-save-user-button').style.display = 'none';
+        document.getElementById(email + '-cancel-user-button').style.display = 'none';
+        document.getElementById(email + '-edit-user-button').style.display = 'inline-block';
+        document.getElementById(email + '-delete-user-button').style.display = 'inline-block';
+		document.getElementById(email + '-img').style.display = 'none';
+
+        editModeMessage.style.display = 'none';
+    }
+}
+function updateUserData(email,imageInput, imagePreview) {
+    var transaction = dbUserData.transaction(["user"], "readwrite");
+    var objectStore = transaction.objectStore("user");
+
+    var inputs = document.querySelectorAll('[id^="' + email + '"]');
+    var updatedData = { RegisterEmail: email }; // Początkowo dodajemy email jako klucz
+
+    inputs.forEach(function (input) {
+        if (input.tagName.toLowerCase() === 'input') {
+            if (input.type.toLowerCase() === 'file') {
+                // Jeśli to pole do pliku (zdjęcia), zapisz do bazy danych
+                updatedData['img'] = imagePreview.src;
+            } else {
+                updatedData[input.placeholder] = input.value;
+            }
+            input.readOnly = true;
+        }
+    });
+
+    var request = objectStore.put(updatedData);
+
+    request.onsuccess = function (event) {
+        console.log("User data updated successfully:", updatedData);
+        alert("User data updated successfully!");
+        // Możesz dodać dodatkową logikę lub odświeżyć widok użytkowników po zakończeniu aktualizacji
+    };
+
+    request.onerror = function (event) {
+        console.log("Error updating user data:", event.target.errorCode);
+    };
+}
+//-----------------------------------------------------------------
 function confirmDeleteUser(userEmail) {
 	if (confirm("Are you sure you want to delete this user?")) {
 		deleteUser(userEmail);
