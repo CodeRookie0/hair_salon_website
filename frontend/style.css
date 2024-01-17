@@ -1432,10 +1432,12 @@ footer h4 {
     justify-content: center;
     text-align: center;
 }
-.posts-content h1{
+.posts-content h1,
+.users-content h1{
 	text-align: center;
 }
-.add-new-post-btn{
+.add-new-post-btn,
+.add-new-user-btn{
 	display: inline-block;
 	text-decoration: none;
 	color: #f44336;
@@ -1449,7 +1451,87 @@ footer h4 {
 	margin-top: 10px;
 	transition: background 0.5s, color 0.2s;
 }
-.add-new-post-btn:hover {
+.add-new-post-btn:hover ,
+.add-new-user-btn:hover{
 	background: #f44336;
 	color: #fff;
+}
+.users{
+	width: 100%;
+    margin: 0 auto;
+}
+.users-table {
+	width: 90%;
+	border-collapse: collapse;
+	overflow: hidden;
+	background-color: #ccc;
+	box-shadow: 0 0 20px rgba(0,0,0,0.2);
+	margin: 20px auto;
+	border-radius: 5px;
+}
+.users-table th,
+.users-table td {
+	padding: 15px;
+	background-color: #f1f1f1; 
+	color: #fff;
+	position: relative;
+	white-space: nowrap;
+	word-wrap: break-word;
+	transition: background-color 0.3s;
+}
+.users-table th {
+	text-align: left;
+	background-color: #f44336;
+	font-size: 20px;
+	font-weight: 600;
+}
+.users-table img{
+	width: 60px;
+	height: auto;
+	border: 2px solid #f44336;
+	border-radius: 15px;
+}
+.users-table td.buttons {
+	height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+	gap: 5px;
+	padding-right: 0;
+}
+.users-table td.buttons button {
+	height: 32px;
+	width: 150px;
+	margin: 0 auto;
+	border-radius: 5px;
+	display: inline-block;
+	text-decoration: none;
+	color: #f44336;
+	border: 1.5px solid #f44336;
+	cursor: pointer;
+	transition: background 0.2s, color 0.1s;
+}
+td.buttons button:hover{
+	background: #f44336;
+	color: #fff;
+}
+.users-table td {
+	position: relative;
+	color: #000;
+	font-size: 18px;
+}
+.users-table tbody tr:hover td {
+    background-color: #ddd;
+}
+
+.users-table td:hover::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -9999px;
+    bottom: -9999px;
+    background-color: #ddd;
+    z-index: -1;
+    transition: background-color 0.3s;
 }

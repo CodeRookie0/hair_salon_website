@@ -3,7 +3,7 @@ index.html :
 
 posts.html
     -nie dodaje sie zdjecie jak tworze nowy post (w edit zmienia sie) (tez dodac w backend)
-    -indeksy postów nie przesuwaja sie po usunieciu
+    -indeksy postów nie przesuwaja sie po usunieciu (DZIALA DLA USUNIECIA USERA)
 
 about.html
     -stworzyć srtone ?!
@@ -12,7 +12,14 @@ contactus.html
     -nie wysyla email
 
 backend.html
-    - po nacisnieciu na Profile sekcju zmienia sie uklad,niepieknie
-    - dodać funkcje dodania i usunięcia posta
+    -dodać aktualizacje zdjecia profile i email w sidebar i user-info
+
+    Nie można było edytować profilu zalogowanego użytkownika:
+    - podstawowy klucz poczty elektronicznej (w przypadku zmiany adresu e-mail dodawany jest nowy rekord zamiast edytować istniejący)
+
+    Warianty rozwiązania:
+    - dodaj osobny przycisk do zmiany osobnego adresu e-mail (usuń poprzedni rekord, przenieś wszystkie dane do nowego rekordu z nowym adresem e-mail. Uwaga: sprawdź, czy taki e-mail już istnieje)
+    -usuń poprzedni rekord i utwórz nowy z nowymi danymi wprowadzonymi do wejścia
+    - utworzenie innej struktury bazy danych (jednej z hasłem zamiast dwóch)
 
 nie ukrywa linkow po zalodgowaniu(trzeba stworzyc osobna strone)

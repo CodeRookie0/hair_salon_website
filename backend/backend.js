@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     requestUserData.onsuccess = function (event) {
         dbUserData = event.target.result;
         updateLoggedInUser();
+		getAllUsers();
     };
 
     // Otwarcie lub stworzenie bazy danych LoginData
@@ -76,6 +77,9 @@ function showContent(section) {
     if (section === 'posts') {
         reloadPosts();
     }
+	if(section==='users'){
+		getAllUsers();
+	}
 }
 
 function hideAllSections() {
@@ -653,7 +657,7 @@ function updateImageInIndexedDB(postId, newImage) {
 	};
 }
 // Dodana funkcja do potwierdzania usuwania posta
-function confirmDelete() {
+function confirmDeletePost() {
 	const postId = document.getElementById("postId").value;
 
 	if (confirm("Are you sure you want to delete this post?")) {
@@ -680,6 +684,172 @@ function deletePost(postId) {
 			console.log(`Usunięto post o ID ${postId}`);
 			// Po usunięciu posta, przekieruj do strony posts.html
 			showContent('posts');
+		};
+
+		deleteRequest.onerror = function (event) {
+			console.log(
+				`Błąd podczas usuwania posta o ID ${postId}:`,
+				event.target.errorCode
+			);
+		};
+	};
+}
+/*--------------------------- Users content ---------------------------------------*/
+function getAllUsers() {
+    if (!dbUserData) {
+        console.log("UserData database is not ready.");
+        return;
+    }
+
+    // Open a transaction to read data from the "user" object store
+    var transactionUserData = dbUserData.transaction(["user"], "readonly");
+    var objectStoreUserData = transactionUserData.objectStore("user");
+	
+	var usersTable = document.getElementById('users-table');
+	var tbody = usersTable.querySelector('tbody');
+	// Usuń wszystkie dzieci z tbody
+	while (tbody.firstChild) {
+		tbody.removeChild(tbody.firstChild);
+	}
+    // Open a cursor to iterate over all users
+    var cursorRequest = objectStoreUserData.openCursor();
+
+    cursorRequest.onsuccess = function (event) {
+        var cursor = event.target.result;
+        if (cursor) {
+            // Process each user and update the HTML
+            addUserToTable(cursor.value);
+            cursor.continue();
+        }
+    };
+
+    cursorRequest.onerror = function (event) {
+        console.log("Error retrieving users from UserData database:", event.target.errorCode);
+    };
+}
+
+
+function addUserToTable(user) {
+    var usersTable = document.getElementById('users-table');
+
+    if (!usersTable) {
+        console.error("Users table not found.");
+        return;
+    }
+    // Create a table row for the user
+    var userRow = document.createElement('tr');
+
+	var imageCell = document.createElement('td');
+    var userImage = document.createElement('img');
+    userImage.src = user.img;
+    userImage.alt = "Profile Image";
+    imageCell.appendChild(userImage);
+
+    // Create table cells for each user attribute
+    var nameCell = document.createElement('td');
+    nameCell.textContent = user.Name;
+
+	var lastNameCell = document.createElement('td');
+    lastNameCell.textContent = user.Lastname;
+
+    var emailCell = document.createElement('td');
+    emailCell.textContent = user.RegisterEmail;
+
+    var telephoneCell = document.createElement('td');
+    telephoneCell.textContent = user.Telephone;
+
+	var bioCell = document.createElement('td');
+    bioCell.textContent = user.BIO;
+
+    // Add the cells to the row
+	userRow.appendChild(imageCell);
+    userRow.appendChild(nameCell);
+	userRow.appendChild(lastNameCell);
+    userRow.appendChild(emailCell);
+    userRow.appendChild(telephoneCell);
+	userRow.appendChild(bioCell);
+
+	// Create a cell for buttons
+    var buttonCell = document.createElement('td');
+	buttonCell.className = 'buttons'; 
+
+    // Create Edit button
+    var editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+	editButton.className = 'edit-user-button'; 
+    editButton.addEventListener('click', function () {
+        // Add your edit logic here
+        console.log('Edit button clicked for user:', user);
+    });
+
+    // Create Delete button
+    var deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+	deleteButton.className = 'delete-user-button';
+    deleteButton.addEventListener('click', function () {
+        confirmDeleteUser(user.RegisterEmail);
+	});
+
+    // Add buttons to the cell
+    buttonCell.appendChild(editButton);
+    buttonCell.appendChild(deleteButton);
+
+    // Add the button cell to the row
+    userRow.appendChild(buttonCell);
+
+    // Append the row to the table
+    usersTable.querySelector('tbody').appendChild(userRow);
+}
+function confirmDeleteUser(userEmail) {
+	if (confirm("Are you sure you want to delete this user?")) {
+		deleteUser(userEmail);
+	}
+}
+// Dodana funkcja do usuwania posta
+function deleteUser(userEmail) {
+	const dbName = "UserData";
+    const request = indexedDB.open(dbName, 1);
+
+	request.onerror = function (event) {
+		console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+	};
+
+	request.onsuccess = function (event) {
+		const db = event.target.result;
+		const transaction = db.transaction("user", "readwrite");
+        const store = transaction.objectStore("user");
+
+        const deleteRequest = store.delete(userEmail);
+
+		deleteRequest.onsuccess = function () {
+			const dbName = "LoginData";
+			const request = indexedDB.open(dbName, 1);
+
+			request.onerror = function (event) {
+				console.log("Błąd otwarcia bazy danych LoginData:", event.target.errorCode);
+			};
+
+			request.onsuccess = function (event) {
+				const db = event.target.result;
+				const transaction = db.transaction("user", "readwrite");
+				const store = transaction.objectStore("user");
+
+				const deleteRequest = store.delete(userEmail);
+
+				deleteRequest.onsuccess = function () {
+					console.log(`Usunięto użytkownika o emailu ${userEmail} z UserData`);
+					// Po usunięciu posta, przekieruj do strony posts.html
+					showContent('users');
+				};
+
+				deleteRequest.onerror = function (event) {
+					console.log(
+						`Błąd podczas usuwania użytkownika o emailu ${userEmail} z LoginData:`,
+						event.target.errorCode
+					);
+				};
+			};
+			
 		};
 
 		deleteRequest.onerror = function (event) {
