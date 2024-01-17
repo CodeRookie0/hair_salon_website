@@ -67,8 +67,12 @@ function showContent(section) {
 
     // Wyświetl tylko wybraną sekcję
     const content = document.getElementById(`${section}Content`);
+	if(section==='profile'){
+		content.style.display = 'flex';
+	}
+	else{
     content.style.display = 'block';
-
+	}
     if (section === 'posts') {
         reloadPosts();
     }
@@ -108,7 +112,7 @@ function reloadPosts() {
         };
     };
 }
-function showEditPostSection(postId) {
+function showEditPostSection(postId="") {
     // Przekaż identyfikator posta do funkcji showContent
     showContent('editPost');
 
@@ -367,7 +371,7 @@ function loadMorePosts(postsData, limit) {
 }
 // Function to navigate to the edit-post.html page with the post ID in the URL
 function navigateToAddPostPage() {
-	window.location.href = "edit-post.html";
+	showEditPostSection();
 }
 
 /* ---------------------------- Edit Post ----------------------------*/
@@ -441,7 +445,7 @@ function saveChanges() {
 	const postId = document.getElementById("postId").value;
 	const postTitle = document.getElementById("postTitle").value;
 	const postContent = document.getElementById("postContent").value;
-	const newImageInput = document.getElementById("newImage");
+	const newImageInput = document.getElementById("newPostImage");
 
 	// Validate title, content, and image
 	if (postTitle.length < 10) {
@@ -481,6 +485,7 @@ function saveChanges() {
                             
                         // Redirect to 'posts.html' after completing the transaction
                         showContent('posts');
+						document.getElementById("newPostImage").value = "";
                     };
 
 					updateRequest.onerror = function (event) {
@@ -504,6 +509,7 @@ function saveChanges() {
 				db.close();
 				// Redirect to 'posts.html' after completing the transaction
 				showContent('posts');
+				document.getElementById("newPostImage").value = "";
 			};
 		} else {
 			if (newImageInput.files.length === 0) {
@@ -524,7 +530,6 @@ function saveChanges() {
 					id: newPostId,
 					title: postTitle,
 					content: postContent,
-					image: "", // Set image as needed
 				};
 
 				// Store the new post in the database
@@ -533,6 +538,8 @@ function saveChanges() {
 
 				addRequest.onsuccess = function () {
 					console.log(`New post added successfully with ID ${newPostId}.`);
+					handleFileSelect(newPostId);
+					console.log(`New image added successfully`);
 				};
 
 				addRequest.onerror = function (event) {
@@ -563,20 +570,22 @@ function saveChanges() {
 	};
 }
 
-function handleFileSelect() {
+function handleFileSelect(postId) {
 	if (input.files && input.files[0]) {
-		const fileReader = new FileReader();
+			const fileReader = new FileReader();
 
-		fileReader.onload = function (e) {
-			// Update the image source in the DOM for preview
-			img.src = e.target.result;
+			fileReader.onload = function (e) {
+				// Update the image source in the DOM for preview
+				img.src = e.target.result;
 
-			// Also update the image value in the IndexedDB
-			const postId = document.getElementById("postId").value;
-			updateImageInIndexedDB(postId, e.target.result);
-		};
+				if(postId!==""){
+					// Also update the image value in the IndexedDB
+					const postId = document.getElementById("postId").value;
+					updateImageInIndexedDB(postId, e.target.result);
+				}
+			};
 
-		fileReader.readAsDataURL(input.files[0]);
+			fileReader.readAsDataURL(input.files[0]);
 	}
 }
 

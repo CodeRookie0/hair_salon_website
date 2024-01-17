@@ -11,4 +11,8 @@ about.html
 contactus.html
     -nie wysyla email
 
+backend.html
+    - po nacisnieciu na Profile sekcju zmienia sie uklad,niepieknie
+    - dodać funkcje dodania i usunięcia posta
+
 nie ukrywa linkow po zalodgowaniu(trzeba stworzyc osobna strone)
