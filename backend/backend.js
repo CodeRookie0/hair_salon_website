@@ -173,6 +173,11 @@ function updateLoggedInUser() {
             document.getElementById('Email').value = user.RegisterEmail;
             document.getElementById('Telephone').value = user.Telephone;
             document.getElementById('BIO').value = user.BIO;
+
+			var updatedImage=document.getElementById('newProfileImage');
+			updatedImage.addEventListener('change', function () {
+				updateProfileImagePreview(user.RegisterEmail);
+			});
         } else {
             userProfile.innerHTML = '<p>User not found</p>';
         }
@@ -191,34 +196,109 @@ function getUrlParameter(name) {
 }
 
 function enableEditMode() {
-    var button = document.querySelector('.button-section button');
+    var button = document.getElementById('editProfileBtn');
     // Sprawdź tekst przycisku za pomocą innerText
     var buttonText = button.innerText;
     if (buttonText=="Edit"){
         document.querySelectorAll('.edit-user-form input, .edit-user-form textarea').forEach(function(element) {
-            element.removeAttribute('readonly');
-            element.style.backgroundColor='white';
+			if(element.id!=="Email"){
+				element.removeAttribute('readonly');
+				element.style.backgroundColor='white';
+			}
+			else{
+				element.style.cursor="not-allowed";
+			}
         });
-        document.querySelector('.button-section button').innerText = 'Save';
+        document.getElementById('editProfileBtn').innerText = 'Save';
+		document.querySelector('.image-section').style.display="block";
     }
     if (buttonText=="Save"){
         document.querySelectorAll('.edit-user-form input, .edit-user-form textarea').forEach(function(element) {
-            element.readOnly = true;
-            element.style.backgroundColor='#f8f8f8';
+            if(element.id!=="Email"){
+				element.readOnly = true;
+            	element.style.backgroundColor='#f8f8f8';
+			}
+			else{
+				element.style.cursor="auto";
+			}
         });
-        document.querySelector('.button-section button').innerText = 'Edit';
+		document.querySelector('.image-section').style.display="none";
+		saveProfileData();
+        document.getElementById('editProfileBtn').innerText = 'Edit';
     }
 }
-// Function to update the URL with the new email
-function updateUrlWithNewEmail(newEmail) {
-    // Get the current URL without the query parameters
-    var baseUrl = window.location.href.split('?')[0];
-    
-    // Update the email parameter in the URL
-    var newUrl = baseUrl + '?user=' + encodeURIComponent(newEmail);
+function saveProfileData() {
+    // Pobierz aktualny adres e-mail zalogowanego użytkownika
+    var userEmail = document.getElementById('Email').value;
 
-    // Replace the current URL with the updated one
-    window.history.replaceState({}, document.title, newUrl);
+    // Otwórz transakcję do zapisu danych do bazy danych "UserData"
+    var transactionUserData = dbUserData.transaction(["user"], "readwrite");
+    var objectStoreUserData = transactionUserData.objectStore("user");
+
+    // Pobierz aktualne dane z formularza
+    var updatedName = document.getElementById('Name').value;
+    var updatedLastname = document.getElementById('Lastname').value;
+    var updatedTelephone = document.getElementById('Telephone').value;
+    var updatedBIO = document.getElementById('BIO').value;
+	var updatedImage=document.getElementById('newProfileImage');
+
+	// Sprawdź, czy użytkownik wybrał nowy obraz
+    
+    // Pobierz aktualny obiekt użytkownika
+    var requestGetUser = objectStoreUserData.get(userEmail);
+
+    requestGetUser.onsuccess = function (event) {
+        var user = event.target.result;
+
+		if (updatedImage.files && updatedImage.files[0]) {
+			console.log("New profile image was selected");
+		}
+		else{
+			if (user) {
+				// Jeśli pole 'img' istnieje, zachowaj je
+				user.img = user.img;
+			}
+		}
+        // Zaktualizuj dane w obiekcie użytkownika
+        user.Name = updatedName;
+        user.Lastname = updatedLastname;
+        user.Telephone = updatedTelephone;
+        user.BIO = updatedBIO;
+
+        // Zapisz zaktualizowany obiekt użytkownika z powrotem do bazy danych
+        var requestUpdateUser = objectStoreUserData.put(user);
+
+        requestUpdateUser.onsuccess = function () {
+            alert("User data updated successfully.");
+            // Możesz również zaktualizować wyświetlane informacje na bieżąco, jeśli to konieczne
+			updateLoggedInUser();
+		};
+
+        requestUpdateUser.onerror = function (event) {
+            console.log("Error updating user data:", event.target.errorCode);
+        };
+    };
+
+    requestGetUser.onerror = function (event) {
+        console.log("Error retrieving user from UserData database");
+    };
+}
+// Function to update the image preview
+function updateProfileImagePreview(userEmail) {
+	const input = document.getElementById('newProfileImage');
+
+    if (input.files && input.files[0]) {
+        const fileReader = new FileReader();
+
+        fileReader.onload = function (e) {
+            if (userEmail !== "") {
+                // Also update the image value in the IndexedDB
+                updateUserImageInIndexedDB(userEmail, e.target.result);
+            }
+        };
+
+        fileReader.readAsDataURL(input.files[0]);
+    }
 }
 /* -------------------------------- Posts --------------------------------------*/
 const danePostow = [
@@ -587,7 +667,7 @@ function handleFileSelect(postId) {
 				if(postId!==""){
 					// Also update the image value in the IndexedDB
 					const postId = document.getElementById("postId").value;
-					updateImageInIndexedDB(postId, e.target.result);
+					updatePostImageInIndexedDB(postId, e.target.result);
 				}
 			};
 
@@ -595,7 +675,7 @@ function handleFileSelect(postId) {
 	}
 }
 
-function updateImageInIndexedDB(postId, newImage) {
+function updatePostImageInIndexedDB(postId, newImage) {
 	// Open or create the database
 	const dbName = "PostsData";
 	const request = indexedDB.open(dbName, 1);
@@ -730,9 +810,6 @@ function getAllUsers() {
     };
 }
 
-
-//-----------------------------------------------------------------
-
 function addUserToTable(user) {
     var usersTable = document.getElementById('users-table');
 
@@ -752,7 +829,7 @@ function addUserToTable(user) {
     inputFields.push(imageCell.querySelector('input'));
     var imageInput = imageCell.querySelector('input');
 	imageInput.addEventListener('change', function () {
-		updateImagePreview(user.RegisterEmail);
+		updateUserImagePreview(user.RegisterEmail);
 	});
     var imagePreview = imageCell.querySelector('img');
 
@@ -891,9 +968,10 @@ function toggleEditMode(email) {
         var inputs = editedRow.querySelectorAll('input');
         inputs.forEach(function (input) {
             if (input.tagName.toLowerCase() === 'input') {
-                if (input.type.toLowerCase() === 'email') {
+                if (input.type.toLowerCase() === 'email' && email!=="") {
                     input.readOnly = true; // Pole email zawsze zostaje tylko do odczytu
-                } else {
+                }
+				else {
                     input.readOnly = false;
                 }
             }
@@ -983,7 +1061,7 @@ function saveUserData(email) {
     };
 }
 // Function to update the image preview
-function updateImagePreview(userEmail) {
+function updateUserImagePreview(userEmail) {
 	const input = document.getElementById(userEmail+'-input');
     const img = document.getElementById(userEmail+'-img');
 
@@ -996,14 +1074,14 @@ function updateImagePreview(userEmail) {
 
             if (userEmail !== "") {
                 // Also update the image value in the IndexedDB
-                updateImageInIndexedDB(userEmail, e.target.result);
+                updateUserImageInIndexedDB(userEmail, e.target.result);
             }
         };
 
         fileReader.readAsDataURL(input.files[0]);
     }
 }
-function updateImageInIndexedDB(registerEmail, newImage) {
+function updateUserImageInIndexedDB(registerEmail, newImage) {
     // Open or create the database
     const dbName = "UserData";
     const request = indexedDB.open(dbName, 1);
@@ -1030,7 +1108,6 @@ function updateImageInIndexedDB(registerEmail, newImage) {
 
                 updateRequest.onsuccess = function () {
                     console.log(`User with email ${registerEmail} updated with new image.`);
-					updateLoggedInUser();
                 };
 
                 updateRequest.onerror = function (event) {
@@ -1067,7 +1144,7 @@ function updateImageInIndexedDB(registerEmail, newImage) {
         };
     };
 }
-//-----------------------------------------------------------------
+
 function confirmDeleteUser(userEmail) {
 	if (confirm("Are you sure you want to delete this user?")) {
 		deleteUser(userEmail);
@@ -1127,4 +1204,24 @@ function deleteUser(userEmail) {
 			);
 		};
 	};
+}
+function addNewUserRow() {
+    var usersTable = document.getElementById('users-table');
+    var tbody = usersTable.querySelector('tbody');
+
+    // Utwórz nowy obiekt użytkownika z pustymi danymi
+    var newUser = {
+        RegisterEmail: '',
+        Name: '',
+        Lastname: '',
+        Telephone: '',
+        BIO: '',
+        img: 'images/download.png' // Domyślny obraz
+    };
+
+    // Dodaj nowy wiersz do tabeli
+    addUserToTable(newUser);
+
+    // Przełącz tryb edycji dla nowo dodanego wiersza
+    toggleEditMode(newUser.RegisterEmail);
 }

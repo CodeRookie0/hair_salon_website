@@ -69,8 +69,16 @@
                             <textarea id="BIO" name="BIO" rows="1" class="bio-textarea" readonly></textarea>
                         </div>
                         <div class="button-section">
-                            <button type="button" onclick="enableEditMode()">Edit</button>
+                            <button id="editProfileBtn" class="edit-prfile-btn" type="button" onclick="enableEditMode()">Edit</button>
                         </div>
+                        
+                    </div>
+                    <div class="image-section">
+                        <div class="new-image-section">
+                            <label for="NewProfileImage">Change Profile Image</label>
+                            <input type="file" id="newProfileImage" class="new-profile-image">
+                        </div>
+                        <div class="no-section"></div>
                     </div>
                 </div>
             </div>
@@ -90,7 +98,7 @@
             <div id="usersContent" class="users-content" style="display: none;">
                 <div class="post-head">
                     <h1>Users</h1>
-                    <button id="addUserBtn" class="add-new-user-btn" onclick="showEditUserSection()">Add User</button>
+                    <button id="addUserBtn" class="add-new-user-btn" onclick="addNewUserRow();">Add User</button>
                 </div>
                 <section class="users" id="usersContainer">
                     <table class="users-table" id="users-table">

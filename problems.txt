@@ -11,7 +11,14 @@ about.html
 contactus.html
     -nie wysyla email
 
+backend,js:
+    -podzielic plik na kilka zgodnie ze sekcjami na stronie
+
 backend.html
+    -dodać sprawdzenie inputów przy zmianie informacji usera czy dodanie usera
+    -dodać możliwość dodania nowego usera
+    -nie zmieniają sie dane profile (dodać aktualizacje tabeli z users po edycji Profile)
+
     Nie można było edytować profilu zalogowanego użytkownika:
     - podstawowy klucz poczty elektronicznej (w przypadku zmiany adresu e-mail dodawany jest nowy rekord zamiast edytować istniejący)
 

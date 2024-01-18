@@ -1313,21 +1313,30 @@ footer h4 {
 }
 .upper-section,
 .middle-section,
-.lower-section {
+.lower-section,
+.image-section {
     width: 100%;
     display: flex;
     justify-content: space-between;
 	margin-left: -20px;
 	margin-right: -20px;
 }
+.image-section {
+	display: none;
+}
 .name-section,
 .lastname-section,
 .email-section,
 .telephone-section,
 .bio-section,
-.button-section {
+.button-section,
+.no-section,
+.new-image-section {
     width: 48%;
 	margin: 0 20px;
+}
+.new-image-section{
+	margin-top: 20px;
 }
 .bio-section{
 	max-width: 310px;
@@ -1335,11 +1344,11 @@ footer h4 {
 .button-section{
 	text-align: center;
 }
-.button-section button{
+.edit-prfile-btn{
 	background-color: rgb(244, 67, 54, 0.9);
 	border: 1.5px solid #f44336;
 	border-radius: 10px;
-	padding: 0px calc(51% - 30px);
+	padding: 0px calc(51% - 50px);
 	color: #fff;
 	font-size: 16px;
 	position: relative;
@@ -1379,6 +1388,7 @@ footer h4 {
     border-color: #fc695e;
     outline: none;
 }
+
 @media (max-width: 600px) {
 	.user-info img{
 	height: 80px;
@@ -1535,4 +1545,53 @@ td.buttons button:hover{
     background-color: #ddd;
     z-index: -1;
     transition: background-color 0.3s;
+}
+
+
+
+.users-table input {
+    width: calc(100% - 10px);
+    padding: 5px;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    color: #000;
+    outline: none;
+    transition: border-bottom-color 0.3s;
+}
+
+.users-table input:hover,
+.users-table input:focus {
+    border-bottom-color: #f44336;
+}
+
+.users-table input[readonly] {
+    color: #666;
+    cursor: not-allowed;
+}
+.users-table input[type="file"] {
+    display: none; /* Hide file input by default */
+}
+.users-table input[type="file"] {
+    display: inline-block;
+    margin-top: 5px;
+}
+.users-table input[type="file"]{
+    content: 'Choose Image';
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1.5px solid #f44336;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #f44336;
+}
+.users-table input[type="file"]:hover::before {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.users-table input[type="file"] input {
+    display: none;
 }
