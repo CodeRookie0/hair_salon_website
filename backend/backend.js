@@ -1263,3 +1263,6 @@ function addNewUserRow() {
     // Przełącz tryb edycji dla nowo dodanego wiersza
     toggleEditMode(newUser.RegisterEmail);
 }
+function logout() {
+    window.location.href = "index.html"; 
+}
