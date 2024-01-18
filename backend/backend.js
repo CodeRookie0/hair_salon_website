@@ -160,9 +160,11 @@ function updateLoggedInUser() {
             `;
             // Update user-name and bio
             var userNameParagraph = document.querySelector('.user-name p');
+			var userProfileImage=document.querySelector('.user-name img');
             var bioParagraph = document.querySelector('.bio p');
 
             userNameParagraph.textContent = `${user.Name} ${user.Lastname}`;
+			userProfileImage.src=user.img;
             bioParagraph.textContent = user.BIO;
 
             // Update input values
@@ -1028,6 +1030,7 @@ function updateImageInIndexedDB(registerEmail, newImage) {
 
                 updateRequest.onsuccess = function () {
                     console.log(`User with email ${registerEmail} updated with new image.`);
+					updateLoggedInUser();
                 };
 
                 updateRequest.onerror = function (event) {

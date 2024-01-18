@@ -1275,8 +1275,9 @@ footer h4 {
 	margin-bottom: 10px;
 }
 .user-name img{
-	width: 90px;
-	height: auto;
+	width: auto;
+	height: 90px;
+	border-radius: 15px;
 }
 .user-name p{
 	margin-top: 5px;

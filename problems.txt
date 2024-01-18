@@ -12,8 +12,6 @@ contactus.html
     -nie wysyla email
 
 backend.html
-    -dodać aktualizacje zdjecia profile i email w sidebar i user-info
-
     Nie można było edytować profilu zalogowanego użytkownika:
     - podstawowy klucz poczty elektronicznej (w przypadku zmiany adresu e-mail dodawany jest nowy rekord zamiast edytować istniejący)
 
