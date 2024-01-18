@@ -750,10 +750,9 @@ function addUserToTable(user) {
     inputFields.push(imageCell.querySelector('input'));
     var imageInput = imageCell.querySelector('input');
 	imageInput.addEventListener('change', function () {
-		updateImagePreview(imageInput, imagePreview);
+		updateImagePreview(user.RegisterEmail);
 	});
     var imagePreview = imageCell.querySelector('img');
-	imagePreview.id = user.RegisterEmail + '-img';
 
     var nameCell = createInputCell('text', user.Name, 'Name');
     inputFields.push(nameCell.querySelector('input'));
@@ -774,6 +773,8 @@ function addUserToTable(user) {
 		var fieldName = input.placeholder.replace(/\s+/g, '-');
         input.id = user.RegisterEmail + '-' + fieldName;
     });
+	imagePreview.id = user.RegisterEmail + '-img';
+	imageInput.id = user.RegisterEmail + '-input';
 
     // Add the cells to the row
     userRow.appendChild(imageCell);
@@ -815,7 +816,7 @@ function addUserToTable(user) {
     saveButton.addEventListener('click', function () {
         // Add your save logic here
     console.log('Save button clicked for user:' +user);
-		updateUserData(user.RegisterEmail,imageInput, imagePreview);
+		saveUserData(user.RegisterEmail);
     });
 
 	// Create Cancel button
@@ -825,6 +826,8 @@ function addUserToTable(user) {
 	cancelButton.id=user.RegisterEmail+'-'+'cancel-user-button';
 	cancelButton.className = 'cancel-user-button';
 	cancelButton.addEventListener('click', function () {
+		var editModeMessage = document.querySelector('.edit-mode-message');
+		editModeMessage.style.display = 'none';
 		getAllUsers();
 	});
 
@@ -839,21 +842,8 @@ function addUserToTable(user) {
 
     // Append the row to the table
     usersTable.querySelector('tbody').appendChild(userRow);
+}
 
-    // Update image preview when a new file is selected
-    imageInput.addEventListener('change', updateImagePreview);
-}
-// Function to update the image preview
-function updateImagePreview(imageInput, imagePreview) {
-    var file = imageInput.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-}
 // Helper function to create an input cell
 function createInputCell(type, value, placeholder) {
     var cell = document.createElement('td');
@@ -911,7 +901,8 @@ function toggleEditMode(email) {
         document.getElementById(email + '-cancel-user-button').style.display = 'inline-block';
         document.getElementById(email + '-edit-user-button').style.display = 'none';
         document.getElementById(email + '-delete-user-button').style.display = 'none';
-		document.getElementById(email + '-img').style.display = 'block';
+		document.getElementById(email + '-input').style.display = 'block';
+        document.getElementById(email + '-img').style.display = 'block';
         
 		editModeMessage.style.display = 'block';
     } else {
@@ -920,12 +911,13 @@ function toggleEditMode(email) {
         document.getElementById(email + '-cancel-user-button').style.display = 'none';
         document.getElementById(email + '-edit-user-button').style.display = 'inline-block';
         document.getElementById(email + '-delete-user-button').style.display = 'inline-block';
+		document.getElementById(email + '-input').style.display = 'none';
 		document.getElementById(email + '-img').style.display = 'none';
-
+        
         editModeMessage.style.display = 'none';
     }
 }
-function updateUserData(email,imageInput, imagePreview) {
+function saveUserData(email) {
     var transaction = dbUserData.transaction(["user"], "readwrite");
     var objectStore = transaction.objectStore("user");
 
@@ -934,26 +926,142 @@ function updateUserData(email,imageInput, imagePreview) {
 
     inputs.forEach(function (input) {
         if (input.tagName.toLowerCase() === 'input') {
-            if (input.type.toLowerCase() === 'file') {
-                // Jeśli to pole do pliku (zdjęcia), zapisz do bazy danych
-                updatedData['img'] = imagePreview.src;
-            } else {
+            if (!input.id.endsWith('-img') && !input.id.endsWith('-input')) {
                 updatedData[input.placeholder] = input.value;
             }
             input.readOnly = true;
         }
     });
 
-    var request = objectStore.put(updatedData);
+    // Sprawdź, czy użytkownik wybrał nowy obraz
+    var imageInput = document.getElementById(email + '-input');
+    if (imageInput.files && imageInput.files[0]) {
+		console.log("New profile image was selected");
 
-    request.onsuccess = function (event) {
-        console.log("User data updated successfully:", updatedData);
-        alert("User data updated successfully!");
-        // Możesz dodać dodatkową logikę lub odświeżyć widok użytkowników po zakończeniu aktualizacji
+    }
+	else{
+		var isUserExist = objectStore.get(email);
+		isUserExist.onsuccess = function (event) {
+				var user = isUserExist.result;
+			if (user) {
+				// Jeśli pole 'img' istnieje, zachowaj je
+				updatedData.img = user.img;
+			}
+		}
+	}
+
+    var existingUser = objectStore.get(email);
+
+    existingUser.onsuccess = function (event) {
+        var user = existingUser.result;
+
+        if (user) {
+            updatedData.img = user.img;
+        }
+
+        var request = objectStore.put(updatedData);
+
+        request.onsuccess = function (event) {
+            console.log("User data updated successfully:", updatedData);
+            alert("User data updated successfully!");
+			var editModeMessage = document.querySelector('.edit-mode-message');
+			editModeMessage.style.display = 'none';
+			getAllUsers();
+			updateLoggedInUser();
+            // Możesz dodać dodatkową logikę lub odświeżyć widok użytkowników po zakończeniu aktualizacji
+        };
+
+        request.onerror = function (event) {
+            console.log("Error updating user data:", event.target.errorCode);
+        };
     };
 
+    existingUser.onerror = function (event) {
+        console.log("Error retrieving existing user data:", event.target.errorCode);
+    };
+}
+// Function to update the image preview
+function updateImagePreview(userEmail) {
+	const input = document.getElementById(userEmail+'-input');
+    const img = document.getElementById(userEmail+'-img');
+
+    if (input.files && input.files[0]) {
+        const fileReader = new FileReader();
+
+        fileReader.onload = function (e) {
+            // Update the image source in the DOM for preview
+            img.src = e.target.result;
+
+            if (userEmail !== "") {
+                // Also update the image value in the IndexedDB
+                updateImageInIndexedDB(userEmail, e.target.result);
+            }
+        };
+
+        fileReader.readAsDataURL(input.files[0]);
+    }
+}
+function updateImageInIndexedDB(registerEmail, newImage) {
+    // Open or create the database
+    const dbName = "UserData";
+    const request = indexedDB.open(dbName, 1);
+
     request.onerror = function (event) {
-        console.log("Error updating user data:", event.target.errorCode);
+        console.log("Error opening the database:", event.target.errorCode);
+    };
+
+    request.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction(["user"], "readwrite");
+        const store = transaction.objectStore("user");
+
+        const updateUser = store.get(registerEmail);
+
+        updateUser.onsuccess = function () {
+            const user = updateUser.result;
+            if (user) {
+                // Update the image value
+                user.img = newImage;
+
+                // Store the updated user back to the database
+                const updateRequest = store.put(user);
+
+                updateRequest.onsuccess = function () {
+                    console.log(`User with email ${registerEmail} updated with new image.`);
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error(
+                        "Error updating user in IndexedDB:",
+                        event.target.errorCode
+                    );
+                };
+
+                // Close the transaction after the updateRequest
+                transaction.oncomplete = function () {
+                    db.close();
+                };
+            } else {
+                console.error(`User with email ${registerEmail} not found.`);
+
+                // Close the transaction after the updateRequest
+                transaction.oncomplete = function () {
+                    db.close();
+                };
+            }
+        };
+
+        updateUser.onerror = function (event) {
+            console.log(
+                "Error retrieving user from IndexedDB:",
+                event.target.errorCode
+            );
+        };
+
+        // Close the transaction when it's done
+        transaction.oncomplete = function () {
+            db.close();
+        };
     };
 }
 //-----------------------------------------------------------------
