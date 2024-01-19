@@ -7,16 +7,20 @@ posts.html
 
 about.html
     -stworzyć srtone ?!
+    -dodać linki na innych stronach do strony about
 
 contactus.html
     -nie wysyla email
+
+style.css
+    -podzielic plik na kilka
 
 backend,js:
     -podzielic plik na kilka zgodnie ze sekcjami na stronie
 
 backend.html
     -dodać sprawdzenie inputów przy zmianie informacji usera czy dodanie usera
-    -dodać możliwość dodania nowego usera
+    -dodać dodanie hasla dla nowego user
     -nie zmieniają sie dane profile (dodać aktualizacje tabeli z users po edycji Profile)
 
     Nie można było edytować profilu zalogowanego użytkownika:
