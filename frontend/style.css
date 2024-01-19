@@ -2,7 +2,7 @@
 	margin: 0;
 	padding: 0;
 }
-/*---------- home page ------------*/
+/*---------- index page ------------*/
 
 .header {
 	min-height: 100vh;
@@ -231,6 +231,7 @@ h3 {
 	top: 0;
 	left: 0;
 	transition: 0.5s;
+	border-radius: 10px;
 }
 .layer:hover {
 	background: rgba(226, 0, 0, 0.4);
@@ -281,6 +282,9 @@ h3 {
 	.offer-beard {
 		flex-basis: 100%;
 		margin-top: 7vw;
+	}
+	.layer{
+		height: 98%;
 	}
 }
 .opinions {
@@ -826,6 +830,21 @@ footer h4 {
 	background: #f44336;
 	transition: 0.7s;
 }
+.loading-indicator {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loading-indicator i {
+    font-size: 40px;
+    color: #f44336; /* Kolor ikony */
+}
+
+.loading-indicator p {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #f44336; /* Kolor tekstu ładowania */
+}
 .posts{
 	margin-bottom: 30px;
 }
@@ -1331,7 +1350,9 @@ footer h4 {
 .bio-section,
 .button-section,
 .no-section,
-.new-image-section {
+.new-image-section,
+.new-user-password,
+.confirm-password {
     width: 48%;
 	margin: 0 20px;
 }
@@ -1343,6 +1364,28 @@ footer h4 {
 }
 .button-section{
 	text-align: center;
+}
+.password-section {
+	height: auto;
+	max-height: 142px;
+	width: 50%;
+	overflow: hidden;
+	display: flex;
+    justify-content: space-between;
+	margin: 0 auto;
+	background-color: #f1f1f1;
+	box-shadow: 0 0 20px rgba(0,0,0,0.2);
+	border-radius: 5px;
+}
+.new-user-password label,
+.confirm-password label{
+	margin-top: 10px;
+	margin-bottom: 7px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #777;
+    padding-left: 3px;
+	display: block;
 }
 .edit-prfile-btn{
 	background-color: rgb(244, 67, 54, 0.9);
@@ -1366,6 +1409,8 @@ footer h4 {
 	display: block;
 }
 .edit-user-form input,
+.new-user-password input,
+.confirm-password input,
 .edit-user-form textarea {
     width: calc(100% - 30px);
     max-width: 100%;
@@ -1384,6 +1429,8 @@ footer h4 {
 	margin: 0;
 }
 .edit-user-form input:focus,
+.new-user-password input:focus,
+.confirm-password input:focus,
 .edit-user-form textarea:focus {
     border-color: #fc695e;
     outline: none;
@@ -1546,9 +1593,6 @@ td.buttons button:hover{
     z-index: -1;
     transition: background-color 0.3s;
 }
-
-
-
 .users-table input {
     width: calc(100% - 10px);
     padding: 5px;
@@ -1594,4 +1638,10 @@ td.buttons button:hover{
 
 .users-table input[type="file"] input {
     display: none;
+}
+.edit-mode-message{
+	text-align: center;
+}
+.edit-mode-message strong{
+	color: #f44336;
 }

@@ -33,11 +33,15 @@
             <i class="fa-solid fa-bars" onclick="showMenu()"></i>
         </nav>
             <h1>Posts</h1>
-            <button id="addPostBtn" class="add-post-btn" onclick="navigateToAddPostPage()">Add Post</button>
+            <!-- <button id="addPostBtn" class="add-post-btn" onclick="navigateToAddPostPage()">Add Post</button> -->
     </section>
 
     <!-- Section containing individual posts -->
     <section class="posts" id="postsContainer">
+        <div id="loadingIndicator" class="loading-indicator">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Loading posts...</p>
+        </div>
         <!-- Posts will be dynamically generated here -->
     </section> 
     </body>

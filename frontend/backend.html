@@ -59,7 +59,7 @@
                         </div>
                         <div class="telephone-section">
                             <label for="Telephone">Telephone</label>
-                            <input type="text" id="Telephone" name="Telephone" onkeydown="preventPrefixRemoval(event)" required oninput="checkPhoneNumberInput(event);" readonly>
+                            <input type="text" id="Telephone" name="Telephone" placeholder="Enter your phone" required readonly>
                         </div>
                     </div>
                 
@@ -75,7 +75,7 @@
                     </div>
                     <div class="image-section">
                         <div class="new-image-section">
-                            <label for="NewProfileImage">Change Profile Image</label>
+                            <label for="newProfileImage">Change Profile Image</label>
                             <input type="file" id="newProfileImage" class="new-profile-image">
                         </div>
                         <div class="no-section"></div>
@@ -90,6 +90,10 @@
                     <button id="addPostBtn" class="add-new-post-btn" onclick="showEditPostSection()">Add Post</button>
                 </div>
                 <section class="posts" id="postsContainer">
+                    <div id="loadingIndicator" class="loading-indicator">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Loading posts...</p>
+                    </div>
                     
                 </section>
             </div>
@@ -117,8 +121,18 @@
                             
                         </tbody>
                     </table>
+                    <div class="password-section" style="display: none;"> 
+                        <div class="new-user-password">
+                            <label for="NewPassword">New password</label>
+                            <input type="text" id="NewPassword" name="NewPassword"  placeholder="Enter password" required>
+                        </div>
+                        <div class="confirm-password">
+                            <label for="ConfirmPassword">Confirm password</label>
+                            <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm password" required oninput="checkPasswordMatch()">
+                        </div>
+                    </div>
                     <div style="display: none;" class="edit-mode-message">
-                        <p>You are in user edit mode. Click "Save" to save the changes or "Cancel" to return to the user list page</p>
+                        <p>You are in user edit mode. Click <strong>"Save"</strong> to save the changes or <strong>"Cancel"</strong> to return to the user list page</p>
                     </div>
                 </section>
             </div>

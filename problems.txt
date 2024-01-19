@@ -1,34 +1,25 @@
-index.html :
-    -  zdjecia z czerwonym contynerem przy małym ekranie czerwone widać poniżej zdjecia
-
 posts.html
-    -nie dodaje sie zdjecie jak tworze nowy post (w edit zmienia sie) (tez dodac w backend)
-    -indeksy postów nie przesuwaja sie po usunieciu (DZIALA DLA USUNIECIA USERA)
+-------not now--------    -nie dodaje sie zdjecie jak tworze nowy post (w edit zmienia sie) (tez dodac w backend)
+-------not now--------     -indeksy postów nie przesuwaja sie po usunieciu (DZIALA DLA USUNIECIA USERA)
 
-about.html
-    -stworzyć srtone ?!
-    -dodać linki na innych stronach do strony about
+-------not now-------- about.html
+-------not now--------    -stworzyć srtone ?!
 
-contactus.html
-    -nie wysyla email
+-------not now-------- style.css
+-------not now--------     -podzielic plik na kilka
 
-style.css
-    -podzielic plik na kilka
+-------not now-------- backend,js:
+-------not now--------     -podzielic plik na kilka zgodnie ze sekcjami na stronie
 
-backend,js:
-    -podzielic plik na kilka zgodnie ze sekcjami na stronie
+-------not now--------     Nie można było edytować profilu zalogowanego użytkownika:
+-------not now--------     - podstawowy klucz poczty elektronicznej (w przypadku zmiany adresu e-mail dodawany jest nowy rekord zamiast edytować istniejący)
+-------not now-------- 
+-------not now--------     Warianty rozwiązania:
+-------not now--------     - dodaj osobny przycisk do zmiany osobnego adresu e-mail (usuń poprzedni rekord, przenieś wszystkie dane do nowego rekordu z nowym adresem e-mail. Uwaga: sprawdź, czy taki e-mail już istnieje)
+-------not now--------     -usuń poprzedni rekord i utwórz nowy z nowymi danymi wprowadzonymi do wejścia
+-------not now--------     - utworzenie innej struktury bazy danych (jednej z hasłem zamiast dwóch)
 
-backend.html
-    -dodać sprawdzenie inputów przy zmianie informacji usera czy dodanie usera
-    -dodać dodanie hasla dla nowego user
-    -nie zmieniają sie dane profile (dodać aktualizacje tabeli z users po edycji Profile)
 
-    Nie można było edytować profilu zalogowanego użytkownika:
-    - podstawowy klucz poczty elektronicznej (w przypadku zmiany adresu e-mail dodawany jest nowy rekord zamiast edytować istniejący)
-
-    Warianty rozwiązania:
-    - dodaj osobny przycisk do zmiany osobnego adresu e-mail (usuń poprzedni rekord, przenieś wszystkie dane do nowego rekordu z nowym adresem e-mail. Uwaga: sprawdź, czy taki e-mail już istnieje)
-    -usuń poprzedni rekord i utwórz nowy z nowymi danymi wprowadzonymi do wejścia
-    - utworzenie innej struktury bazy danych (jednej z hasłem zamiast dwóch)
-
-nie ukrywa linkow po zalodgowaniu(trzeba stworzyc osobna strone)
+- czyścic komentarze
+- czyscic console.log
+- czyscic css

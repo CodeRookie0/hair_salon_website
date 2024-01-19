@@ -267,23 +267,6 @@ function checkIfEmailExists(email,callback) {
 		callback(true);
 	};
 }
-function checkPhoneNumberInput(event) {
-    var input = event ? event.target : null;
-
-    if (input) {
-        var inputValue = input.value;
-		var numericValue = inputValue.replace(/\D/g, '');
-
-        // Check if the numeric value has exactly 9 digits
-        if (/^\d{9}$/.test(numericValue)) {
-            // The phone number has exactly 9 digits
-            console.log("Valid phone number:", numericValue);
-        } else {
-            // The phone number does not have exactly 9 digits
-            console.log("Invalid phone number");
-        }
-    }
-}
 function checkPasswordMatch() {
 	var password = document.getElementById("NewPassword").value;
 	var confirmPassword = document.getElementById("ConfirmPassword").value;

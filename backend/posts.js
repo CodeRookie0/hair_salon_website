@@ -82,7 +82,10 @@ request.onsuccess = function (event) {
 function generatePostsFromIndexedDB(postsData, limit = 5) {
 	const postsContainer = document.getElementById("postsContainer");
 	postsContainer.innerHTML = "";
-
+	const loadingIndicator = document.getElementById("loadingIndicator");
+	if (loadingIndicator) {
+        loadingIndicator.style.display = "none";
+    }
 	// Wybierz tylko ostatnie `limit` postów
 	const lastPosts = postsData.slice().reverse().slice(0, limit);
 	// Wywołaj funkcję do generowania postów z pobranych danych
@@ -117,14 +120,14 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 			postContentContainer.innerHTML = post.content;
 		}
 
-		const editButton = document.createElement("button");
-		editButton.classList.add("edit-post-btn");
-		editButton.textContent = "Edit";
-		editButton.addEventListener("click", () => navigateToEditPage(post.id));
+		//const editButton = document.createElement("button");
+		//editButton.classList.add("edit-post-btn");
+		//editButton.textContent = "Edit";
+		//editButton.addEventListener("click", () => navigateToEditPage(post.id));
 
 		postTextContainer.appendChild(postTitle);
 		postTextContainer.appendChild(postContentContainer);
-		postTextContainer.appendChild(editButton);
+		//postTextContainer.appendChild(editButton);
 
 		postContainer.appendChild(postImageContainer);
 		postContainer.appendChild(postTextContainer);
@@ -153,9 +156,9 @@ function loadMorePosts(postsData, limit) {
 	generatePostsFromIndexedDB(postsData, limit);
 }
 // Function to navigate to the edit-post.html page with the post ID in the URL
-function navigateToEditPage(postId) {
-	window.location.href = `edit-post.html?id=${postId}`;
-}
-function navigateToAddPostPage() {
-	window.location.href = "edit-post.html";
-} 
+//function navigateToEditPage(postId) {
+//	window.location.href = `edit-post.html?id=${postId}`;
+//}
+//function navigateToAddPostPage() {
+//	window.location.href = "edit-post.html";
+//} 

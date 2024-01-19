@@ -79,6 +79,8 @@ function showContent(section) {
     }
 	if(section==='users'){
 		getAllUsers();
+		document.querySelector('.edit-mode-message').style.display='none';
+		document.querySelector('.password-section').style.display='none';
 	}
 }
 
@@ -89,48 +91,6 @@ function hideAllSections() {
         const content = document.getElementById(`${section}Content`);
         content.style.display = 'none';
     });
-}
-function reloadPosts() {
-    const dbName = "PostsData";
-    const request = indexedDB.open(dbName, 1);
-
-    request.onerror = function (event) {
-        console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
-    };
-
-    request.onsuccess = function (event) {
-        const db = event.target.result;
-        const transaction = db.transaction("posts", "readonly");
-        const store = transaction.objectStore("posts");
-
-        const getAllPosts = store.getAll();
-
-        getAllPosts.onsuccess = function () {
-            const postsData = getAllPosts.result;
-            // Ponownie wywołaj funkcję generującą posty z nowymi danymi
-            generatePostsFromIndexedDB(postsData);
-        };
-
-        getAllPosts.onerror = function (event) {
-            console.log("Błąd pobierania danych z IndexedDB:", event.target.errorCode);
-        };
-    };
-}
-function showEditPostSection(postId="") {
-    // Przekaż identyfikator posta do funkcji showContent
-    showContent('editPost');
-
-    // Załaduj dane posta do sekcji edycji
-    loadPostData(postId);
-
-    var postImageInput = document.getElementById('newPostImage');
-    if (postImageInput) {
-        postImageInput.addEventListener('change', function () {
-            handleFileSelect(postId);
-        });
-    } else {
-        console.error("Element with id 'PostImage' not found.");
-    }
 }
 // Funkcja do pobierania i aktualizacji informacji o zalogowanym użytkowniku
 function updateLoggedInUser() {
@@ -213,42 +173,70 @@ function enableEditMode() {
 		document.querySelector('.image-section').style.display="block";
     }
     if (buttonText=="Save"){
-        document.querySelectorAll('.edit-user-form input, .edit-user-form textarea').forEach(function(element) {
-            if(element.id!=="Email"){
-				element.readOnly = true;
-            	element.style.backgroundColor='#f8f8f8';
-			}
-			else{
-				element.style.cursor="auto";
-			}
-        });
-		document.querySelector('.image-section').style.display="none";
-		saveProfileData();
-        document.getElementById('editProfileBtn').innerText = 'Edit';
+		if (validateProfileData()) {
+			document.querySelectorAll('.edit-user-form input, .edit-user-form textarea').forEach(function(element) {
+				if(element.id!=="Email"){
+					element.readOnly = true;
+					element.style.backgroundColor='#f8f8f8';
+				}
+				else{
+					element.style.cursor="auto";
+				}
+			});
+			document.querySelector('.image-section').style.display="none";
+			saveProfileData();
+			document.getElementById('editProfileBtn').innerText = 'Edit';
+		}
     }
 }
-function saveProfileData() {
-    // Pobierz aktualny adres e-mail zalogowanego użytkownika
-    var userEmail = document.getElementById('Email').value;
-
-    // Otwórz transakcję do zapisu danych do bazy danych "UserData"
-    var transactionUserData = dbUserData.transaction(["user"], "readwrite");
-    var objectStoreUserData = transactionUserData.objectStore("user");
-
-    // Pobierz aktualne dane z formularza
+// Function to validate user data
+function validateProfileData() {
     var updatedName = document.getElementById('Name').value;
     var updatedLastname = document.getElementById('Lastname').value;
     var updatedTelephone = document.getElementById('Telephone').value;
-    var updatedBIO = document.getElementById('BIO').value;
+
+    // Sprawdzenie wzorca dla imienia i nazwiska (min. 3 litery)
+    if (!/^[a-zA-Z]{3,}$/.test(updatedName)) {
+        alert("Invalid name format. Please enter a valid name (at least 3 characters long).");
+        document.getElementById('Name').focus();
+        return false;
+    }
+
+    if (!/^[a-zA-Z]{3,}$/.test(updatedLastname)) {
+        alert("Invalid last name format. Please enter a valid last name (at least 3 characters long).");
+        document.getElementById('Lastname').focus();
+        return false;
+    }
+
+    // Sprawdzenie wzorca dla numeru telefonu
+    if (!/^\d{9}$/.test(updatedTelephone)) {
+        alert("Invalid telephone format. Please enter a valid telephone number (9 digits).");
+        document.getElementById('Telephone').focus();
+        return false;
+    }
+
+    return true;
+}
+function saveProfileData() {
+	// Pobierz aktualny adres e-mail zalogowanego użytkownika
+	var userEmail = document.getElementById('Email').value;
+
+	// Otwórz transakcję do zapisu danych do bazy danych "UserData"
+	var transactionUserData = dbUserData.transaction(["user"], "readwrite");
+	var objectStoreUserData = transactionUserData.objectStore("user");
+
+	// Pobierz aktualne dane z formularza
+	var updatedName = document.getElementById('Name').value;
+	var updatedLastname = document.getElementById('Lastname').value;
+	var updatedTelephone = document.getElementById('Telephone').value;
+	var updatedBIO = document.getElementById('BIO').value;
 	var updatedImage=document.getElementById('newProfileImage');
+		
+	// Pobierz aktualny obiekt użytkownika
+	var requestGetUser = objectStoreUserData.get(userEmail);
 
-	// Sprawdź, czy użytkownik wybrał nowy obraz
-    
-    // Pobierz aktualny obiekt użytkownika
-    var requestGetUser = objectStoreUserData.get(userEmail);
-
-    requestGetUser.onsuccess = function (event) {
-        var user = event.target.result;
+	requestGetUser.onsuccess = function (event) {
+		var user = event.target.result;
 
 		if (updatedImage.files && updatedImage.files[0]) {
 			console.log("New profile image was selected");
@@ -259,29 +247,29 @@ function saveProfileData() {
 				user.img = user.img;
 			}
 		}
-        // Zaktualizuj dane w obiekcie użytkownika
-        user.Name = updatedName;
-        user.Lastname = updatedLastname;
-        user.Telephone = updatedTelephone;
-        user.BIO = updatedBIO;
+		// Zaktualizuj dane w obiekcie użytkownika
+		user.Name = updatedName;
+		user.Lastname = updatedLastname;
+		user.Telephone = updatedTelephone;
+		user.BIO = updatedBIO;
 
-        // Zapisz zaktualizowany obiekt użytkownika z powrotem do bazy danych
-        var requestUpdateUser = objectStoreUserData.put(user);
+		// Zapisz zaktualizowany obiekt użytkownika z powrotem do bazy danych
+		var requestUpdateUser = objectStoreUserData.put(user);
 
-        requestUpdateUser.onsuccess = function () {
-            alert("User data updated successfully.");
-            // Możesz również zaktualizować wyświetlane informacje na bieżąco, jeśli to konieczne
+		requestUpdateUser.onsuccess = function () {
+			alert("User data updated successfully.");
+			// Możesz również zaktualizować wyświetlane informacje na bieżąco, jeśli to konieczne
 			updateLoggedInUser();
 		};
 
-        requestUpdateUser.onerror = function (event) {
-            console.log("Error updating user data:", event.target.errorCode);
-        };
-    };
+		requestUpdateUser.onerror = function (event) {
+			console.log("Error updating user data:", event.target.errorCode);
+		};
+	};
 
-    requestGetUser.onerror = function (event) {
-        console.log("Error retrieving user from UserData database");
-    };
+	requestGetUser.onerror = function (event) {
+		console.log("Error retrieving user from UserData database");
+	};
 }
 // Function to update the image preview
 function updateProfileImagePreview(userEmail) {
@@ -381,11 +369,39 @@ request.onsuccess = function (event) {
 		console.log("Błąd pobierania danych z IndexedDB:", event.target.errorCode);
 	};
 };
+function reloadPosts() {
+    const dbName = "PostsData";
+    const request = indexedDB.open(dbName, 1);
 
+    request.onerror = function (event) {
+        console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+    };
+
+    request.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction("posts", "readonly");
+        const store = transaction.objectStore("posts");
+
+        const getAllPosts = store.getAll();
+
+        getAllPosts.onsuccess = function () {
+            const postsData = getAllPosts.result;
+            // Ponownie wywołaj funkcję generującą posty z nowymi danymi
+            generatePostsFromIndexedDB(postsData);
+        };
+
+        getAllPosts.onerror = function (event) {
+            console.log("Błąd pobierania danych z IndexedDB:", event.target.errorCode);
+        };
+    };
+}
 function generatePostsFromIndexedDB(postsData, limit = 5) {
 	const postsContainer = document.getElementById("postsContainer");
 	postsContainer.innerHTML = "";
-
+	const loadingIndicator = document.getElementById("loadingIndicator");
+	if (loadingIndicator) {
+        loadingIndicator.style.display = "none";
+    }
 	// Wybierz tylko ostatnie `limit` postów
 	const lastPosts = postsData.slice().reverse().slice(0, limit);
 	// Wywołaj funkcję do generowania postów z pobranych danych
@@ -461,6 +477,32 @@ function navigateToAddPostPage() {
 }
 
 /* ---------------------------- Edit Post ----------------------------*/
+
+function showEditPostSection(postId="") {
+
+	// Przekaż identyfikator posta do funkcji showContent
+    showContent('editPost');
+	
+    // Załaduj dane posta do sekcji edycji
+    loadPostData(postId);
+
+    var deletePostBtn = document.getElementById('deletePostBtn');
+    if(postId===""){
+		deletePostBtn.style.display="none";
+	}
+	else{
+		deletePostBtn.style.display="block";
+	}
+
+    var postImageInput = document.getElementById('newPostImage');
+    if (postImageInput) {
+        postImageInput.addEventListener('change', function () {
+            handleFileSelect(postId);
+        });
+    } else {
+        console.error("Element with id 'PostImage' not found.");
+    }
+}
 
 const input = document.getElementById('newPostImage');
 const img = document.getElementById('postImage');
@@ -568,10 +610,10 @@ function saveChanges() {
                         
                         // Show success message
                         alert("Post updated successfully!");
-                            
+                        document.getElementById("newPostImage").value = null;    
                         // Redirect to 'posts.html' after completing the transaction
                         showContent('posts');
-						document.getElementById("newPostImage").value = "";
+						
                     };
 
 					updateRequest.onerror = function (event) {
@@ -652,6 +694,7 @@ function saveChanges() {
 			db.close();
 			// Redirect to 'posts.html' after completing the transaction
 			showContent('posts');
+			document.getElementById("newPostImage").value = "";
 		};
 	};
 }
@@ -906,7 +949,10 @@ function addUserToTable(user) {
 	cancelButton.className = 'cancel-user-button';
 	cancelButton.addEventListener('click', function () {
 		var editModeMessage = document.querySelector('.edit-mode-message');
+		var passwordSection = document.querySelector('.password-section');
+		
 		editModeMessage.style.display = 'none';
+		passwordSection.style.display='none';
 		getAllUsers();
 	});
 
@@ -963,6 +1009,7 @@ function toggleEditMode(email) {
 
     var editedRow = document.getElementById(email + '-row');
 	var editModeMessage = document.querySelector('.edit-mode-message');
+	var passwordSection = document.querySelector('.password-section');
 
     if (editedRow) {
         var inputs = editedRow.querySelectorAll('input');
@@ -983,119 +1030,247 @@ function toggleEditMode(email) {
         document.getElementById(email + '-delete-user-button').style.display = 'none';
 		document.getElementById(email + '-input').style.display = 'block';
         document.getElementById(email + '-img').style.display = 'block';
-        
+
 		editModeMessage.style.display = 'block';
+		if(email==='new'){
+			passwordSection.style.display='flex';
+		}
     } else {
-        // Jeśli nie ma edytowanego wiersza, ukryj przycisk "Save" i "Cancel", pokaż przycisk "Edit" i "Delete"
-        document.getElementById(email + '-save-user-button').style.display = 'none';
-        document.getElementById(email + '-cancel-user-button').style.display = 'none';
-        document.getElementById(email + '-edit-user-button').style.display = 'inline-block';
-        document.getElementById(email + '-delete-user-button').style.display = 'inline-block';
+		if(validateUserData(email) && checkPasswordMatch()){
+		// Jeśli nie ma edytowanego wiersza, ukryj przycisk "Save" i "Cancel", pokaż przycisk "Edit" i "Delete"
+		document.getElementById(email + '-save-user-button').style.display = 'none';
+		document.getElementById(email + '-cancel-user-button').style.display = 'none';
+		document.getElementById(email + '-edit-user-button').style.display = 'inline-block';
+		document.getElementById(email + '-delete-user-button').style.display = 'inline-block';
 		document.getElementById(email + '-input').style.display = 'none';
 		document.getElementById(email + '-img').style.display = 'none';
-        
-        editModeMessage.style.display = 'none';
+			
+		editModeMessage.style.display = 'none';
+		passwordSection.style.display='none';
+		}
     }
+}
+function validateUserData(email) {
+    var nameInput = document.getElementById(email +'-Name').value;
+	var lastnameInput = document.getElementById(email +'-Lastname').value;
+	var emailInput = document.getElementById(email +'-RegisterEmail').value;
+	var telephoneInput = document.getElementById(email +'-Telephone').value;
+	var passwordInput = document.getElementById('NewPassword').value;
+
+	// Sprawdzenie wzorca dla imienia i nazwiska (min. 3 litery)
+	if (!/^[a-zA-Z]{3,}$/.test(nameInput)) {
+		alert("Invalid name format. Please enter a valid name (at least 3 characters long).");
+		document.getElementById(email +'-Name').focus();
+		return;
+	}
+
+	if (!/^[a-zA-Z]{3,}$/.test(lastnameInput)) {
+		alert("Invalid last name format. Please enter a valid last name (at least 3 characters long).");
+		document.getElementById(email +'-Lastname').focus();
+		return;
+	}
+
+	// Sprawdzenie wzorca dla email
+	if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInput)) {
+		alert("Invalid email format. Please enter a valid email address.");
+		document.getElementById(email +'-RegisterEmail').focus();
+		return;
+	}
+
+	// Sprawdzenie wzorca dla numeru telefonu
+	if (!/^\d{9}$/.test(telephoneInput)) {
+		alert("Invalid telephone format. Please enter a valid telephone number (9 digits).");
+		document.getElementById(email +'-Telephone').focus();
+		return;
+	}
+	// Sprawdzenie wzorca dla hasła (min. 8 znaków)
+	if(email==="new"){
+		if (!/.{8,}/.test(passwordInput)) {
+			alert("Invalid password format. Password must be at least 8 characters long.");
+			document.getElementById('NewPassword').focus();
+			return;
+		}
+	}
+    return true;
+}
+function checkPasswordMatch() {
+	var password = document.getElementById("NewPassword").value;
+	var confirmPassword = document.getElementById("ConfirmPassword").value;
+	if (password !== confirmPassword) {
+		return false;
+	} else {
+		return true;
+	}
+}
+function checkIfEmailExists(email, callback) {
+    var transaction = dbUserData.transaction(["user"], "readonly");
+    var objectStore = transaction.objectStore("user");
+    var request = objectStore.get(email);
+
+    request.onsuccess = function (event) {
+        var user = event.target.result;
+        if (user) {
+            // Email already exists
+            callback(true);
+        } else {
+            // Email does not exist
+            callback(false);
+        }
+    };
+
+    request.onerror = function (event) {
+        console.error("Error checking if email exists:", event.target.error);
+        callback(false); // Assume email does not exist in case of an error
+    };
 }
 function saveUserData(email) {
     var transaction = dbUserData.transaction(["user"], "readwrite");
     var objectStore = transaction.objectStore("user");
+	
+	if(validateUserData(email)){
+		var inputs = document.querySelectorAll('[id^="' + email + '"]');
+		var updatedData = { RegisterEmail: email }; // Początkowo dodajemy email jako klucz
 
-    var inputs = document.querySelectorAll('[id^="' + email + '"]');
-    var updatedData = { RegisterEmail: email }; // Początkowo dodajemy email jako klucz
-
-    inputs.forEach(function (input) {
-        if (input.tagName.toLowerCase() === 'input') {
-            if (!input.id.endsWith('-img') && !input.id.endsWith('-input')) {
-                updatedData[input.placeholder] = input.value;
-			}
-            input.readOnly = true;
-        }
-    });
-
-	// Jeżeli email jest puste, dodaj nowego użytkownika
-    if (email === "new") {
-		// Sprawdź, czy użytkownik wybrał nowy obraz
-		var imageInput = document.getElementById(email + '-input');
-		var imageDefault = document.getElementById(email + '-img').src;
-		if (imageInput.files && imageInput.files[0]) {
-			console.log("New profile image was selected");
-			updatedData.img = imageDefault;	
-		}
-		else{
-			updatedData.img = imageDefault;	
-		}
-
-        var newEmailInput = document.getElementById(email +'-RegisterEmail');
-        var newEmail = newEmailInput.value.trim();
-
-        if (newEmail === "") {
-            console.error("Cannot add a new user without a valid email.");
-            return;
-        }
-        updatedData.RegisterEmail = newEmail;
-		Object.keys(updatedData).forEach(function (key) {
-			if (updatedData[key] === "") {
-				delete updatedData[key];
-			}
-		});
-
-		console.log(updatedData);
-        objectStore.add(updatedData).onsuccess = function (event) {
-            console.log("New user added successfully:", updatedData);
-            alert("New user added successfully!");
-            var editModeMessage = document.querySelector('.edit-mode-message');
-            editModeMessage.style.display = 'none';
-            getAllUsers();
-            updateLoggedInUser();
-        };
-    } else {
-		// Sprawdź, czy użytkownik wybrał nowy obraz
-		var imageInput = document.getElementById(email + '-input');
-		if (imageInput.files && imageInput.files[0]) {
-			console.log("New profile image was selected");
-
-		}
-		else{
-			var isUserExist = objectStore.get(email);
-			isUserExist.onsuccess = function (event) {
-					var user = isUserExist.result;
-				if (user) {
-					// Jeśli pole 'img' istnieje, zachowaj je
-					updatedData.img = user.img;
+		inputs.forEach(function (input) {
+			if (input.tagName.toLowerCase() === 'input') {
+				if (!input.id.endsWith('-img') && !input.id.endsWith('-input') && !input.id.endsWith('Password')) {
+					updatedData[input.placeholder] = input.value;
+				}
+				if(email!=="new"){
+					input.readOnly = true;
 				}
 			}
-		}
+		});
+	
+		// Jeżeli email jest puste, dodaj nowego użytkownika
+        if (email === "new") {
+            if (checkPasswordMatch()) {
+				checkIfEmailExists(updatedData.RegisterEmail, function (emailExists) {
+					if (!emailExists) {
+					// Sprawdź, czy użytkownik wybrał nowy obr
+					var transaction = dbUserData.transaction(["user"], "readwrite");
+                	var objectStore = transaction.objectStore("user");
+					var imageInput = document.getElementById(email + '-input');
+					var imageDefault = document.getElementById(email + '-img').src;
+					if (imageInput.files && imageInput.files[0]) {
+						console.log("New profile image was selected");
+						updatedData.img = imageDefault;	
+					}
+					else{
+						updatedData.img = imageDefault;	
+					}
 
-		var existingUser = objectStore.get(email);
+					var newEmailInput = document.getElementById(email +'-RegisterEmail');
+					var newEmail = newEmailInput.value.trim();
 
-		existingUser.onsuccess = function (event) {
-			var user = existingUser.result;
+					if (newEmail === "") {
+						console.error("Cannot add a new user without a valid email.");
+						return;
+					}
+					updatedData.RegisterEmail = newEmail;
+					Object.keys(updatedData).forEach(function (key) {
+						if (updatedData[key] === "") {
+							delete updatedData[key];
+						}
+					});
 
-			if (user) {
-				updatedData.img = user.img;
+					console.log(updatedData);
+					objectStore.add(updatedData).onsuccess = function (event) {
+						console.log("New user added successfully:", updatedData);
+						
+						var transactionLoginData = dbLoginData.transaction(["user"], "readwrite");
+                        var objectStoreLoginData = transactionLoginData.objectStore("user");
+
+                        // Add record to LoginData
+                        var loginDataRecord = {
+                            email: updatedData.RegisterEmail,
+                            password: document.getElementById('NewPassword').value,
+                        };
+
+                        objectStoreLoginData.add(loginDataRecord).onsuccess = function (event) {
+                            console.log("New user added to LoginData successfully:", loginDataRecord);
+							alert("New user added successfully!");
+
+							inputs.forEach(function (input) {
+								if (input.tagName.toLowerCase() === 'input') {
+										input.readOnly = true;
+								}
+							});
+
+							var editModeMessage = document.querySelector('.edit-mode-message');
+							var passwordSection = document.querySelector('.password-section');
+							var NewPassword = document.getElementById('NewPassword');
+							var confirmPassword = document.getElementById('confirmPassword');
+							NewPassword.value=null;
+							confirmPassword=null;
+							editModeMessage.style.display = 'none';
+							passwordSection.style.display='none';
+
+							getAllUsers();
+							updateLoggedInUser();
+						};
+					};
+				} else {
+                    alert("Email already exists. Please use a different email.");
+                }
+            });
+			}
+			else{
+				alert("Passwords do not match. Please try again");
+				return;
+			}
+		} else {
+			// Sprawdź, czy użytkownik wybrał nowy obraz
+			var imageInput = document.getElementById(email + '-input');
+			if (imageInput.files && imageInput.files[0]) {
+				console.log("New profile image was selected");
+
+			}
+			else{
+				var isUserExist = objectStore.get(email);
+				isUserExist.onsuccess = function (event) {
+						var user = isUserExist.result;
+					if (user) {
+						// Jeśli pole 'img' istnieje, zachowaj je
+						updatedData.img = user.img;
+					}
+				}
 			}
 
-			var request = objectStore.put(updatedData);
+			var existingUser = objectStore.get(email);
 
-			request.onsuccess = function (event) {
-				console.log("User data updated successfully:", updatedData);
-				alert("User data updated successfully!");
-				var editModeMessage = document.querySelector('.edit-mode-message');
-				editModeMessage.style.display = 'none';
-				getAllUsers();
-				updateLoggedInUser();
-				// Możesz dodać dodatkową logikę lub odświeżyć widok użytkowników po zakończeniu aktualizacji
+			existingUser.onsuccess = function (event) {
+				var user = existingUser.result;
+
+				if (user) {
+					updatedData.img = user.img;
+				}
+
+				var request = objectStore.put(updatedData);
+
+				request.onsuccess = function (event) {
+					console.log("User data updated successfully:", updatedData);
+					alert("User data updated successfully!");
+					var editModeMessage = document.querySelector('.edit-mode-message');
+					var passwordSection = document.querySelector('.password-section');
+					editModeMessage.style.display = 'none';
+					passwordSection.style.display='none';
+					getAllUsers();
+					updateLoggedInUser();
+					// Możesz dodać dodatkową logikę lub odświeżyć widok użytkowników po zakończeniu aktualizacji
+				};
+
+				request.onerror = function (event) {
+					console.log("Error updating user data:", event.target.errorCode);
+				};
 			};
 
-			request.onerror = function (event) {
-				console.log("Error updating user data:", event.target.errorCode);
+			existingUser.onerror = function (event) {
+				console.log("Error retrieving existing user data:", event.target.errorCode);
 			};
-		};
-
-		existingUser.onerror = function (event) {
-			console.log("Error retrieving existing user data:", event.target.errorCode);
-		};
+		}
+	}else{
+		return;
 	}
 }
 // Function to update the image preview
@@ -1250,10 +1425,10 @@ function addNewUserRow() {
     // Utwórz nowy obiekt użytkownika z pustymi danymi
     var newUser = {
         RegisterEmail: 'new',
-        Name: 'new',
-        Lastname: 'new',
-        Telephone: 'new',
-        BIO: 'new',
+        Name: '',
+        Lastname: '',
+        Telephone: '',
+        BIO: '',
         img: 'images/download.png' // Domyślny obraz
     };
 
