@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			Lastname: "admin",
 			RegisterEmail: "admin@domena.com",
 			BIO: "Admin",
-			Telephone: "+48 123456789",
+			Telephone: "123456789",
 		}, dbUserData, "UserData");
     };
 
@@ -172,8 +172,8 @@ function registerButtonClick() {
         }
 
         // Sprawdzenie wzorca dla numeru telefonu
-        if (!/^\+48 [0-9]{3}[0-9]{3}[0-9]{3}$/.test(telephoneInput)) {
-            alert("Invalid telephone format. Please enter a valid telephone number (+48 123456789).");
+        if (!/^\d{9}$/.test(telephoneInput)) {
+            alert("Invalid telephone format. Please enter a valid telephone number (9 digits).");
             document.getElementById('Telephone').focus();
 			return;
         }
@@ -267,23 +267,20 @@ function checkIfEmailExists(email,callback) {
 		callback(true);
 	};
 }
-function preventPrefixRemoval(event) {
-    var input = event.target;
-
-    // Sprawdź, czy kursor znajduje się przed prefixem
-    if (input.selectionStart <= 4 && event.key === 'Backspace') {
-        event.preventDefault();
-    }
-}
 function checkPhoneNumberInput(event) {
     var input = event ? event.target : null;
 
     if (input) {
         var inputValue = input.value;
+		var numericValue = inputValue.replace(/\D/g, '');
 
-        // Sprawdź, czy wprowadzony tekst jest inny niż "+48 "
-        if (!inputValue.startsWith("+48 ")) {
-            input.value = "+48 ";
+        // Check if the numeric value has exactly 9 digits
+        if (/^\d{9}$/.test(numericValue)) {
+            // The phone number has exactly 9 digits
+            console.log("Valid phone number:", numericValue);
+        } else {
+            // The phone number does not have exactly 9 digits
+            console.log("Invalid phone number");
         }
     }
 }
