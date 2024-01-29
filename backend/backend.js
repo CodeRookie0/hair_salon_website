@@ -86,7 +86,7 @@ function showContent(section) {
 
 function hideAllSections() {
     // Ukryj wszystkie sekcje
-    const sections = ['posts', 'users', 'profile','editPost'];
+	const sections = ['posts', 'users', 'profile','statistics','editPost'];
     sections.forEach(section => {
         const content = document.getElementById(`${section}Content`);
         content.style.display = 'none';

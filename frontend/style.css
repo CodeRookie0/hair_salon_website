@@ -1491,7 +1491,8 @@ footer h4 {
     text-align: center;
 }
 .posts-content h1,
-.users-content h1{
+.users-content h1,
+.statistics-content h1{
 	text-align: center;
 }
 .add-new-post-btn,
@@ -1644,4 +1645,34 @@ td.buttons button:hover{
 }
 .edit-mode-message strong{
 	color: #f44336;
+}
+.chart-row{
+	width: 90%;
+	display: flex;
+	justify-content: space-between;
+	align-items: stretch;
+	margin: 0 auto;
+	margin-top: 4%;
+}
+.statistics-content .chart-container{
+	flex-basis: 48%;
+	text-align: center;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+.chart-container canvas {
+    width: 100%;
+    height: auto;
+}
+@media (max-width: 768px) {
+    .statistics-content .chart-row {
+        flex-direction: column; /* Stosuje kolumnowy układ na mniejszych ekranach */
+    }
+
+    .statistics-content .chart-container {
+        flex-basis: 100%; /* Każdy kontener zajmuje pełną szerokość */
+        margin-bottom: 20px; /* Dodaje odstęp między kontenerami */
+    }
 }
