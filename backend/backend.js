@@ -914,7 +914,7 @@ function addUserToTable(user) {
     var editButton = document.createElement('button');
     editButton.textContent = 'Edit';
 	editButton.id=user.RegisterEmail+'-'+'edit-user-button';
-    editButton.className = 'edit-user-button';
+    editButton.className = 'edit-user-btn';
     editButton.addEventListener('click', function () {
 		console.log("Nacisniety edit button dla email : "+user.RegisterEmail)
 		toggleEditMode(user.RegisterEmail);
@@ -924,7 +924,7 @@ function addUserToTable(user) {
     var deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
 	deleteButton.id=user.RegisterEmail+'-'+'delete-user-button';
-    deleteButton.className = 'delete-user-button';
+    deleteButton.className = 'delete-user-btn';
     deleteButton.addEventListener('click', function () {
         confirmDeleteUser(user.RegisterEmail);
     });
@@ -934,7 +934,7 @@ function addUserToTable(user) {
     saveButton.textContent = 'Save';
 	saveButton.style.display="none";
 	saveButton.id=user.RegisterEmail+'-'+'save-user-button';
-    saveButton.className = 'save-user-button';
+    saveButton.className = 'save-user-btn';
     saveButton.addEventListener('click', function () {
         // Add your save logic here
     console.log('Save button clicked for user:' +user);
@@ -946,7 +946,7 @@ function addUserToTable(user) {
 	cancelButton.textContent = 'Cancel';
 	cancelButton.style.display='none';
 	cancelButton.id=user.RegisterEmail+'-'+'cancel-user-button';
-	cancelButton.className = 'cancel-user-button';
+	cancelButton.className = 'cancel-user-btn';
 	cancelButton.addEventListener('click', function () {
 		var editModeMessage = document.querySelector('.edit-mode-message');
 		var passwordSection = document.querySelector('.password-section');
@@ -1439,5 +1439,5 @@ function addNewUserRow() {
     toggleEditMode(newUser.RegisterEmail);
 }
 function logout() {
-    window.location.href = "index.html"; 
+    window.location.href = "../index.html"; 
 }

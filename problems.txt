@@ -23,3 +23,6 @@ posts.html
 - czyścic komentarze
 - czyscic console.log
 - czyscic css
+
+- dodać do specyfikacji co planowalam,jakie funkcje i co wyszło
+- dodać do specyfikacji desighn
