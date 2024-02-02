@@ -2,60 +2,9 @@
 	margin: 0;
 	padding: 0;
 }
-.sub-header-info {
-	height: 50vh;
-	width: 100%;
+.sub-header {
 	background-image: linear-gradient(rgba(4, 9, 30, 0.6), rgba(4, 9, 30, 0.6)),
-		url(images/hair_tools.jpg);
-	background-position: center;
-	background-size: cover;
-	text-align: center;
-	color: #fff;
-}
-.sub-header-info h1 {
-	margin-top: 4vw;
-	font-size: 36px;
-    font-weight: 600;
-}
-nav {
-	display: flex;
-	padding: 2%;
-	justify-content: space-between;
-	align-items: center;
-}
-nav img {
-	width: 120px;
-}
-.nav-links {
-	flex: 1;
-	text-align: right;
-}
-.nav-links ul li {
-	list-style: none;
-	display: inline-block;
-	padding: 8px 20px;
-	position: relative;
-}
-.nav-links ul li a {
-	color: #fff;
-	text-decoration: none;
-	font-size: 20px;
-}
-.nav-links ul li::after {
-	content: "";
-	width: 0%;
-	height: 3px;
-	background: #f44336;
-	display: block;
-	margin: auto;
-	transition: 0.5s;
-}
-.nav-links ul li:hover::after {
-	width: 100%;
-}
-nav .fa-solid {
-	display: none;
-	font-weight: 900;
+	url(images/hair_tools.jpg);
 }
 .info {
 	width: 55%;
@@ -83,33 +32,6 @@ nav .fa-solid {
 .my-image img {
 	width: 100%;
 	height: auto;
-}
-footer {
-	width: 100%;
-	padding: 30px 0;
-	text-align: center;
-}
-footer h4 {
-	margin-bottom: 30px;
-	font-weight: 600;
-}
-footer p {
-	color: #000;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 22px;
-    padding: 10px;
-}
-.fa-heart,
-.icons .fa-brands {
-  color: #f44336;
-  font-weight: 400;
-}
-.icons .fa-brands {
-	margin: 0 10px;
-	cursor: pointer;
-	padding: 18px 0;
-	font-size: 20px;
 }
 @media (max-width: 770px) {
 	.nav-links ul li {

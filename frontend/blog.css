@@ -2,67 +2,12 @@
 	margin: 0;
 	padding: 0;
 }
-.sub-header-posts {
-	height: 50vh;
-	width: 100%;
+.sub-header {
 	background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
-		url(images/banner_2.jpg);
-	background-position: center;
-	background-size: cover;
-	text-align: center;
-	color: #fff;
-}
-.sub-header-posts h1 {
-	margin-top: 4vw;
-	font-size: 36px;
-    font-weight: 600;
-}
-nav {
-	display: flex;
-	padding: 2%;
-	justify-content: space-between;
-	align-items: center;
-}
-nav img {
-	width: 120px;
-}
-nav .fa-solid{
-	display: none;
+	url(images/banner_2.jpg);
 }
 .fa-solid{
 	font-weight: 900;
-}
-.nav-links {
-	flex: 1;
-	text-align: right;
-}
-.add-post-btn,
-.nav-links ul li {
-  display: inline-block;
-  position: relative;
-}
-.nav-links ul li {
-	list-style: none;
-	padding: 8px 20px;
-}
-.nav-links ul li a {
-	font-size: 20px;
-}
-.nav-links ul li a{
-  text-decoration: none;
-  color: #fff;
-}
-.nav-links ul li::after {
-	content: "";
-	width: 0%;
-	height: 3px;
-	background: #f44336;
-	display: block;
-	margin: auto;
-	transition: 0.5s;
-}
-.nav-links ul li:hover::after {
-	width: 100%;
 }
 .add-post-btn {
 	text-decoration: none;
@@ -72,6 +17,8 @@ nav .fa-solid{
 	font-size: 16px;
 	background: transparent;
 	cursor: pointer;
+	display: inline-block;
+	position: relative;
 }
 .add-post-btn:hover {
 	border: 1px solid #f44336;
@@ -130,6 +77,9 @@ footer h4 {
 footer p {
   line-height: 22px;
   padding: 10px;
+}
+.post-data input {
+	width: 100%;
 }
 .post-text p {
 	font-size: 20px;
@@ -191,30 +141,6 @@ footer p {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-footer {
-	width: 100%;
-	padding: 30px 0;
-	text-align: center;
-}
-footer h4 {
-	font-weight: 600;
-}
-footer p {
-	color: #000;
-    font-size: 14px;
-    font-weight: 300;
-}
-.fa-heart,
-.icons .fa-brands {
-  color: #f44336;
-  font-weight: 400;
-}
-.icons .fa-brands {
-	margin: 0 10px;
-	cursor: pointer;
-	padding: 18px 0;
-	font-size: 20px;
 }
 @media (max-width: 770px) {
 	.nav-links ul li,
