@@ -1,0 +1,254 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+.body-login {
+	background: #000428;
+	background: -webkit-linear-gradient(to right, #000428, #004e92);
+	background: linear-gradient(to right, #000428, #004e92);
+}
+.sub-header-login {
+	height: 15vh;
+	width: 100%;
+	margin-top: -10px;
+	background-position: center;
+	background-size: cover;
+	text-align: center;
+	color: #fff;
+}
+.nav-links ul li a,
+.sub-header-login .nav-links ul li a {
+	color: rgba(229, 229, 229, 0.8);
+}
+nav {
+	display: flex;
+	padding: 2%;
+	justify-content: space-between;
+	align-items: center;
+}
+nav img {
+	width: 120px;
+}
+.nav-links {
+	flex: 1;
+	text-align: right;
+}
+.nav-links ul li {
+	list-style: none;
+	display: inline-block;
+	padding: 8px 20px;
+	position: relative;
+}
+.nav-links ul li a {
+	text-decoration: none;
+	font-size: 20px;
+}
+.nav-links ul li::after {
+	content: "";
+	width: 0%;
+	height: 3px;
+	background: #f44336;
+	display: block;
+	margin: auto;
+	transition: 0.5s;
+}
+.nav-links ul li:hover::after {
+	width: 100%;
+}
+nav .fa-solid {
+	display: none;
+	font-weight: 900;
+}
+
+.login-form {
+	margin: 5vh auto;
+	height: 70vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.form h1,
+.form-container {
+  justify-content: center;
+  display: flex;
+}
+.form-container {
+	width: 50vh;
+	margin: 0 auto;
+	align-items: center;
+	transform-style: preserve-3d;
+	transition: transform 0.5s ease-in-out;
+}
+.form {
+	width: 100%;
+	height: auto;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	position: absolute;
+	backface-visibility: hidden;
+	background-color: rgba(255, 255, 255, 0.1);
+}
+.register-form {
+	transform: rotateY(180deg);
+}
+.form-group {
+	display: flex;
+}
+.form-group > * {
+	margin-left: 0.5vh;
+	margin-right: 0.5vh;
+}
+.form h1 {
+	margin-bottom: 1.5vh;
+	color: #e5e5e5;
+	margin: 30px auto;
+	font-size: 36px;
+    font-weight: 600;
+	font-size: 36px;
+    font-weight: 600;
+}
+.form-container input,
+.bio-textarea {
+	width: 90%;
+	height: 2vh;
+	font-size: 14px;
+	padding: 18px;
+	outline: none;
+	margin-bottom: 1vh;
+	margin-left: 0.5vh;
+	margin-right: 0.5vh;
+	background-color: rgba(255, 255, 255, 0.07);
+	color: rgba(255, 255, 255);
+	border-radius: 10px;
+	border: 1.5px solid rgba(0, 0, 0, 0.1);
+}
+.form-container input:focus,
+.bio-textarea:focus {
+	border: 1.5px solid rgb(244, 67, 54, 0.7);
+}
+.form-container input::placeholder,
+.bio-textarea::placeholder {
+	color: rgba(229, 229, 229, 0.8);
+	text-transform: 1100px;
+}
+.form img {
+	width: 80px;
+	height: 80px;
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 1.9vh;
+	object-fit: cover;
+	border-radius: 30%;
+	overflow: hidden;
+}
+.login-btn,
+.register-btn {
+	background-color: rgb(244, 67, 54, 0.9);
+	border: 1.5px solid #f44336;
+	border-radius: 10px;
+  	padding: 18px;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+  	width: calc(100% - 1vh);
+	height: 6vh;
+	text-align: center;
+  	margin: 1vh 0.5vh;
+}
+.label-flip {
+	width: 35%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 2vh;
+	position: relative;
+	color: #e5e5e5;
+}
+.fa-heart,
+.label-flip:hover {
+	color: rgb(244, 67, 54);
+}
+footer {
+	width: 100%;
+	text-align: center;
+	padding: 30px 0;
+}
+footer h4 {
+	margin-bottom: 30px;
+	font-weight: 600;
+}
+.icons .fa-brands {
+	color: #f44336;
+	margin: 0 10px;
+	cursor: pointer;
+	padding: 18px 0;
+	font-size: 20px;
+}
+@media (max-width: 770px) {
+	.nav-links ul li,
+	nav .fa-solid {
+		display: block;
+	}
+	.nav-links {
+		position: absolute;
+		background: #f44336;
+		height: 100vh;
+		width: 200px;
+		top: 0;
+		right: -200px;
+		text-align: left;
+		z-index: 2;
+		transition: 1s;
+	}
+	.nav-links ul {
+		padding: 30px;
+	}
+	nav .fa-solid {
+		color: #fff;
+		margin: 10px;
+		font-size: 28px;
+		cursor: pointer;
+	}
+}
+@media (max-height: 570px) {
+	.nav-links ul li,
+	nav .fa-solid {
+		display: block;
+	}
+	.nav-links {
+		position: absolute;
+		background: #f44336;
+		height: 100vh;
+		width: 200px;
+		top: 0;
+		right: -200px;
+		text-align: left;
+		z-index: 2;
+		transition: 1s;
+	}
+	.nav-links ul {
+		padding: 30px;
+	}
+	nav .fa-solid {
+		color: #fff;
+		margin: 10px;
+		font-size: 28px;
+		cursor: pointer;
+	}
+}
+@media (max-width: 520px) {
+	.form-container {
+		width: 40vh;
+	}
+	.label-flip {
+		font-size: 13px;
+	}
+	.sub-header-login {
+		height: 15vh;
+		width: 100%;
+		margin-top: -5px;
+	}
+}

@@ -9,7 +9,7 @@
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
     <!-- Link to external stylesheet for styling -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="edit-post.css">
     <link rel="icon" type="image/x-icon" href="images/logo.png">
     </head>
 <body>
@@ -43,12 +43,12 @@
             <h1>Image:</h1>
             <img id="postImage" alt="Post Image">
             <input type="file" id="newImage" name="newImage" accept="image/*">
-            <button id="deletePostBtn" onclick="confirmDelete()">Delete Post</button>
+            <button class="delete-post-btn" id="deletePostBtn" onclick="confirmDelete()">Delete Post</button>
         </div>
         <div>
             <h1>Content:</h1>
             <textarea id="postContent" rows="22" class="edit-textarea" required></textarea>
-            <button id="saveChangesBtn" onclick="saveChanges()">Save Changes</button>
+            <button class="save-changes-btn" id="saveChangesBtn" onclick="saveChanges()">Save Changes</button>
         </div>
     </section>
 
