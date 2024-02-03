@@ -10,7 +10,7 @@
 .sub-header-login {
 	height: 15vh;
 	width: 100%;
-	margin-top: -10px;
+	margin-top: -15px;
 	background-position: center;
 	background-size: cover;
 	text-align: center;
@@ -239,6 +239,16 @@ footer h4 {
 		cursor: pointer;
 	}
 }
+@media (max-width: 1300px) {
+	.sub-header-login{
+		margin-top: 0px;
+	}
+}
+@media (max-width: 770px) {
+	.sub-header-login{
+		margin-top: 1px;
+	}
+}
 @media (max-width: 520px) {
 	.form-container {
 		width: 40vh;
@@ -249,6 +259,5 @@ footer h4 {
 	.sub-header-login {
 		height: 15vh;
 		width: 100%;
-		margin-top: -5px;
 	}
 }
