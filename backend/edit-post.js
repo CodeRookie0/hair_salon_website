@@ -124,8 +124,8 @@ function saveChanges() {
 			};
 			transaction.oncomplete = function () {
 				db.close();
-				// Redirect to 'posts.html' after completing the transaction
-				window.location.href = "posts.html";
+				// Redirect to 'blog.html' after completing the transaction
+				window.location.href = "blog.html";
 			};
 		} else {
 			if (newImageInput.files.length === 0) {
@@ -174,14 +174,14 @@ function saveChanges() {
 			};
 			transaction.oncomplete = function () {
 				db.close();
-				// Redirect to 'posts.html' after completing the transaction
-				window.location.href = "posts.html";
+				// Redirect to 'blog.html' after completing the transaction
+				window.location.href = "blog.html";
 			};
 		}
 		transaction.oncomplete = function () {
 			db.close();
-			// Redirect to 'posts.html' after completing the transaction
-			window.location.href = "posts.html";
+			// Redirect to 'blog.html' after completing the transaction
+			window.location.href = "blog.html";
 		};
 	};
 }
@@ -289,8 +289,8 @@ function deletePost(postId) {
 
 		deleteRequest.onsuccess = function () {
 			console.log(`Usunięto post o ID ${postId}`);
-			// Po usunięciu posta, przekieruj do strony posts.html
-			window.location.href = "posts.html";
+			// Po usunięciu posta, przekieruj do strony blog.html
+			window.location.href = "blog.html";
 		};
 
 		deleteRequest.onerror = function (event) {

@@ -6,13 +6,13 @@
 	background-image: linear-gradient(rgba(4, 9, 30, 0.6), rgba(4, 9, 30, 0.6)),
 	url(images/hair_salon.jpg);
 }
-.pricing {
+.services {
 	width: 70%;
 	margin: 2vw auto;
 	display: flex;
 	flex-direction: column;
 }
-.pricing .row {
+.services .row {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: -2px;
@@ -50,7 +50,7 @@
 	width: 100%;
 	height: auto;
 }
-.pricing h5 {
+.services h5 {
 	text-align: center;
 	color: #f44336;
 }
@@ -143,7 +143,7 @@
 	}
 }
 @media (max-width: 1450px) {
-	.pricing {
+	.services {
 		width: 95%;
 	}
 	.price-table {
@@ -213,7 +213,7 @@
 	}
 }
 @media (max-width: 900px) {
-	.pricing .row {
+	.services .row {
 		margin-top: 7vw;
 		flex-direction: column;
 	}
