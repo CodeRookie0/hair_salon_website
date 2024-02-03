@@ -108,6 +108,9 @@ footer p {
 		font-size: 28px;
 		cursor: pointer;
 	}
+	nav img {
+		width: 100px;
+	}
 }
 @media (max-height: 570px) {
 	.nav-links ul li {
@@ -133,5 +136,8 @@ footer p {
 		margin: 10px;
 		font-size: 28px;
 		cursor: pointer;
+	}
+	nav img {
+		width: 80px;
 	}
 }
