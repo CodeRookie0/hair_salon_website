@@ -33,7 +33,7 @@ const dbName = "PostsData";
 const request = indexedDB.open(dbName, 1);
 
 request.onerror = function (event) {
-	console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+	console.log("Error opening database:", event.target.errorCode);
 };
 
 request.onupgradeneeded = function (event) {
@@ -69,7 +69,7 @@ request.onsuccess = function (event) {
 	};
 
 	getAllPosts.onerror = function (event) {
-		console.log("Błąd pobierania danych z IndexedDB:", event.target.errorCode);
+		console.log("Error retrieving data from IndexedDB:", event.target.errorCode);
 	};
 };
 

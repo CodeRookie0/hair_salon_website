@@ -90,7 +90,6 @@ function checkAndAddAdminToDatabase(key, record, database, databaseName) {
 }
 
 function loginButtonClick(){
-	console.log("Login button clicked");
 	var emailInput = document.getElementById('Email').value;
 	var passwordInput = document.getElementById('Password').value;
 
@@ -129,7 +128,6 @@ function loginButtonClick(){
 	};
 }
 function registerButtonClick() {
-	console.log("Register button clicked");
 	
 		var nameInput = document.getElementById('Name').value;
 		var lastnameInput = document.getElementById('Lastname').value;

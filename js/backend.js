@@ -301,7 +301,7 @@ const dbName = "PostsData";
 const request = indexedDB.open(dbName, 1);
 
 request.onerror = function (event) {
-	console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+	console.log("Error opening database:", event.target.errorCode);
 };
 
 request.onupgradeneeded = function (event) {
@@ -337,7 +337,7 @@ request.onsuccess = function (event) {
 	};
 
 	getAllPosts.onerror = function (event) {
-		console.log("Błąd pobierania danych z IndexedDB:", event.target.errorCode);
+		console.log("Error retrieving data from IndexedDB:", event.target.errorCode);
 	};
 };
 function reloadPosts() {
@@ -345,7 +345,7 @@ function reloadPosts() {
     const request = indexedDB.open(dbName, 1);
 
     request.onerror = function (event) {
-        console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+        console.log("Error opening database:", event.target.errorCode);
     };
 
     request.onsuccess = function (event) {
@@ -361,7 +361,7 @@ function reloadPosts() {
         };
 
         getAllPosts.onerror = function (event) {
-            console.log("Błąd pobierania danych z IndexedDB:", event.target.errorCode);
+            console.log("Error retrieving data from IndexedDB:", event.target.errorCode);
         };
     };
 }
@@ -480,7 +480,7 @@ function loadPostData(postId) {
 	const request = indexedDB.open(dbName, 1);
 
 	request.onerror = function (event) {
-		console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+		console.log("Error opening database:", event.target.errorCode);
 	};
 
 	request.onsuccess = function (event) {
@@ -528,7 +528,7 @@ function saveChanges() {
 	const request = indexedDB.open(dbName, 1);
 
 	request.onerror = function (event) {
-		console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+		console.log("Error opening database:", event.target.errorCode);
 	};
 
 	const postId = document.getElementById("postId").value;
@@ -624,9 +624,8 @@ function saveChanges() {
 				document.getElementById("postId").value = newPostId;
 
 				addRequest.onsuccess = function () {
-					console.log(`New post added successfully with ID ${newPostId}.`);
 					handleFileSelect(newPostId);
-					console.log(`New image added successfully`);
+					console.log(`New post added successfully with ID ${newPostId}.`);
 				};
 
 				addRequest.onerror = function (event) {
@@ -702,9 +701,6 @@ function updatePostImageInIndexedDB(postId, newImage) {
 
 				updateRequest.onsuccess = function () {
 					console.log(`Post with ID ${postId} updated with new image.`);
-    
-                    // Show success message
-                    alert("Image updated successfully!");
                 };
 
 				updateRequest.onerror = function (event) {
@@ -750,7 +746,7 @@ function deletePost(postId) {
 	const request = indexedDB.open(dbName, 1);
 
 	request.onerror = function (event) {
-		console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+		console.log("Error opening database:", event.target.errorCode);
 	};
 
 	request.onsuccess = function (event) {
@@ -761,13 +757,13 @@ function deletePost(postId) {
 		const deleteRequest = store.delete(Number(postId));
 
 		deleteRequest.onsuccess = function () {
-			console.log(`Usunięto post o ID ${postId}`);
+			console.log(`Removed post with ID ${postId}`);
 			showContent('posts');
 		};
 
 		deleteRequest.onerror = function (event) {
 			console.log(
-				`Błąd podczas usuwania posta o ID ${postId}:`,
+				`Error deleting post with ID ${postId}:`,
 				event.target.errorCode
 			);
 		};
@@ -870,7 +866,6 @@ function addUserToTable(user) {
 	editButton.id=user.RegisterEmail+'-'+'edit-user-button';
     editButton.className = 'edit-user-btn';
     editButton.addEventListener('click', function () {
-		console.log("Nacisniety edit button dla email : "+user.RegisterEmail)
 		toggleEditMode(user.RegisterEmail);
     });
 
@@ -890,7 +885,6 @@ function addUserToTable(user) {
 	saveButton.id=user.RegisterEmail+'-'+'save-user-button';
     saveButton.className = 'save-user-btn';
     saveButton.addEventListener('click', function () {
-    console.log('Save button clicked for user:' +user);
 		saveUserData(user.RegisterEmail);
     });
 
@@ -1099,7 +1093,6 @@ function saveUserData(email) {
 					var imageInput = document.getElementById(email + '-input');
 					var imageDefault = document.getElementById(email + '-img').src;
 					if (imageInput.files && imageInput.files[0]) {
-						console.log("New profile image was selected");
 						updatedData.img = imageDefault;	
 					}
 					else{
@@ -1122,7 +1115,6 @@ function saveUserData(email) {
 
 					console.log(updatedData);
 					objectStore.add(updatedData).onsuccess = function (event) {
-						console.log("New user added successfully:", updatedData);
 						
 						var transactionLoginData = dbLoginData.transaction(["user"], "readwrite");
                         var objectStoreLoginData = transactionLoginData.objectStore("user");
@@ -1169,7 +1161,6 @@ function saveUserData(email) {
 			var imageInput = document.getElementById(email + '-input');
 			if (imageInput.files && imageInput.files[0]) {
 				console.log("New profile image was selected");
-
 			}
 			else{
 				var isUserExist = objectStore.get(email);
@@ -1311,7 +1302,7 @@ function deleteUser(userEmail) {
     const request = indexedDB.open(dbName, 1);
 
 	request.onerror = function (event) {
-		console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+		console.log("Error opening database:", event.target.errorCode);
 	};
 
 	request.onsuccess = function (event) {
@@ -1326,7 +1317,7 @@ function deleteUser(userEmail) {
 			const request = indexedDB.open(dbName, 1);
 
 			request.onerror = function (event) {
-				console.log("Błąd otwarcia bazy danych LoginData:", event.target.errorCode);
+				console.log("Error opening LoginData database:", event.target.errorCode);
 			};
 
 			request.onsuccess = function (event) {
@@ -1337,13 +1328,13 @@ function deleteUser(userEmail) {
 				const deleteRequest = store.delete(userEmail);
 
 				deleteRequest.onsuccess = function () {
-					console.log(`Usunięto użytkownika o emailu ${userEmail} z UserData`);
+					console.log(`Removed user with email address ${userEmail} from UserData`);
 					showContent('users');
 				};
 
 				deleteRequest.onerror = function (event) {
 					console.log(
-						`Błąd podczas usuwania użytkownika o emailu ${userEmail} z LoginData:`,
+						`Error removing user with email ${userEmail} from LoginData:`,
 						event.target.errorCode
 					);
 				};
@@ -1353,7 +1344,7 @@ function deleteUser(userEmail) {
 
 		deleteRequest.onerror = function (event) {
 			console.log(
-				`Błąd podczas usuwania posta o ID ${postId}:`,
+				`Error deleting post with ID ${postId}:`,
 				event.target.errorCode
 			);
 		};

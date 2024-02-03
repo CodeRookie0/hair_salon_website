@@ -18,7 +18,7 @@ function loadPostData() {
 	const request = indexedDB.open(dbName, 1);
 
 	request.onerror = function (event) {
-		console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+		console.log("Error opening database:", event.target.errorCode);
 	};
 
 	request.onsuccess = function (event) {
@@ -275,7 +275,7 @@ function deletePost(postId) {
 	const request = indexedDB.open(dbName, 1);
 
 	request.onerror = function (event) {
-		console.log("Błąd otwarcia bazy danych:", event.target.errorCode);
+		console.log("Error opening database:", event.target.errorCode);
 	};
 
 	request.onsuccess = function (event) {
@@ -286,13 +286,13 @@ function deletePost(postId) {
 		const deleteRequest = store.delete(Number(postId));
 
 		deleteRequest.onsuccess = function () {
-			console.log(`Usunięto post o ID ${postId}`);
+			console.log(`Post with ID ${postId} deleted`);
 			window.location.href = "blog.html";
 		};
 
 		deleteRequest.onerror = function (event) {
 			console.log(
-				`Błąd podczas usuwania posta o ID ${postId}:`,
+				`Error deleting post with ID ${postId}:`,
 				event.target.errorCode
 			);
 		};
