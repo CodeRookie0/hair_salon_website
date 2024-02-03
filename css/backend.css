@@ -109,7 +109,7 @@ nav .fa-solid {
 }
 .sidebar ul li a {
     display: flex;
-    align-items: center; /* Ustawia elementy na środku pionowo */
+    align-items: center;
 	text-decoration: none;
 }
 .sidebar ul li a i {
@@ -122,7 +122,7 @@ nav .fa-solid {
 .sidebar ul li a span {
 	width: 70%;
     color: #fff;
-	flex-grow: 1; /* Rozciąga span, aby zajmował dostępną przestrzeń */
+	flex-grow: 1;
 	padding-left: 10px;
 	font-size: 18px;
 }
@@ -588,11 +588,11 @@ td.buttons button:hover{
 }
 @media (max-width: 768px) {
     .statistics-content .chart-row {
-        flex-direction: column; /* Stosuje kolumnowy układ na mniejszych ekranach */
+        flex-direction: column;
     }
 
     .statistics-content .chart-container {
-        flex-basis: 100%; /* Każdy kontener zajmuje pełną szerokość */
-        margin-bottom: 20px; /* Dodaje odstęp między kontenerami */
+        flex-basis: 100%;
+        margin-bottom: 20px; 
     }
 }

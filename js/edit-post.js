@@ -146,7 +146,7 @@ function saveChanges() {
 					id: newPostId,
 					title: postTitle,
 					content: postContent,
-					image: "", // Set image as needed
+					image: "", 
 				};
 
 				// Store the new post in the database
@@ -263,7 +263,6 @@ function updateImageInIndexedDB(postId, newImage) {
 		};
 	};
 }
-// Dodana funkcja do potwierdzania usuwania posta
 function confirmDelete() {
 	const postId = document.getElementById("postId").value;
 
@@ -271,7 +270,6 @@ function confirmDelete() {
 		deletePost(postId);
 	}
 }
-// Dodana funkcja do usuwania posta
 function deletePost(postId) {
 	const dbName = "PostsData";
 	const request = indexedDB.open(dbName, 1);
@@ -289,7 +287,6 @@ function deletePost(postId) {
 
 		deleteRequest.onsuccess = function () {
 			console.log(`Usunięto post o ID ${postId}`);
-			// Po usunięciu posta, przekieruj do strony blog.html
 			window.location.href = "blog.html";
 		};
 

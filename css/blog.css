@@ -31,13 +31,13 @@
 }
 .loading-indicator i {
     font-size: 40px;
-    color: #f44336; /* Kolor ikony */
+    color: #f44336;
 }
 
 .loading-indicator p {
     margin-top: 10px;
     font-size: 18px;
-    color: #f44336; /* Kolor tekstu ładowania */
+    color: #f44336;
 }
 .posts,
 footer h4 {

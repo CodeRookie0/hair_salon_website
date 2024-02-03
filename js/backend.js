@@ -3,7 +3,7 @@ var dbUserData;
 var dbLoginData;
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Otwarcie lub stworzenie bazy danych UserData
+    
     var requestUserData = indexedDB.open("UserData", 1);
 
     requestUserData.onerror = function (event) {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     requestUserData.onupgradeneeded = function (event) {
         dbUserData = event.target.result;
 
-        // Utworzenie obiektu składowego (store) z odpowiednimi polami
+        
         var objectStoreUserData = dbUserData.createObjectStore("user", { keyPath: "RegisterEmail" });
         objectStoreUserData.createIndex("img", "img", { unique: false });
         objectStoreUserData.createIndex("Name", "Name", { unique: false });
@@ -30,8 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateLoggedInUser();
 		getAllUsers();
     };
-
-    // Otwarcie lub stworzenie bazy danych LoginData
+    
     var requestLoginData = indexedDB.open("LoginData", 1);
 
     requestLoginData.onerror = function (event) {
@@ -41,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     requestLoginData.onupgradeneeded = function (event) {
         dbLoginData = event.target.result;
 
-        // Utworzenie obiektu składowego (store) z odpowiednimi polami
         var objectStoreLoginData = dbLoginData.createObjectStore("user", { keyPath: "email" });
         objectStoreLoginData.createIndex("password", "password", { unique: false });
 
@@ -63,10 +61,8 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 function showContent(section) {
-    // Ukryj wszystkie sekcje
     hideAllSections();
 
-    // Wyświetl tylko wybraną sekcję
     const content = document.getElementById(`${section}Content`);
 	if(section==='profile'){
 		content.style.display = 'flex';
@@ -85,40 +81,33 @@ function showContent(section) {
 }
 
 function hideAllSections() {
-    // Ukryj wszystkie sekcje
 	const sections = ['posts', 'users', 'profile','statistics','editPost'];
     sections.forEach(section => {
         const content = document.getElementById(`${section}Content`);
         content.style.display = 'none';
     });
 }
-// Funkcja do pobierania i aktualizacji informacji o zalogowanym użytkowniku
 function updateLoggedInUser() {
     if (!dbUserData) {
         console.log("UserData database is not ready.");
         return;
     }
-    // Pobierz adres e-mail użytkownika z adresu URL (przy użyciu funkcji getUrlParameter)
     var userEmail = getUrlParameter('user');
 
-    // Otwórz transakcję do odczytu danych z bazy danych "UserData"
     var transactionUserData = dbUserData.transaction(["user"], "readonly");
     var objectStoreUserData = transactionUserData.objectStore("user");
 
-    // Pobierz informacje o użytkowniku na podstawie adresu e-mail
     var requestGetUser = objectStoreUserData.get(userEmail);
 
     requestGetUser.onsuccess = function (event) {
         var user = event.target.result;
 
-        // Aktualizuj elementy HTML z informacjami o użytkowniku
         var userProfile = document.getElementById('userProfile');
         if (user) {
             userProfile.innerHTML = `
                 <img src="${user.img}" alt="User Image" style="width: 50px; height: 50px; border-radius: 50%;">
                 <p>${user.RegisterEmail}</p>
             `;
-            // Update user-name and bio
             var userNameParagraph = document.querySelector('.user-name p');
 			var userProfileImage=document.querySelector('.user-name img');
             var bioParagraph = document.querySelector('.bio p');
@@ -147,7 +136,6 @@ function updateLoggedInUser() {
     };
 }
 
-// Funkcja pomocnicza do pobierania parametrów z adresu URL
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -157,7 +145,6 @@ function getUrlParameter(name) {
 
 function enableEditMode() {
     var button = document.getElementById('editProfileBtn');
-    // Sprawdź tekst przycisku za pomocą innerText
     var buttonText = button.innerText;
     if (buttonText=="Edit"){
         document.querySelectorAll('.edit-user-form input, .edit-user-form textarea').forEach(function(element) {
@@ -195,7 +182,6 @@ function validateProfileData() {
     var updatedLastname = document.getElementById('Lastname').value;
     var updatedTelephone = document.getElementById('Telephone').value;
 
-    // Sprawdzenie wzorca dla imienia i nazwiska (min. 3 litery)
     if (!/^[a-zA-Z]{3,}$/.test(updatedName)) {
         alert("Invalid name format. Please enter a valid name (at least 3 characters long).");
         document.getElementById('Name').focus();
@@ -208,7 +194,6 @@ function validateProfileData() {
         return false;
     }
 
-    // Sprawdzenie wzorca dla numeru telefonu
     if (!/^\d{9}$/.test(updatedTelephone)) {
         alert("Invalid telephone format. Please enter a valid telephone number (9 digits).");
         document.getElementById('Telephone').focus();
@@ -218,21 +203,17 @@ function validateProfileData() {
     return true;
 }
 function saveProfileData() {
-	// Pobierz aktualny adres e-mail zalogowanego użytkownika
 	var userEmail = document.getElementById('Email').value;
 
-	// Otwórz transakcję do zapisu danych do bazy danych "UserData"
 	var transactionUserData = dbUserData.transaction(["user"], "readwrite");
 	var objectStoreUserData = transactionUserData.objectStore("user");
 
-	// Pobierz aktualne dane z formularza
 	var updatedName = document.getElementById('Name').value;
 	var updatedLastname = document.getElementById('Lastname').value;
 	var updatedTelephone = document.getElementById('Telephone').value;
 	var updatedBIO = document.getElementById('BIO').value;
 	var updatedImage=document.getElementById('newProfileImage');
 		
-	// Pobierz aktualny obiekt użytkownika
 	var requestGetUser = objectStoreUserData.get(userEmail);
 
 	requestGetUser.onsuccess = function (event) {
@@ -243,22 +224,18 @@ function saveProfileData() {
 		}
 		else{
 			if (user) {
-				// Jeśli pole 'img' istnieje, zachowaj je
 				user.img = user.img;
 			}
 		}
-		// Zaktualizuj dane w obiekcie użytkownika
 		user.Name = updatedName;
 		user.Lastname = updatedLastname;
 		user.Telephone = updatedTelephone;
 		user.BIO = updatedBIO;
 
-		// Zapisz zaktualizowany obiekt użytkownika z powrotem do bazy danych
 		var requestUpdateUser = objectStoreUserData.put(user);
 
 		requestUpdateUser.onsuccess = function () {
 			alert("User data updated successfully.");
-			// Możesz również zaktualizować wyświetlane informacje na bieżąco, jeśli to konieczne
 			updateLoggedInUser();
 		};
 
@@ -320,7 +297,6 @@ const danePostow = [
 	},
 ];
 
-// Otwórz lub utwórz bazę danych
 const dbName = "PostsData";
 const request = indexedDB.open(dbName, 1);
 
@@ -331,15 +307,12 @@ request.onerror = function (event) {
 request.onupgradeneeded = function (event) {
 	const db = event.target.result;
 
-	// Utwórz sklep obiektów (tabelę) dla postów
 	const postStore = db.createObjectStore("posts", { keyPath: "id" });
 
-	// Dodaj indeksy do obiektu sklepu
 	postStore.createIndex("title", "title", { unique: false });
 	postStore.createIndex("content", "content", { unique: false });
 	postStore.createIndex("image", "image", { unique: false });
 
-	// Dodaj dane postów do bazy danych
 	const transaction = event.target.transaction;
 	const store = transaction.objectStore("posts");
 
@@ -349,7 +322,6 @@ request.onupgradeneeded = function (event) {
 };
 
 request.onsuccess = function (event) {
-	// Po otwarciu bazy danych wykonaj operacje na niej
 	const db = event.target.result;
 	const transaction = db.transaction("posts", "readonly");
 	const store = transaction.objectStore("posts");
@@ -358,7 +330,6 @@ request.onsuccess = function (event) {
 
 	getAllPosts.onsuccess = function () {
 		const postsData = getAllPosts.result;
-		// Po pobraniu danych z IndexedDB, wywołaj funkcję do generowania postów
 		const postsContainer = document.getElementById("postsContainer");
 		if (postsContainer) {
 			generatePostsFromIndexedDB(postsData);
@@ -386,7 +357,6 @@ function reloadPosts() {
 
         getAllPosts.onsuccess = function () {
             const postsData = getAllPosts.result;
-            // Ponownie wywołaj funkcję generującą posty z nowymi danymi
             generatePostsFromIndexedDB(postsData);
         };
 
@@ -402,9 +372,7 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 	if (loadingIndicator) {
         loadingIndicator.style.display = "none";
     }
-	// Wybierz tylko ostatnie `limit` postów
 	const lastPosts = postsData.slice().reverse().slice(0, limit);
-	// Wywołaj funkcję do generowania postów z pobranych danych
 	lastPosts.forEach((post) => {
 		const postContainer = document.createElement("div");
 		postContainer.classList.add("post-container");
@@ -427,7 +395,6 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 
 		const postContentContainer = document.createElement("div");
 
-		// Check if content starts with <p>
 		if (!post.content.trim().startsWith("<p>")) {
 			const postContent = document.createElement("p");
 			postContent.innerHTML = post.content;
@@ -450,7 +417,6 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 
 		postsContainer.appendChild(postContainer);
 	});
-	// Dodaj przycisk do wczytywania kolejnych postów
 	if (postsData.length > limit) {
 		const loadMoreButton = document.createElement("button");
 		loadMoreButton.classList.add("load-more-btn");
@@ -461,14 +427,11 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 		postsContainer.appendChild(loadMoreButton);
 	}
 }
-// Funkcja do wczytywania kolejnych postów
 function loadMorePosts(postsData, limit) {
 	const postsContainer = document.getElementById("postsContainer");
 
-	// Aktualizuj limit, aby wczytać kolejne posty
 	limit += 5;
 
-	// Ponownie wywołaj funkcję generującą posty z nowym limitem
 	generatePostsFromIndexedDB(postsData, limit);
 }
 // Function to navigate to the edit-post.html page with the post ID in the URL
@@ -480,10 +443,8 @@ function navigateToAddPostPage() {
 
 function showEditPostSection(postId="") {
 
-	// Przekaż identyfikator posta do funkcji showContent
     showContent('editPost');
 	
-    // Załaduj dane posta do sekcji edycji
     loadPostData(postId);
 
     var deletePostBtn = document.getElementById('deletePostBtn');
@@ -611,7 +572,6 @@ function saveChanges() {
                         // Show success message
                         alert("Post updated successfully!");
                         document.getElementById("newPostImage").value = null;    
-                        // Redirect to 'posts.html' after completing the transaction
                         showContent('posts');
 						
                     };
@@ -635,7 +595,6 @@ function saveChanges() {
 			};
 			transaction.oncomplete = function () {
 				db.close();
-				// Redirect to 'posts.html' after completing the transaction
 				showContent('posts');
 				document.getElementById("newPostImage").value = "";
 			};
@@ -686,13 +645,11 @@ function saveChanges() {
 			};
 			transaction.oncomplete = function () {
 				db.close();
-				// Redirect to 'posts.html' after completing the transaction
 				showContent('posts');
 			};
 		}
 		transaction.oncomplete = function () {
 			db.close();
-			// Redirect to 'posts.html' after completing the transaction
 			showContent('posts');
 			document.getElementById("newPostImage").value = "";
 		};
@@ -781,7 +738,6 @@ function updatePostImageInIndexedDB(postId, newImage) {
 		};
 	};
 }
-// Dodana funkcja do potwierdzania usuwania posta
 function confirmDeletePost() {
 	const postId = document.getElementById("postId").value;
 
@@ -789,7 +745,6 @@ function confirmDeletePost() {
 		deletePost(postId);
 	}
 }
-// Dodana funkcja do usuwania posta
 function deletePost(postId) {
 	const dbName = "PostsData";
 	const request = indexedDB.open(dbName, 1);
@@ -807,7 +762,6 @@ function deletePost(postId) {
 
 		deleteRequest.onsuccess = function () {
 			console.log(`Usunięto post o ID ${postId}`);
-			// Po usunięciu posta, przekieruj do strony posts.html
 			showContent('posts');
 		};
 
@@ -936,7 +890,6 @@ function addUserToTable(user) {
 	saveButton.id=user.RegisterEmail+'-'+'save-user-button';
     saveButton.className = 'save-user-btn';
     saveButton.addEventListener('click', function () {
-        // Add your save logic here
     console.log('Save button clicked for user:' +user);
 		saveUserData(user.RegisterEmail);
     });
@@ -976,7 +929,7 @@ function createInputCell(type, value, placeholder) {
     input.type = type;
     input.value = value;
     input.placeholder = placeholder;
-    input.readOnly = true; // Initially, set input fields as read-only
+    input.readOnly = true;
     cell.appendChild(input);
     return cell;
 }
@@ -987,13 +940,13 @@ function createImageCell(imagePath) {
     var imageInput = document.createElement('input');
     imageInput.type = 'file';
     imageInput.accept = 'image/*';
-    imageInput.style.display = 'none'; // Initially hide the file input
+    imageInput.style.display = 'none';
     cell.appendChild(imageInput);
 
     var imagePreview = document.createElement('img');
     imagePreview.src = imagePath;
     imagePreview.alt = 'Profile Image';
-    imagePreview.style.maxWidth = '60px'; // Adjust the maximum width as needed
+    imagePreview.style.maxWidth = '60px';
     imagePreview.style.display = 'block';
     cell.appendChild(imagePreview);
 
@@ -1016,14 +969,13 @@ function toggleEditMode(email) {
         inputs.forEach(function (input) {
             if (input.tagName.toLowerCase() === 'input') {
                 if (input.type.toLowerCase() === 'email' && email!=="new") {
-                    input.readOnly = true; // Pole email zawsze zostaje tylko do odczytu
+                    input.readOnly = true;
                 }
 				else {
                     input.readOnly = false;
                 }
             }
         });
-		// Pokaż przycisk "Save" i "Cancel", ukryj przycisk "Edit" i "Delete"
         document.getElementById(email + '-save-user-button').style.display = 'inline-block';
         document.getElementById(email + '-cancel-user-button').style.display = 'inline-block';
         document.getElementById(email + '-edit-user-button').style.display = 'none';
@@ -1037,7 +989,7 @@ function toggleEditMode(email) {
 		}
     } else {
 		if(validateUserData(email) && checkPasswordMatch()){
-		// Jeśli nie ma edytowanego wiersza, ukryj przycisk "Save" i "Cancel", pokaż przycisk "Edit" i "Delete"
+		
 		document.getElementById(email + '-save-user-button').style.display = 'none';
 		document.getElementById(email + '-cancel-user-button').style.display = 'none';
 		document.getElementById(email + '-edit-user-button').style.display = 'inline-block';
@@ -1057,7 +1009,6 @@ function validateUserData(email) {
 	var telephoneInput = document.getElementById(email +'-Telephone').value;
 	var passwordInput = document.getElementById('NewPassword').value;
 
-	// Sprawdzenie wzorca dla imienia i nazwiska (min. 3 litery)
 	if (!/^[a-zA-Z]{3,}$/.test(nameInput)) {
 		alert("Invalid name format. Please enter a valid name (at least 3 characters long).");
 		document.getElementById(email +'-Name').focus();
@@ -1070,20 +1021,17 @@ function validateUserData(email) {
 		return;
 	}
 
-	// Sprawdzenie wzorca dla email
 	if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInput)) {
 		alert("Invalid email format. Please enter a valid email address.");
 		document.getElementById(email +'-RegisterEmail').focus();
 		return;
 	}
 
-	// Sprawdzenie wzorca dla numeru telefonu
 	if (!/^\d{9}$/.test(telephoneInput)) {
 		alert("Invalid telephone format. Please enter a valid telephone number (9 digits).");
 		document.getElementById(email +'-Telephone').focus();
 		return;
 	}
-	// Sprawdzenie wzorca dla hasła (min. 8 znaków)
 	if(email==="new"){
 		if (!/.{8,}/.test(passwordInput)) {
 			alert("Invalid password format. Password must be at least 8 characters long.");
@@ -1129,7 +1077,7 @@ function saveUserData(email) {
 	
 	if(validateUserData(email)){
 		var inputs = document.querySelectorAll('[id^="' + email + '"]');
-		var updatedData = { RegisterEmail: email }; // Początkowo dodajemy email jako klucz
+		var updatedData = { RegisterEmail: email };
 
 		inputs.forEach(function (input) {
 			if (input.tagName.toLowerCase() === 'input') {
@@ -1142,12 +1090,10 @@ function saveUserData(email) {
 			}
 		});
 	
-		// Jeżeli email jest puste, dodaj nowego użytkownika
         if (email === "new") {
             if (checkPasswordMatch()) {
 				checkIfEmailExists(updatedData.RegisterEmail, function (emailExists) {
 					if (!emailExists) {
-					// Sprawdź, czy użytkownik wybrał nowy obr
 					var transaction = dbUserData.transaction(["user"], "readwrite");
                 	var objectStore = transaction.objectStore("user");
 					var imageInput = document.getElementById(email + '-input');
@@ -1220,7 +1166,6 @@ function saveUserData(email) {
 				return;
 			}
 		} else {
-			// Sprawdź, czy użytkownik wybrał nowy obraz
 			var imageInput = document.getElementById(email + '-input');
 			if (imageInput.files && imageInput.files[0]) {
 				console.log("New profile image was selected");
@@ -1231,7 +1176,6 @@ function saveUserData(email) {
 				isUserExist.onsuccess = function (event) {
 						var user = isUserExist.result;
 					if (user) {
-						// Jeśli pole 'img' istnieje, zachowaj je
 						updatedData.img = user.img;
 					}
 				}
@@ -1257,7 +1201,6 @@ function saveUserData(email) {
 					passwordSection.style.display='none';
 					getAllUsers();
 					updateLoggedInUser();
-					// Możesz dodać dodatkową logikę lub odświeżyć widok użytkowników po zakończeniu aktualizacji
 				};
 
 				request.onerror = function (event) {
@@ -1363,7 +1306,6 @@ function confirmDeleteUser(userEmail) {
 		deleteUser(userEmail);
 	}
 }
-// Dodana funkcja do usuwania posta
 function deleteUser(userEmail) {
 	const dbName = "UserData";
     const request = indexedDB.open(dbName, 1);
@@ -1396,7 +1338,6 @@ function deleteUser(userEmail) {
 
 				deleteRequest.onsuccess = function () {
 					console.log(`Usunięto użytkownika o emailu ${userEmail} z UserData`);
-					// Po usunięciu posta, przekieruj do strony posts.html
 					showContent('users');
 				};
 
@@ -1422,20 +1363,17 @@ function addNewUserRow() {
     var usersTable = document.getElementById('users-table');
     var tbody = usersTable.querySelector('tbody');
 
-    // Utwórz nowy obiekt użytkownika z pustymi danymi
     var newUser = {
         RegisterEmail: 'new',
         Name: '',
         Lastname: '',
         Telephone: '',
         BIO: '',
-        img: '../images/download.png' // Domyślny obraz
+        img: '../images/download.png'
     };
 
-    // Dodaj nowy wiersz do tabeli
     addUserToTable(newUser);
 
-    // Przełącz tryb edycji dla nowo dodanego wiersza
     toggleEditMode(newUser.RegisterEmail);
 }
 function logout() {

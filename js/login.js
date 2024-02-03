@@ -2,7 +2,6 @@ var dbUserData;
 var dbLoginData;
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Otwarcie lub stworzenie bazy danych UserData
     var requestUserData = indexedDB.open("UserData", 1);
 
     requestUserData.onerror = function (event) {
@@ -12,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     requestUserData.onupgradeneeded = function (event) {
         dbUserData = event.target.result;
 
-        // Utworzenie obiektu składowego (store) z odpowiednimi polami
         var objectStoreUserData = dbUserData.createObjectStore("user", { keyPath: "RegisterEmail" });
         objectStoreUserData.createIndex("img", "img", { unique: false });
         objectStoreUserData.createIndex("Name", "Name", { unique: false });
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     requestUserData.onsuccess = function (event) {
         dbUserData = event.target.result;
 
-        // Sprawdzenie czy rekord już istnieje w bazie danych
         checkAndAddAdminToDatabase("admin@domena.com", {
 			img: "../images/download.png",
 			Name: "admin",
@@ -38,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		}, dbUserData, "UserData");
     };
 
-    // Otwarcie lub stworzenie bazy danych LoginData
     var requestLoginData = indexedDB.open("LoginData", 1);
 
     requestLoginData.onerror = function (event) {
@@ -48,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     requestLoginData.onupgradeneeded = function (event) {
         dbLoginData = event.target.result;
 
-        // Utworzenie obiektu składowego (store) z odpowiednimi polami
         var objectStoreLoginData = dbLoginData.createObjectStore("user", { keyPath: "email" });
         objectStoreLoginData.createIndex("password", "password", { unique: false });
 
@@ -58,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     requestLoginData.onsuccess = function (event) {
         dbLoginData = event.target.result;
 
-        // Sprawdzenie czy rekord już istnieje w bazie danych
         checkAndAddAdminToDatabase("admin@domena.com", {
 			email: "admin@domena.com",
 			password: "admin@domena.com",
@@ -97,17 +91,14 @@ function checkAndAddAdminToDatabase(key, record, database, databaseName) {
 
 function loginButtonClick(){
 	console.log("Login button clicked");
-	// Pobranie wartości wprowadzonych przez użytkownika
 	var emailInput = document.getElementById('Email').value;
 	var passwordInput = document.getElementById('Password').value;
 
-	// Updated email pattern
 	if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(emailInput)) {
 		alert("Invalid email format. Please enter a valid email address.");
 		document.getElementById('Email').focus();
 		return;
 	}
-    // Sprawdzenie wzorca dla hasła (min. 8 znaków)
     if (!/.{8,}/.test(passwordInput)) {
         alert("Invalid password format. Password must be at least 8 characters long.");
         document.getElementById('Password').focus();
@@ -117,11 +108,9 @@ function loginButtonClick(){
         console.log("LoginData database is not ready.");
         return;
     }
-	// Rozpoczęcie transakcji do odczytu danych z bazy danych "LoginData"
 	var transactionLoginData = dbLoginData.transaction(["user"], "readonly");
 	var objectStoreLoginData = transactionLoginData.objectStore("user");
 
-	// Pobranie użytkownika na podstawie podanego email
 	var requestGetUser = objectStoreLoginData.get(emailInput);
 
 	requestGetUser.onsuccess = function (event) {
@@ -141,9 +130,7 @@ function loginButtonClick(){
 }
 function registerButtonClick() {
 	console.log("Register button clicked");
-	// Sprawdzenie zgodności haseł
 	
-		// Pobranie wartości wprowadzonych przez użytkownika
 		var nameInput = document.getElementById('Name').value;
 		var lastnameInput = document.getElementById('Lastname').value;
 		var emailInput = document.getElementById('RegisterEmail').value;
@@ -151,7 +138,6 @@ function registerButtonClick() {
 		var bioInput = document.getElementById('BIO').value;
 		var passwordInput = document.getElementById('NewPassword').value;
 
-		// Sprawdzenie wzorca dla imienia i nazwiska (min. 3 litery)
         if (!/^[a-zA-Z]{3,}$/.test(nameInput)) {
             alert("Invalid name format. Please enter a valid name (at least 3 characters long).");
 			document.getElementById('Name').focus();
@@ -164,35 +150,29 @@ function registerButtonClick() {
 			return;
         }
 
-        // Sprawdzenie wzorca dla email
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInput)) {
             alert("Invalid email format. Please enter a valid email address.");
             document.getElementById('RegisterEmail').focus();
 			return;
         }
 
-        // Sprawdzenie wzorca dla numeru telefonu
         if (!/^\d{9}$/.test(telephoneInput)) {
             alert("Invalid telephone format. Please enter a valid telephone number (9 digits).");
             document.getElementById('Telephone').focus();
 			return;
         }
 
-        // Sprawdzenie wzorca dla hasła (min. 8 znaków)
         if (!/.{8,}/.test(passwordInput)) {
             alert("Invalid password format. Password must be at least 8 characters long.");
             document.getElementById('NewPassword').focus();
 			return;
         }
 	if (checkPasswordMatch()) {
-			// Sprawdzenie istnienia email w bazie UserData
 		checkIfEmailExists(emailInput, function (emailExists) {
 			if (!emailExists) {
-				// Rozpoczęcie transakcji do zapisu danych w bazie UserData
 				var transactionUserData = dbUserData.transaction(["user"], "readwrite");
 				var objectStoreUserData = transactionUserData.objectStore("user");
 	
-				// Dodanie rekordu do bazy UserData
 				var recordUserData = {
 					img: "../images/download.png",
 					Name: nameInput,
@@ -212,11 +192,9 @@ function registerButtonClick() {
 					console.log("Error adding record to UserData database");
 				};
 	
-				// Rozpoczęcie transakcji do zapisu danych w bazie LoginData
 				var transactionLoginData = dbLoginData.transaction(["user"], "readwrite");
 				var objectStoreLoginData = transactionLoginData.objectStore("user");
 	
-				// Dodanie rekordu do bazy LoginData
 				var recordLoginData = {
 					email: emailInput,
 					password: passwordInput,
@@ -233,9 +211,6 @@ function registerButtonClick() {
 				requestLoginData.onerror = function (event) {
 					console.log("Error adding record to LoginData database");
 				};
-	
-				// Tutaj możesz dodać kod do wykonania "flip" formularza, jeśli wszystko poszło pomyślnie
-				// np. poprzez wywołanie funkcji flipForm()
 			} else {
 				alert("Email already exists. Please use a different email.");
 			}
@@ -247,23 +222,19 @@ function registerButtonClick() {
 	}
 }
 function checkIfEmailExists(email,callback) {
-	// Rozpoczęcie transakcji do odczytu danych z bazy danych "UserData"
 	var transactionUserData = dbUserData.transaction(["user"], "readonly");
 	var objectStoreUserData = transactionUserData.objectStore("user");
 
-	// Pobranie użytkownika na podstawie podanego email
 	var requestGetUser = objectStoreUserData.get(email);
 
 	requestGetUser.onsuccess = function (event) {
 		var user = event.target.result;
 
-		// Wywołanie funkcji zwrotnej z informacją o istnieniu email w bazie
 		callback(!!user);
 	};
 
 	requestGetUser.onerror = function (event) {
 		console.log("Error checking if email exists in UserData database");
-			// W przypadku błędu, załóżmy, że email istnieje
 		callback(true);
 	};
 }

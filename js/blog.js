@@ -29,7 +29,6 @@ const danePostow = [
 	},
 ];
 
-// Otwórz lub utwórz bazę danych
 const dbName = "PostsData";
 const request = indexedDB.open(dbName, 1);
 
@@ -40,15 +39,12 @@ request.onerror = function (event) {
 request.onupgradeneeded = function (event) {
 	const db = event.target.result;
 
-	// Utwórz sklep obiektów (tabelę) dla postów
 	const postStore = db.createObjectStore("posts", { keyPath: "id" });
 
-	// Dodaj indeksy do obiektu sklepu
 	postStore.createIndex("title", "title", { unique: false });
 	postStore.createIndex("content", "content", { unique: false });
 	postStore.createIndex("image", "image", { unique: false });
 
-	// Dodaj dane postów do bazy danych
 	const transaction = event.target.transaction;
 	const store = transaction.objectStore("posts");
 
@@ -58,7 +54,6 @@ request.onupgradeneeded = function (event) {
 };
 
 request.onsuccess = function (event) {
-	// Po otwarciu bazy danych wykonaj operacje na niej
 	const db = event.target.result;
 	const transaction = db.transaction("posts", "readonly");
 	const store = transaction.objectStore("posts");
@@ -67,7 +62,6 @@ request.onsuccess = function (event) {
 
 	getAllPosts.onsuccess = function () {
 		const postsData = getAllPosts.result;
-		// Po pobraniu danych z IndexedDB, wywołaj funkcję do generowania postów
 		const postsContainer = document.getElementById("postsContainer");
 		if (postsContainer) {
 			generatePostsFromIndexedDB(postsData);
@@ -86,9 +80,7 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 	if (loadingIndicator) {
         loadingIndicator.style.display = "none";
     }
-	// Wybierz tylko ostatnie `limit` postów
 	const lastPosts = postsData.slice().reverse().slice(0, limit);
-	// Wywołaj funkcję do generowania postów z pobranych danych
 	lastPosts.forEach((post) => {
 		const postContainer = document.createElement("div");
 		postContainer.classList.add("post-container");
@@ -111,7 +103,6 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 
 		const postContentContainer = document.createElement("div");
 
-		// Check if content starts with <p>
 		if (!post.content.trim().startsWith("<p>")) {
 			const postContent = document.createElement("p");
 			postContent.innerHTML = post.content;
@@ -134,7 +125,6 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 
 		postsContainer.appendChild(postContainer);
 	});
-	// Dodaj przycisk do wczytywania kolejnych postów
 	if (postsData.length > limit) {
 		const loadMoreButton = document.createElement("button");
 		loadMoreButton.classList.add("load-more-btn");
@@ -145,14 +135,11 @@ function generatePostsFromIndexedDB(postsData, limit = 5) {
 		postsContainer.appendChild(loadMoreButton);
 	}
 }
-// Funkcja do wczytywania kolejnych postów
 function loadMorePosts(postsData, limit) {
 	const postsContainer = document.getElementById("postsContainer");
 
-	// Aktualizuj limit, aby wczytać kolejne posty
 	limit += 5;
 
-	// Ponownie wywołaj funkcję generującą posty z nowym limitem
 	generatePostsFromIndexedDB(postsData, limit);
 }
 // Function to navigate to the edit-post.html page with the post ID in the URL

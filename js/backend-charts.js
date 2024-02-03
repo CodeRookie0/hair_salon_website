@@ -5,7 +5,7 @@ var barChart = new Chart(engagementBarChart, {
         labels: ['Images', 'Videos', 'Text Posts'],
         datasets: [{
             label: 'Average Engagement',
-            data: [50, 75, 30], // Replace these numbers with your data
+            data: [50, 75, 30],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -39,10 +39,10 @@ var activityLineGraph = document.getElementById('activityLineGraph').getContext(
 var lineGraph = new Chart(activityLineGraph, {
     type: 'line',
     data: {
-        labels: ['January', 'February', 'March', 'April'], // Add more months as needed
+        labels: ['January', 'February', 'March', 'April'],
         datasets: [{
             label: 'Number of Posts',
-            data: [20, 40, 50, 80], // Replace these numbers with your data
+            data: [20, 40, 50, 80],
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
             borderColor: 'rgba(153, 102, 255, 1)',
             borderWidth: 1,
@@ -69,10 +69,10 @@ var followersGrowthAreaChart = document.getElementById('followersGrowthAreaChart
 var areaChart = new Chart(followersGrowthAreaChart, {
     type: 'line',
     data: {
-        labels: ['January', 'February', 'March', 'April'], // Add more months as needed
+        labels: ['January', 'February', 'March', 'April'],
         datasets: [{
             label: 'Number of Followers',
-            data: [200, 400, 600, 1000], // Replace these numbers with your data
+            data: [200, 400, 600, 1000],
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1,
@@ -99,10 +99,10 @@ var userInteractionsBarChart = document.getElementById('userInteractionsBarChart
 var interactionsBarChart = new Chart(userInteractionsBarChart, {
     type: 'bar',
     data: {
-        labels: ['Likes', 'Comments', 'Shares'], // Example categories
+        labels: ['Likes', 'Comments', 'Shares'],
         datasets: [{
             label: 'User Interactions',
-            data: [120, 90, 45], // Replace these numbers with your data
+            data: [120, 90, 45],
             backgroundColor: [
                 'rgba(255, 159, 64, 0.2)',
                 'rgba(255, 205, 86, 0.2)',
