@@ -4,7 +4,7 @@
   }
 .sub-header {
 	background-image: linear-gradient(rgba(4, 9, 30, 0.6), rgba(4, 9, 30, 0.6)),
-	url(images/hair_salon.jpg);
+	url(../images/hair_salon.jpg);
 }
 .services {
 	width: 70%;

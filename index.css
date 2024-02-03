@@ -6,7 +6,7 @@
 	min-height: 100vh;
 	width: 100%;
 	background-image: linear-gradient(rgba(4, 9, 30, 0.3), rgba(4, 9, 30, 0.3)),
-		url(frontend/images/banner.jpg);
+		url(../images/banner.jpg);
 	background-position: center;
 	background-size: cover;
 	position: relative;
@@ -250,7 +250,7 @@ nav .fa-solid{
 	margin: 50px auto;
 	width: 80%;
 	background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-		url(frontend/images/banner_2.jpg);
+		url(../images/banner_2.jpg);
 	background-position: center;
 	background-size: cover;
 	border-radius: 10px;

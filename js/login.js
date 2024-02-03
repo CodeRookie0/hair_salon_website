@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Sprawdzenie czy rekord już istnieje w bazie danych
         checkAndAddAdminToDatabase("admin@domena.com", {
-			img: "images/download.png",
+			img: "../images/download.png",
 			Name: "admin",
 			Lastname: "admin",
 			RegisterEmail: "admin@domena.com",
@@ -194,7 +194,7 @@ function registerButtonClick() {
 	
 				// Dodanie rekordu do bazy UserData
 				var recordUserData = {
-					img: "images/download.png",
+					img: "../images/download.png",
 					Name: nameInput,
 					Lastname: lastnameInput,
 					RegisterEmail: emailInput,

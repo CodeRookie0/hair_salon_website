@@ -4,7 +4,7 @@
 }
 .sub-header {
 	background-image: linear-gradient(rgba(4, 9, 30, 0.4), rgba(4, 9, 30, 0.4)),
-	url(images/banner_2.jpg);
+	url(../images/banner_2.jpg);
 }
 .post-data {
 	width: 70%;
