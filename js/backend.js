@@ -1439,5 +1439,5 @@ function addNewUserRow() {
     toggleEditMode(newUser.RegisterEmail);
 }
 function logout() {
-    window.location.href = "../index.html"; 
+    window.location.href = "../html/index.html"; 
 }
