@@ -6,219 +6,121 @@
 	background-image: linear-gradient(rgba(4, 9, 30, 0.6), rgba(4, 9, 30, 0.6)),
 	url(../images/hair_salon.jpg);
 }
-.services {
-	width: 70%;
-	margin: 2vw auto;
-	display: flex;
-	flex-direction: column;
+.service-section {
+    width: 70%;
+    margin: 2vw auto;
+    display: flex;
+    flex-direction: column;
 }
-.services .row {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: -2px;
-	margin-top: -2px;
-	align-items: center;
+.service-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.price-table {
-	width: 50%;
-	height: 100%;
-	font-size: 22px;
-	font-weight: normal;
-	border-collapse: collapse;
-	background-color: white;
+.service-details {
+    width: 50%;
 }
-.price-table td {
-	padding: 1.3vw;
-	border-bottom: 1px solid #ccc;
-	white-space: pre;
+.service-option {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.3vw;
+	font-size: 20px;
+	font-weight: 500;
+	line-height: 0.9;
 }
-.price-table tr strong {
-	transition: color 0.1s, font-size 0.1s;
-}
-.price-table tr:last-child td {
-	border-bottom: none;
-}
-.price-table tr:hover strong {
-	color: #f44336;
-	font-size: 23px;
-}
-.price-image {
-	width: 50%;
+.service-heading{
+	font-size:14px;
+    line-height: 30px;
+	margin-left: 1.3vw;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 	position: relative;
 }
-.price-image img {
-	width: 100%;
-	height: auto;
+.service-heading::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    border-bottom: 2px solid #f44336; 
+    width: calc(100% - 10px); 
 }
-.services h5 {
-	text-align: center;
-	color: #f44336;
+.service-name, .service-price {
+    white-space: pre;
 }
-@media (max-width: 1850px) {
-	.price-table {
-		font-size: 20px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 21px;
-	}
+.service-image {
+    width: 50%;
+    position: relative;
+	margin-bottom: -4px;
 }
-@media (max-width: 1750px) {
-	.price-table {
-		font-size: 19px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 20px;
-	}
+.service-image img {
+    width: 100%;
+    height: auto;
 }
-@media (max-width: 1625px) {
-	.price-table {
-		font-size: 18px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 19px;
-	}
-}
-@media (max-width: 1550px) {
-	.price-table {
-		font-size: 17px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 18px;
-	}
+.service-section h5 {
+    text-align: center;
+    color: #f44336;
+    margin-top: 2vw;
 }
 @media (max-width: 1450px) {
-	.services {
+	.service-section {
 		width: 95%;
-	}
-	.price-table {
-		width: 50%;
-		font-size: 22px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 23px;
-	}
-	.price-image {
-		width: 50%;
-	}
-}
-@media (max-width: 1350px) {
-	.price-table {
-		font-size: 20px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 21px;
-	}
-}
-@media (max-width: 1275px) {
-	.price-table {
-		font-size: 19px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 20px;
-	}
-}
-@media (max-width: 1175px) {
-	.price-table {
-		font-size: 17px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 18px;
 	}
 }
 @media (max-width: 1100px) {
-	.price-table {
-		font-size: 16px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 17px;
-	}
-}
-@media (max-width: 1000px) {
-	.price-table {
-		font-size: 15px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 16px;
-	}
-}
-@media (max-width: 950px) {
-	.price-table {
-		font-size: 14px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 15px;
-	}
-}
-@media (max-width: 900px) {
-	.services .row {
+	.service-row {
 		margin-top: 7vw;
 		flex-direction: column;
+		border: 1px solid #000;
 	}
-	.price-image,
-	.price-table {
+	.service-details,
+	.service-image{
 		width: 100%;
 	}
-	.price-table {
-		font-size: 21.5px;
+	.service-heading::after {
+		margin-right: 10px;
+		width: calc(100% - 20px); 
 	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 22.5px;
+	.service-option{
+		margin-bottom: 15px;
 	}
-}
-@media (max-width: 700px) {
-	.price-table {
-		font-size: 18.5px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 19.5px;
-	}
-}
-@media (max-width: 600px) {
-	.price-table {
-		font-size: 17.5px;
-	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 18.5px;
+	.service-heading{
+		margin-top: 15px;
 	}
 }
 @media (max-width: 550px) {
-	.price-table {
-		font-size: 15px;
+	.service-option {
+		font-size:17px;
+		line-height: 1.2;
 	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 16.5px;
+	.service-heading{
+		font-size:11px;
 	}
 }
 @media (max-width: 450px) {
-	.price-table {
-		font-size: 12.5px;
+	.service-option {
+		font-size:14px;
 	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 13.5px;
+	.service-heading{
+		font-size:8px;
 	}
 }
-@media (max-width: 370px) {
-	.price-table {
-		font-size: 10.5px;
+@media (max-width: 360px) {
+	.service-option {
+		font-size:10px;
 	}
-	.price-table tr:hover strong {
-		color: #f44336;
-		font-size: 11.5px;
+	.service-heading{
+		font-size:4px;
+		line-height: 10px;
+	}
+}
+@media (max-width: 260px) {
+	.service-option {
+		font-size:8px;
+	}
+	.service-heading{
+		font-size:2px;
+		
+		line-height: 6px;
 	}
 }
