@@ -73,7 +73,9 @@
 		flex-direction: column;
 		border: 1px solid #000;
 	}
-	.service-details,
+	.service-details{
+		width: 95%;
+	}
 	.service-image{
 		width: 100%;
 	}
