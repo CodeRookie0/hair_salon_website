@@ -77,15 +77,12 @@
 	.service-image{
 		width: 100%;
 	}
-	.service-heading::after {
-		margin-right: 10px;
-		width: calc(100% - 20px); 
-	}
 	.service-option{
 		margin-bottom: 15px;
 	}
 	.service-heading{
 		margin-top: 15px;
+		margin-bottom: 15px;
 	}
 }
 @media (max-width: 550px) {
