@@ -1,38 +1,38 @@
 // Support for scroll buttons
 document.addEventListener('DOMContentLoaded', () => {
-  const menu = document.querySelector('.scroll-menu');
-  const leftButton = document.getElementById('left-scroll-btn');
-  const rightButton = document.getElementById('right-scroll-btn');
+  const servicesMenu  = document.querySelector('.scroll-menu');
+  const scrollLeftButton  = document.getElementById('left-scroll-btn');
+  const scrollRightButton  = document.getElementById('right-scroll-btn');
 
-  leftButton.onclick = () => {
-      menu.scrollLeft -= 150;
+  scrollLeftButton .onclick = () => {
+    servicesMenu .scrollLeft -= 150;
   };
 
-  rightButton.onclick = () => {
-      menu.scrollLeft += 150;
+  scrollRightButton .onclick = () => {
+    servicesMenu .scrollLeft += 150;
   };
 
   const checkScrollButtons = () => {
-      leftButton.disabled = menu.scrollLeft <= 0;
-      rightButton.disabled = menu.scrollLeft + menu.offsetWidth >= menu.scrollWidth;
+    scrollLeftButton .disabled = servicesMenu .scrollLeft <= 0;
+    scrollRightButton .disabled = servicesMenu .scrollLeft + servicesMenu .offsetWidth >= servicesMenu .scrollWidth;
   };
 
-  menu.addEventListener('scroll', checkScrollButtons);
+  servicesMenu .addEventListener('scroll', checkScrollButtons);
   window.addEventListener('load', checkScrollButtons);
 });
 
 // Update sub-header height
 const subHeader = document.querySelector('.sub-header');
-const menu = document.querySelector('.menu');
+const servicesNavigation  = document.querySelector('.services-navigation');
 const scrollMenuWrapper = document.querySelector('.scroll-menu-wrapper');
 
 const subHeaderHeight = subHeader.offsetHeight;
-const menuOffsetTop = menu.offsetTop;
+const servicesNavigationOffsetTop  = servicesNavigation .offsetTop;
 
 function updateSubHeaderHeight() {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-  if (scrollTop >= menuOffsetTop - subHeaderHeight) {
+  if (scrollTop >= servicesNavigationOffsetTop  - subHeaderHeight) {
       subHeader.style.height = `${subHeaderHeight + 40}px`;
       subHeader.appendChild(scrollMenuWrapper);
       
@@ -42,8 +42,8 @@ function updateSubHeaderHeight() {
 
       if (scrollMenuWrapper.parentNode === subHeader) {
           subHeader.removeChild(scrollMenuWrapper);
-          const h2 = menu.querySelector('h2');
-          menu.insertBefore(scrollMenuWrapper, h2.nextSibling);
+          const h2 = servicesNavigation .querySelector('h2');
+          servicesNavigation .insertBefore(scrollMenuWrapper, h2.nextSibling);
       }
       subHeader.style.boxShadow = '';
   }
@@ -54,7 +54,8 @@ window.addEventListener('scroll', updateSubHeaderHeight);
 window.addEventListener('scroll', navHighlighter);
 
 // Highlight the current section in the menu
-const sections = document.querySelectorAll('.section-service-menu');
+const sections = document.querySelectorAll('.service-category');
+
 function navHighlighter() {
   const scrollY = window.pageYOffset;
 
@@ -76,20 +77,19 @@ function navHighlighter() {
 }
 
 // Scroll to a section after clicking a link in the menu
-const scrollMenuLinks = document.querySelectorAll('.scroll-menu a');
-scrollMenuLinks.forEach(link => {
-  link.addEventListener('click', event => {
-      event.preventDefault();
-      const targetId = link.getAttribute('href').substring(1);
-      const targetSection = document.getElementById(targetId);
-
-      if (targetSection) {
-          const targetPosition = targetSection.offsetTop - 150;
-          window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-          });
-      }
+document.querySelectorAll('.scroll-menu a').forEach(link => {
+    link.addEventListener('click', event => {
+        event.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+  
+        if (targetSection) {
+            const targetPosition = targetSection.offsetTop - 150;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
   });
-});
 

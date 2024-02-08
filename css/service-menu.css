@@ -62,11 +62,11 @@ nav .fa-solid {
 	display: none;
 	font-weight: 900;
 }
-.menu{
+.services-navigation{
   width: 50%;
   margin: 150px auto 0;
 }
-.menu h2{
+.services-navigation h2{
 	text-align: center;
 	color: #434a54;
 	font-weight: 550;
@@ -127,7 +127,7 @@ nav .fa-solid {
 	width: 50%;
 	margin: 0 auto;
 }
-.section-header {
+.service-category-title {
     text-align: left;
 	color: #2d2d2d;
 	font-weight: 600;
@@ -137,18 +137,18 @@ nav .fa-solid {
 	font-family: "Open Sans",sans-serif;
 	margin-bottom: 15px;
 }
-.section-service-menu{
+.service-category{
 	margin-bottom: 40px;
 	margin-top: 30px;
 }
-.service-row{
+.service-category-row{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 5px;
 	flex-wrap: wrap;
 }
-.service-item{
+.service-option{
 	width: calc(50% - 2.5px);
 	height: 175px;
 	padding: 15px;
@@ -159,17 +159,17 @@ nav .fa-solid {
 	border: 1px solid #eeeeee;
 	box-sizing: border-box;
 }
-.service-item:not(:last-child) {
+.service-option:not(:last-child) {
     margin-right: 5px;
 }
-.service-item h4{
+.service-option h4{
 	color:#434a54;
 	margin-bottom: 15px;
 	font-weight: 600;
 	font-size: 14px;
 	font-family: "Open Sans",sans-serif;
 }
-.service-item p{
+.service-option p{
 	color:#434a54;
 	margin-bottom: 15px;
 	font-size: 14px;
@@ -183,7 +183,7 @@ nav .fa-solid {
 .separator{
 	margin: 0 5px;
 }
-.book-btn {
+.service-book-btn {
 	background-color: #f44336;
 	display: inline-block;
 	border: 1.5px solid #f44336;
@@ -228,7 +228,7 @@ footer p {
 	font-size: 20px;
 }
 @media (max-width: 1500px) {
-	.menu{
+	.services-navigation{
 		width: 70%;
 	}
 	.service-section{
@@ -249,7 +249,7 @@ footer p {
         justify-content: center;
 		align-items: center;
 	}
-	.menu{
+	.services-navigation{
 		width: 80%;
 	}
 	.service-section{
@@ -258,13 +258,13 @@ footer p {
 	.sub-header .scroll-menu-wrapper{
 		width: 80%;
 	}
-	.service-row{
+	.service-category-row{
 		display: block;
 	}
-	.service-item:not(:last-child) {
+	.service-option:not(:last-child) {
 		margin: 0 auto  10px;
 	}
-	.service-item{
+	.service-option{
 		width: 100%;
 		margin: 0 auto 10px;
 	}
@@ -352,13 +352,13 @@ footer p {
 	}
 }
 @media (max-width: 380px) {
-	.menu{
+	.services-navigation{
 		width: 90%;
 	}
 	.service-section{
 		width: 90%;
 	}
-	.service-item{
+	.service-option{
 		height: 200px;
 	}
 	
