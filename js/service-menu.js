@@ -35,10 +35,7 @@ function updateSubHeaderHeight() {
   if (scrollTop >= menuOffsetTop - subHeaderHeight) {
       subHeader.style.height = `${subHeaderHeight + 40}px`;
       subHeader.appendChild(scrollMenuWrapper);
-
-      scrollMenuWrapper.style.width = '50%';
-      scrollMenuWrapper.style.margin = '0 auto';
-      scrollMenuWrapper.style.marginTop = '-10px';
+      
       subHeader.style.boxShadow = '0 3px 6px rgba(0,0,0,0.2)';
   } else {
       subHeader.style.height = `${subHeaderHeight}px`;
@@ -48,10 +45,6 @@ function updateSubHeaderHeight() {
           const h2 = menu.querySelector('h2');
           menu.insertBefore(scrollMenuWrapper, h2.nextSibling);
       }
-
-      scrollMenuWrapper.style.width = '';
-      scrollMenuWrapper.style.margin = '';
-      scrollMenuWrapper.style.marginTop = '';
       subHeader.style.boxShadow = '';
   }
 }
