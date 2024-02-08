@@ -229,6 +229,9 @@ footer p {
 	.service-section{
 		width: 70%;
 	}
+	.scroll-menu-wrapper{
+		width: 70%;
+	}
 }
 @media (max-width: 850px) {
 	.sub-header nav a img {
@@ -245,6 +248,10 @@ footer p {
 		width: 80%;
 	}
 	.service-section{
+		width: 80%;
+	}
+	
+	.scroll-menu-wrapper{
 		width: 80%;
 	}
 	.service-row{
@@ -349,5 +356,9 @@ footer p {
 	}
 	.service-item{
 		height: 200px;
+	}
+	
+	.scroll-menu-wrapper{
+		width: 90%;
 	}
 }
