@@ -34,14 +34,14 @@
         </nav>
     </section>
 
-    <div id="serviceInfoSelection" class="service-info-selection">
+    <div id="serviceInfoSection" class="service-info-section">
         <div class="back-button-conteiner">
-            <i id="back-btn" class="fa-solid fa-chevron-left" onclick="redirectToServiceMenu()"></i>
-            <span onclick="redirectToServiceMenu()">Back</span>
+            <i id="back-btn" class="fa-solid fa-chevron-left"></i>
+            <span>Back</span>
         </div>
         <div class="detail-content">
             <div class="back-conteiner">
-                <i id="back-btn" class="fa-solid fa-chevron-left" onclick="redirectToServiceMenu()"></i>
+                <i id="back-btn" class="fa-solid fa-chevron-left"></i>
                 <h1>Cutting medium and long hair</h1>
             </div>
             <div class="service-info">
@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <div id="staffSelection" class="staff-selection">
+    <div id="staffSection" class="staff-section">
         <div class="back-conteiner-staff" style="margin-bottom: 30px;">
                 <i id="back-btn" class="fa-solid fa-chevron-left" onclick="redirectToServiceMenu()"></i>
                 <h1 style="font-size: 20px;">Select staff for CUTTING MEDIUM AND LONG HAIR</h1>
@@ -86,7 +86,7 @@
                     <div class="info">
                         <div>
                             <h2>any available staff</h2>
-                            <a href="" class="select-staff-btn">Select</a>
+                            <a href="#" class="select-staff-btn">Select</a>
                         </div>
                         <p style="margin-top: 5px;">
                             Maximize number of available appointment times.
@@ -102,7 +102,7 @@
                     <div class="info">
                         <div>
                             <h2>Julia</h2>
-                            <a href="" class="select-staff-btn">Select</a>
+                            <a href="#" class="select-staff-btn">Select</a>
                         </div>
                         <p>45 min - 1 hr <span class="separator">&bull;</span> 120 PLN</p>
                         <p>
@@ -119,7 +119,7 @@
                     <div class="info">
                         <div>
                             <h2>Julia</h2>
-                            <a href="" class="select-staff-btn">Select</a>
+                            <a href="#" class="select-staff-btn">Select</a>
                         </div>
                         <p>45 min - 1 hr <span class="separator">&bull;</span> 120 PLN</p>
                         <p>
@@ -138,7 +138,7 @@
                     <div class="info">
                         <div>
                             <h2>Julia</h2>
-                            <a href="" class="select-staff-btn">Select</a>
+                            <a href="#" class="select-staff-btn">Select</a>
                         </div>
                         <p>45 min - 1 hr <span class="separator">&bull;</span> 120 PLN</p>
                         <p>
@@ -155,7 +155,7 @@
                     <div class="info">
                         <div>
                             <h2>Julia</h2>
-                            <a href="" class="select-staff-btn">Select</a>
+                            <a href="#" class="select-staff-btn">Select</a>
                         </div>
                         <p>45 min - 1 hr <span class="separator">&bull;</span> 120 PLN</p>
                         <p>
@@ -167,6 +167,75 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="scheduleSection" class="schedule-section">
+        <div class="back-conteiner-schedule">
+            <i id="back-btn" class="fa-solid fa-chevron-left" onclick="redirectToServiceMenu()"></i>
+            <h1 style="font-size: 20px;">Pick a time</h1>
+        </div>
+        <div class="schedule-container">
+            <div class="appointment-container" >
+                <div class="appointment-header" style="display: flex; flex-direction: row; gap: 40px;">
+                    <h4>YOUR APPOINTMENT</h4>
+                    <span>2 hr 45 min</span>
+                </div>
+                <div class="appointment-info">
+                    <div class="img">
+                        <img style="width: 60px; height: auto;" src="../images/user1.jpg" alt="Customer Julia">
+                    </div>
+                    <div class="info">
+                        <h5>CUTTING MEDIUM AND LONG HAIR</h5>
+                        <p>with Julia</p>
+                        <a href="#" class="change-staff-btn">change</a>
+                    </div>
+                </div>
+            </div>
+            <div class="calendar">
+                <div id="calendarHeader" class="calendar-header">
+                    <div id="prevMonthArrow" class="arrow left-arrow"><i id="prev-month-arrow" class="fa-solid fa-chevron-left"></i></div>
+                    <div id="monthYear" class="month-year"></div>
+                    <div id="nextMonthArrow" class="arrow right-arrow"><i id="prev-month-arrow" class="fa-solid fa-chevron-right"></i></div>
+                </div>
+                <div class="days-container" id="daysContainer"></div>
+            </div>
+            <div class="hour-options-container" style="display: flex; flex-direction: column;">
+                <h4>Tuesday, February 15</h4>
+                <div class="hour-options-columms">
+                    <div class="morning-hours-column">
+                        <h5>MORNING</h5>
+                        <div class="hour-container">
+                            <span>10:00 am</span>
+                        </div>
+                        <div class="hour-container">
+                            <span>11:30 am</span>
+                        </div>
+                    </div>
+                    <div class="afternoon-hours-column">
+                        <h5>AFTERNOON</h5>
+                        <div class="hour-container">
+                            <span>12:00 am</span>
+                        </div>
+                        <div class="hour-container">
+                            <span>12:15 am</span>
+                        </div>
+                        <div class="hour-container">
+                            <span>12:30 am</span>
+                        </div>
+                    </div>
+                    <div class="evening-hours-kolumn">
+                        <h5>EVENING</h5>
+                        <div class="hour-container">
+                            <span>18:00 pm</span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="summaryConfirmationSection" class="summary-confirmation-section">
+
     </div>
     <!-- Footer section with information about the salon and social media icons -->
    <!--<footer>
