@@ -93,10 +93,12 @@ function initializeDatabase() {
   request.onsuccess = function(event) {
       console.log('Baza danych otwarta pomyślnie.');
       const db = event.target.result;
+
       // Sprawdź, czy tabele są puste przed dodaniem danych
       const categoriesStore = db.transaction('ServiceCategories').objectStore('ServiceCategories');
       const servicesStore = db.transaction('Services').objectStore('Services');
       const employeesStore = db.transaction('Employees').objectStore('Employees');
+      const employeeServicesStore = db.transaction('EmployeeServices').objectStore('EmployeeServices');
 
       categoriesStore.count().onsuccess = function(event) {
         const categoriesCount = event.target.result;
@@ -121,6 +123,13 @@ function initializeDatabase() {
           location.reload();
         }
       };
+      employeeServicesStore.count().onsuccess = function(event) {
+        const employeeServicesCount = event.target.result;
+        if (employeeServicesCount === 0) {
+          addEmployeeServicesToDatabase(db);
+          location.reload();
+        }
+      };
   };
 
   // Obsługa aktualizacji wersji bazy danych
@@ -140,10 +149,15 @@ function initializeDatabase() {
       const employeesStore = db.createObjectStore('Employees', { keyPath: 'employee_id', autoIncrement: true });
       employeesStore.createIndex('first_name', 'first_name', { unique: false });
       employeesStore.createIndex('last_name', 'last_name', { unique: false });
-      employeesStore.createIndex('service_id', 'service_id', { unique: false });
-      employeesStore.createIndex('price', 'price', { unique: false });
+      employeesStore.createIndex('description', 'description', { unique: false });
       employeesStore.createIndex('working_hours', 'working_hours', { unique: false });
       employeesStore.createIndex('created_at', 'created_at', { unique: false });
+      
+      // Tabela dla relacji między pracownikami a usługami
+      const employeeServicesStore = db.createObjectStore('EmployeeServices', {keyPath: ['employee_id', 'service_id'] });
+      employeeServicesStore.createIndex('employee_id', 'employee_id', { unique: false });
+      employeeServicesStore.createIndex('service_id', 'service_id', { unique: false });
+      employeeServicesStore.createIndex('price', 'price', { unique: false });
 
       // Utwórz tabelę Appointments
       const appointmentsStore = db.createObjectStore('Appointments', { keyPath: 'appointment_id' });
@@ -480,76 +494,67 @@ function addServicesToDatabase(db) {
     };
   });
 }
+// Lista pracowników
 const employees = [
   { 
     first_name: 'John', 
     last_name: 'Doe', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 120, 
-    working_hours: '8:00 - 17:00' 
+    working_hours: '8:00 - 17:00',
+    description: 'Experienced stylist with a passion for modern hairstyles. Specializes in men\'s grooming and coloring. His goal is to provide clients not only with the perfect look but also with an unforgettable salon experience.'
   },
   { 
     first_name: 'Jane', 
     last_name: 'Smith', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 110, 
-    working_hours: '9:00 - 18:00' 
+    working_hours: '9:00 - 18:00',
+    description: 'Creative hair artist who loves challenges. With over 10 years of experience in the industry, Jane always aims to understand each client\'s individual needs and transform them into unique, stylish hairstyles.'
   },
   { 
     first_name: 'Michael', 
     last_name: 'Johnson', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 115, 
-    working_hours: '7:00 - 16:00' 
+    working_hours: '7:00 - 16:00',
+    description: 'A trusted professional whose passion lies in the art of hair cutting. Michael possesses not only technical skills but also a unique ability to build relationships with clients. His combination of creativity and precision makes every haircut a memorable experience.'
   },
   { 
     first_name: 'Emily', 
     last_name: 'Brown', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 100, 
-    working_hours: '10:00 - 19:00' 
+    working_hours: '10:00 - 19:00',
+    description: 'A coloring expert whose passion is creating unique shades and effects on clients\' hair. Emily always listens carefully to her clients\' needs and collaborates with them to create perfect, personality-enhancing colors.'
   },
   { 
     first_name: 'Daniel', 
     last_name: 'Davis', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 105, 
-    working_hours: '8:30 - 17:30' 
+    working_hours: '8:30 - 17:30',
+    description: 'A specialist in men\'s hairstyles who understands the needs of the modern man. Daniel excels in shaping facial hair and haircuts, while also ensuring his clients\' comfort and style. His warm approach and professionalism make clients eager to return to him.'
   },
   { 
     first_name: 'Olivia', 
     last_name: 'Martinez', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 95, 
-    working_hours: '9:30 - 18:30' 
+    working_hours: '9:30 - 18:30',
+    description: 'A specialist in men\'s hairstyles who understands the needs of the modern man. Olivia excels in shaping facial hair and haircuts, while also ensuring her clients\' comfort and style. Her warm approach and professionalism make clients eager to return to her.'
   },
   { 
     first_name: 'James', 
     last_name: 'Garcia', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 130, 
-    working_hours: '7:30 - 16:30' 
+    working_hours: '7:30 - 16:30',
+    description: 'A specialist in men\'s hairstyles who understands the needs of the modern man. James excels in shaping facial hair and haircuts, while also ensuring his clients\' comfort and style. His warm approach and professionalism make clients eager to return to him.'
   },
   { 
     first_name: 'Sophia', 
     last_name: 'Wilson', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 125, 
-    working_hours: '8:00 - 17:00' 
+    working_hours: '8:00 - 17:00',
+    description: 'A specialist in men\'s hairstyles who understands the needs of the modern man. Sophia excels in shaping facial hair and haircuts, while also ensuring her clients\' comfort and style. Her warm approach and professionalism make clients eager to return to her.'
   },
   { 
     first_name: 'William', 
     last_name: 'Anderson', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 135, 
-    working_hours: '9:00 - 18:00' 
+    working_hours: '9:00 - 18:00',
+    description: 'A specialist in men\'s hairstyles who understands the needs of the modern man. William excels in shaping facial hair and haircuts, while also ensuring his clients\' comfort and style. His warm approach and professionalism make clients eager to return to him.'
   },
   { 
     first_name: 'Isabella', 
     last_name: 'Taylor', 
-    service_ids: ['WHSCmalh', 'SMMCohh', 'CMChc', 'PWaC', 'ECaC'], 
-    price: 140, 
-    working_hours: '8:30 - 17:30' 
+    working_hours: '8:30 - 17:30',
+    description: 'A specialist in men\'s hairstyles who understands the needs of the modern man. Isabella excels in shaping facial hair and haircuts, while also ensuring her clients\' comfort and style. Her warm approach and professionalism make clients eager to return to her.'
   }
 ];
 function addEmployeesToDatabase(db) {
@@ -564,6 +569,173 @@ function addEmployeesToDatabase(db) {
     
     addRequest.onerror = function() {
       console.error(`Błąd podczas dodawania pracownika: ${employee.first_name} ${employee.last_name}`);
+    };
+  });
+}
+const employeeServices = [
+  { 
+    employee_id: 1,
+    service_id: 'BaSSBc',
+    price: 120
+  },
+  { 
+    employee_id: 1,
+    service_id: 'BaSSBcwsar',
+    price: 110
+  },
+  { 
+    employee_id: 1,
+    service_id: 'BaSSCgotb',
+    price: 115
+  },
+  { 
+    employee_id: 1,
+    service_id: 'BaSSFbswar',
+    price: 100
+  },
+  { 
+    employee_id: 1,
+    service_id: 'BaSSMa',
+    price: 110
+  },
+  { 
+    employee_id: 2,
+    service_id: 'BaSSBc',
+    price: 110
+  },
+  { 
+    employee_id: 2,
+    service_id: 'MGSC',
+    price: 130
+  },
+  { 
+    employee_id: 2,
+    service_id: 'SOHTu',
+    price: 200
+  },
+  { 
+    employee_id: 2,
+    service_id: 'WHSCmalh',
+    price: 180
+  },
+  { 
+    employee_id: 2,
+    service_id: 'SOHU',
+    price: 150
+  },
+  { 
+    employee_id: 3,
+    service_id: 'BaSSCgotb',
+    price: 130
+  },
+  { 
+    employee_id: 3,
+    service_id: 'CHCb',
+    price: 115
+  },
+  { 
+    employee_id: 3,
+    service_id: 'MGSC',
+    price: 100
+  },
+  { 
+    employee_id: 3,
+    service_id: 'SOHKhs',
+    price: 400
+  },
+  { 
+    employee_id: 3,
+    service_id: 'WHSCsh',
+    price: 60
+  },
+  { 
+    employee_id: 4,
+    service_id: 'BaSSBc',
+    price: 120
+  },
+  { 
+    employee_id: 4,
+    service_id: 'MGSMh',
+    price: 100
+  },
+  { 
+    employee_id: 4,
+    service_id: 'SOHWu',
+    price: 100
+  },
+  { 
+    employee_id: 4,
+    service_id: 'WHSC',
+    price: 220
+  },
+  { 
+    employee_id: 4,
+    service_id: 'WHSCt',
+    price: 110
+  },
+  { 
+    employee_id: 5,
+    service_id: 'BaSSBc',
+    price: 105
+  },
+  { 
+    employee_id: 5,
+    service_id: 'MGSMh',
+    price: 105
+  },
+  { 
+    employee_id: 5,
+    service_id: 'SOHU',
+    price: 105
+  },
+  { 
+    employee_id: 5,
+    service_id: 'WHSC',
+    price: 220
+  },
+  { 
+    employee_id: 5,
+    service_id: 'WHSCt',
+    price: 110
+  },
+  { 
+    employee_id: 6,
+    service_id: 'WHSCmalh',
+    price: 95
+  },
+  { 
+    employee_id: 7,
+    service_id: 'WHSCmalh',
+    price: 130
+  },
+  { 
+    employee_id: 8,
+    service_id: 'WHSCmalh',
+    price: 125
+  },
+  { 
+    employee_id: 9,
+    service_id: 'WHSCmalh',
+    price: 135
+  },
+  { 
+    employee_id: 10,
+    service_id: 'WHSCmalh',
+    price: 140
+  }
+];
+function addEmployeeServicesToDatabase(db) {
+  const employeeServicesStore = db.transaction(['EmployeeServices'], 'readwrite').objectStore('EmployeeServices');
+
+  employeeServices.forEach(employeeService => {
+    const addRequest = employeeServicesStore.add(employeeService);
+
+    addRequest.onsuccess = function(event) {
+      console.log(`Dodano usługę pracownika: ${event.target.result} - employee_id: ${employeeService.employee_id}, service_id: ${employeeService.service_id}`);
+    };
+    
+    addRequest.onerror = function(event) {
+      console.error(`Błąd podczas dodawania usługi pracownika: employee_id: ${employeeService.employee_id}, service_id: ${employeeService.service_id}`);
     };
   });
 }
