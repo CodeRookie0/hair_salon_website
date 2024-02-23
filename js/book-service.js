@@ -358,6 +358,15 @@ function createCalendar(year, month) {
 
 // Funkcja do wyświetlenia dostępnych godzin
 function fetchAndDisplayAvailableHours(selectedDate) {
+    // Sprawdź, czy wybrany przez użytkownika dzień jest wcześniejszy niż dzisiejszy
+    const today = new Date();
+    const selectedDateTime = new Date(selectedDate);
+    const differenceInDays = (selectedDateTime.getTime() - today.getTime()) / (1000 * 3600 * 24);
+    if (differenceInDays <= -1 || differenceInDays > 182) {
+        displayNoAppointmentsInAllColumns();
+        return; // Zakończ funkcję, nie pobieraj godzin pracy pracowników
+    }
+    
     const urlParams = new URLSearchParams(window.location.search);
     const employeeIdString = urlParams.get('staff');
     const employeeId = parseInt(employeeIdString, 10);
@@ -380,6 +389,19 @@ function fetchAndDisplayAvailableHours(selectedDate) {
         }
     };
 };
+function displayNoAppointmentsInAllColumns() {
+    const allColumns = document.querySelectorAll('.morning-hours-column, .afternoon-hours-column, .evening-hours-column');
+    allColumns.forEach(column => {
+        const elementsToRemove = column.querySelectorAll('.hour-container, .no-appointments');
+        elementsToRemove.forEach(element => {
+            element.remove();
+        });
+        const noAppointmentsParagraph = document.createElement('span');
+        noAppointmentsParagraph.textContent = 'Not available';
+        noAppointmentsParagraph.classList.add("no-appointments");
+        column.appendChild(noAppointmentsParagraph);
+    });
+}
 function getEmployeeAndCalculate(objectStore,employeeId,selectedDate){
     const request = objectStore.get(employeeId);
 
