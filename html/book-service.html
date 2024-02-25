@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="book-button-container">
-                <a href="" class="diff-service-btn">Select different services</a>
+                <a href="service-menu.html" class="diff-service-btn">Select different services</a>
                 <a href="#" class="continue-book-btn">Continue</a>
             </div>
         </div>
@@ -107,15 +107,15 @@
             <div class="appointment-container" >
                 <div class="appointment-header" style="display: flex; flex-direction: row; gap: 40px;">
                     <h4>YOUR APPOINTMENT</h4>
-                    <span id="appointmentDuration">Loading...</span>
+                    <span id="appointmentDuration" class="appointment-duration">Loading...</span>
                 </div>
                 <div class="appointment-info">
                     <div class="img">
-                        <img id="employeeImage" style="width: 60px; height: auto;" src="../images/user1.jpg" alt="Employee">
+                        <img id="employeeImage" class="employee-image" style="width: 60px; height: auto;" src="../images/user1.jpg" alt="Employee">
                     </div>
                     <div class="info">
-                        <h5 id="serviceName">Loading...</h5>
-                        <p id="employeeName">with Loading...</p>
+                        <h5 id="serviceName" class="service-name">Loading...</h5>
+                        <p id="employeeName" class="employee-name">with Loading...</p>
                         <a href="#" class="change-staff-btn">change</a>
                     </div>
                 </div>
@@ -146,7 +146,36 @@
     </div>
     
     <div id="summaryConfirmationSection" class="summary-confirmation-section">
-
+        <div class="back-conteiner-summary">
+            <i id="back-btn" class="fa-solid fa-chevron-left"></i>
+            <h1>Summary</h1>
+        </div>
+        <div class="summary-appointment-container">
+            <div class="summary-appointment-header" style="display: flex; flex-direction: row; gap: 40px;">
+                <h4>YOUR APPOINTMENT</h4>
+                <span id="appointmentDurationSummary" class="appointment-duration">Loading...</span>
+            </div>
+            <div class="appointment-info-conteiner">
+                <div class="appointment-details">
+                    <div class="employee-img">
+                        <img id="employeeImageSummary" class="employee-image" src="../images/user1.jpg" alt="Employee">
+                    </div>
+                    <div class="service-details">
+                        <h5 id="serviceNameSummary" class="service-name">Loading...</h5>
+                        <p id="employeeNameSummary" class="employee-name">with Loading...</p>
+                        <p id="numberOfPeople" class="number-of-people"></p>
+                    </div>
+                    <div class="booking-details">
+                        <p id="dateDetails" class="date-details"></p>
+                        <p id="timeDetails" class="time-details"></p>
+                    </div>
+                </div>
+                <div class="confirmation-button">
+                    <a href="#" class="change-details">Change</a>
+                    <a href="#" class="confirm-appointment">Confirm</a>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Footer section with information about the salon and social media icons -->
    <!--<footer>

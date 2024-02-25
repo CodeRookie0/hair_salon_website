@@ -61,6 +61,7 @@
     width: calc(50% - 12.5px);
   }
     .diff-service-btn,
+    .change-details,
 .options,
 .selected-option {
   background-color: #fff;
@@ -103,7 +104,9 @@
     justify-content: flex-end;
   }
   .continue-book-btn,
-.diff-service-btn {
+  .confirm-appointment,
+.diff-service-btn,
+.change-details {
   display: inline-block;
   padding: 10px 70px;
   font-size: 18px;
@@ -115,20 +118,24 @@
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
 }
-  .diff-service-btn {
+  .diff-service-btn,
+  .change-details {
     border: 1.5px solid #f44336;
     color: #f44336;
     border-radius: 4px;
     margin-right: 25px;
   }
-  .continue-book-btn {
+  .continue-book-btn,
+  .confirm-appointment {
     background-color: #f44336;
     border: 1.5px solid #f44336;
     color: #fff;
     border-radius: 4px;
   }
   .diff-service-btn:hover,
-  .continue-book-btn:hover {
+  .continue-book-btn:hover,
+  .confirm-appointment:hover,
+  .change-details:hover {
     color: #fff;
     background-color: #fd9a93;
   }
@@ -470,6 +477,103 @@
     padding: 15px;
     margin-top: 10px;
   }
+  .summary-confirmation-section {
+    display: none;
+    width: 100%; 
+    margin: 0 auto;
+  }
+  .summary-appointment-conteiner{
+    display: flex;
+    flex-direction: column;
+  }
+  .appointment-info-conteiner {
+    color: #fff;
+    border: 1px solid #cccccc77;
+    border-radius: 5px;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 700px;
+    margin: 0 auto;
+  }  
+  .summary-appointment-header {
+    margin-bottom: 10px;
+    color: #434a54;
+    width: 740px;
+    margin: 0 auto;
+    font-size: 17px;
+    font-family: "Open Sans", sans-serif;
+  }
+  .summary-appointment-header h4 {
+    margin-right: auto;
+    padding: 5px;
+    letter-spacing: 0.5px;
+  }
+  .summary-appointment-header span {
+    margin-left: auto;
+    color: #8b8684;
+    padding: 5px;
+  }
+  .appointment-details{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  .appointment-details p{
+    font-size: 17px;
+    padding: 7px;
+  }
+  .appointment-details h5{
+    font-size: 20px;
+    padding: 5.5px;
+  }
+  .employee-img img{
+    width: 110px;
+    height: auto;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .service-details,.booking-details{
+    color: #434a54;
+    padding: 5px;
+    font-family: "Open Sans", sans-serif;
+  }
+  .booking-details{
+    margin-left: auto; text-align: right;
+  }
+  .back-conteiner-summary{
+    width: 86%;
+    margin: 30px 7% 70px 7% ;
+    display: flex;
+    align-items: center;
+  }
+  .back-conteiner-summary .fa-solid{
+    color: #434a54;
+    font-weight: 600;
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .back-conteiner-summary h1 {
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+    color: #434a54;
+    font-weight: 400;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-right: 14px;
+}
+.confirmation-button{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+.change-details,
+.confirm-appointment{
+  width: 48%;
+}
   @media (max-width: 1500px) {
     .back-conteiner-schedule {
       width: 90%;
@@ -563,7 +667,9 @@
       justify-content: center;
     }
     .diff-service-btn,
-    .continue-book-btn {
+    .continue-book-btn,
+    .confirm-appointment,
+    .change-details {
       width: 50%;
       font-size: 15px;
       padding: 7px 70px;
@@ -588,7 +694,9 @@
   }
   @media (max-width: 850px) {
     .diff-service-btn,
-    .continue-book-btn {
+    .continue-book-btn,
+    .confirm-appointment,
+    .change-details {
       padding: 7px 10px;
     }
     .staff-option .img {
@@ -600,13 +708,49 @@
     .any-staff .info div {
       margin-bottom: 20px;
     }
+    .appointment-details{
+      flex-direction: column;
+      gap: 0px;
+    }
+    .appointment-info-conteiner{
+      width: 75%;
+    }
+    .summary-appointment-header{
+      width: 82%;
+    }
+    .employee-img{
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .service-details,.booking-details{
+      text-align: center;
+    }
+    .service-details{
+      border-bottom: 1px solid #ccc;
+    }
+  .booking-details{
+      margin-left: 0px; 
+    text-align: center ;
+    }
   }
   @media (max-width: 600px) {
     .diff-service-btn,
-    .continue-book-btn {
+    .continue-book-btn,
+    .confirm-appointment,
+    .change-details {
       width: 95%;
       margin-top: 15px;
       margin-right: 0;
+    }
+    .confirmation-button{
+      display: flex;
+      flex-direction: column;
+    }
+    .appointment-info-conteiner{
+      width: 80%;
+    }
+    .summary-appointment-header{
+      width: 90%;
     }
     .book-button-container {
       display: flex;
@@ -671,14 +815,38 @@
       font-size: 12px;
       margin-left: 5px;
     }
+    .employee-img{
+      margin-bottom: 0px;
+    }
+    .summary-appointment-header{
+      font-size: 15px;
+    }
+    .employee-img img{
+      width: 80px;
+    }
+    .appointment-details p {
+      font-size: 15px;
+    }
+    .appointment-details h5{
+      font-size: 18px
+    }
+    .confirmation-button{
+      margin-top: 0px;
+    }
+    .confirmation-button a{
+      font-size: 15px;
+      line-height: 20px;
+    }
   }
   @media (max-width: 440px) {
     .back-conteiner .fa-solid,
-    .back-conteiner-staff .fa-solid {
+    .back-conteiner-staff .fa-solid ,
+    .back-conteiner-summary .fa-solid{
       font-size: 15px;
     }
     .back-conteiner h1,
-    .back-conteiner-staff h1 {
+    .back-conteiner-staff h1,
+    .back-conteiner-summary h1 {
       font-size: 11px;
     }
     nav {
@@ -686,5 +854,24 @@
     }
     .sub-header {
       height: 70px;
+    }
+    .summary-appointment-header{
+      font-size: 10px;
+    }
+    .employee-img img{
+      width: 70px;
+    }
+    .appointment-details p {
+      font-size: 10px;
+    }
+    .appointment-details h5{
+      font-size: 13px
+    }
+    .confirmation-button{
+      margin-top: 0px;
+    }
+    .confirmation-button a{
+      font-size: 10px;
+      line-height: 15px;
     }
   }

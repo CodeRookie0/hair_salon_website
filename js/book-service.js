@@ -61,8 +61,12 @@ function fetchServiceData(serviceId) {
         serviceRequest .onsuccess = function(event) {
             const service = event.target.result;
             if (service) {
-                document.getElementById('serviceName').textContent = service.name;
-                document.getElementById('appointmentDuration').textContent = service.duration;
+                document.querySelectorAll('.service-name').forEach(element => {
+                    element.textContent = service.name;
+                });
+                document.querySelectorAll('.appointment-duration').forEach(element => {
+                    element.textContent = service.duration;
+                });
                 displayServiceInfo(service);
             } else {
                 console.error('Nie znaleziono usługi o podanym identyfikatorze.');
@@ -181,7 +185,9 @@ function createStaffOption(employee,employeeServices){
         document.getElementById('staffSection').style.display = 'none';
         // Pokaż sekcję staffSection
         document.getElementById('scheduleSection').style.display = 'block';
-        document.getElementById('employeeName').textContent = `with ${employee.first_name}`;
+        document.querySelectorAll('.employee-name').forEach(element => {
+            element.textContent = `with ${employee.first_name}`;
+        });
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.set('staff', selectBtn.id);
         window.history.pushState({}, '', newUrl);
@@ -242,6 +248,9 @@ const continueButton = document.querySelector('.continue-book-btn');
 
 // Nasłuchuj kliknięcie na przycisku "Continue"
 continueButton.addEventListener('click', function() {
+    const combobox = document.querySelector('.combobox');
+    const selectedOptionText  = combobox.querySelector('.selected-option p');
+    document.querySelector('.number-of-people').textContent = "Guests : "+ selectedOptionText.textContent;
     // Ukryj sekcję serviceInfoSection
     document.getElementById('serviceInfoSection').style.display = 'none';
     // Pokaż sekcję staffSection
@@ -258,10 +267,14 @@ selectStaffButtons.forEach(function(button) {
         document.getElementById('scheduleSection').style.display = 'block';
 
         const image =document.querySelector('.img img').src;
-        document.getElementById('employeeImage').src = image;
+        document.querySelectorAll('.employee-image').forEach(element => {
+            element.src = image;
+        });
 
         const name =document.querySelector('.info h2').textContent;
-        document.getElementById('employeeName').textContent = `with ${name}`;
+        document.querySelectorAll('.employee-name').forEach(element => {
+            element.textContent = `with ${name}`;
+        });
 
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.set('staff', button.id);
@@ -316,6 +329,11 @@ scheduleBackButton.addEventListener('click', scheduleBackButtonHandler);
 const changeStaffButton = document.querySelector('.change-staff-btn');
 changeStaffButton.addEventListener('click', scheduleBackButtonHandler);
 
+const summaryBackButton = document.querySelector('#summaryConfirmationSection #back-btn');
+summaryBackButton.addEventListener('click', function() {
+    document.getElementById('scheduleSection').style.display = 'block';
+    document.getElementById('summaryConfirmationSection').style.display = 'none';
+});
 // Funkcja do aktualizacji tekstu miesiąca i roku w nagłówku
 function updateMonthYearText() {
     const months = [
@@ -347,7 +365,7 @@ function createCalendar(year, month) {
             this.classList.add('selected');
             const clickedDate = new Date(year, month, i);
             const selectedDateTitleElement = document.getElementById('selected-day');
-            selectedDateTitleElement.textContent=clickedDate.toLocaleString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+            selectedDateTitleElement.textContent=clickedDate.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             fetchAndDisplayAvailableHours(clickedDate);
         });
         daysContainer.appendChild(dayElement);
@@ -509,6 +527,19 @@ function displayAvailableHours(allAvailableHours) {
         }
         timeSpan.textContent = hour.start + ' ' + startPeriod;
         hourContainer.appendChild(timeSpan);
+        hourContainer.dataset.startHour = hour.start;
+        hourContainer.dataset.endHour = hour.end;
+        hourContainer.addEventListener('click', function() {
+            const selectedDateTitleElement = document.getElementById('selected-day');
+            document.getElementById("dateDetails").innerHTML = selectedDateTitleElement.textContent ;
+            document.getElementById("timeDetails").innerHTML = this.dataset.startHour + " - " + this.dataset.endHour;
+            document.getElementById('scheduleSection').style.display = 'none';
+            document.getElementById('summaryConfirmationSection').style.display = 'block';
+            console.log('Kliknięto godzinę: ' + hour.start);
+            console.log('Godzina rozpoczęcia: ' + this.dataset.startHour);
+            console.log('Godzina zakończenia: ' + this.dataset.endHour);
+        });
+
         let columnClass;
         if (startHour < 12) {
             columnClass = 'morning-hours-column';
@@ -563,7 +594,6 @@ function calculateAvailableHours(workingHours, serviceDuration, selectedDate,emp
         return minutes;
     };
     const minDuration = minToMinutes(minDurationParts);
-
     const maxDurationParts = serviceDuration.split(' - ')[1].split(' ').map(part => part.trim());
     const maxToMinutes = (maxDurationParts) => {
         let minutes = 0;
@@ -643,7 +673,71 @@ function getAppointmentsForEmployee(employeeId, selectedDate,callback) {
         console.log("IndexedDB upgrade needed");
     };
 }
-    
+// Obsługa zdarzenia kliknięcia na link "Confirm"
+document.querySelector('.confirm-appointment').addEventListener('click', function() {
+    // Pobierz wszystkie niezbędne informacje z elementów HTML
+    const employeeId = getEmployeeIdFromUrl();
+    const dateText = document.getElementById('dateDetails').textContent.trim();
+    const appointmentDate = convertDateFormat(dateText);
+    const startTime = document.getElementById('timeDetails').textContent.split(' - ')[0].trim();
+    const endTime = document.getElementById('timeDetails').textContent.split(' - ')[1].trim();
+    const createdAt = new Date().toISOString(); // Aktualny czas
+
+    // Utwórz nowy obiekt reprezentujący nowy rekord w bazie danych
+    const newAppointment = {
+        service_id: serviceId,
+        employee_id: employeeId,
+        customer_id: 1, // Przyjmijmy, że stałe id klienta to 1
+        appointment_date: appointmentDate,
+        start_time: startTime,
+        end_time: endTime,
+        created_at: createdAt
+    };
+    const request = indexedDB.open('ServiceDB');
+    request.onsuccess = function(event) {
+        const db = event.target.result;
+        const objectStore = db.transaction(['Appointments'], 'readwrite').objectStore("Appointments");
+        console.log(newAppointment);
+        const addRequest = objectStore.add(newAppointment);
+        addRequest.onsuccess = function() {
+            console.log(`Dodano rekord do tabeli Appointments`);
+            window.location.href="service-menu.html";
+        };
+
+        addRequest.onerror = function() {
+            console.error(`Błąd podczas dodawania rekordu do tabeli Appointments`);
+        };
+    };
+});
+function convertDateFormat(dateText) {
+    console.log(dateText);
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const parts = dateText.split(', ');
+    console.log(parts);
+
+    const weekday = parts[0].substring(0, 3);
+    const year = parseInt(parts[2]);
+    const month = months.indexOf(parts[1].split(" ")[0]) + 1;
+    const day = parseInt(parts[1].split(" ")[1]);
+    console.log(weekday + "," + month + "," + day + "," + year + ",");
+
+    const formattedDate = new Date(year, month - 1, day); // Month is 0-indexed
+    return formattedDate;
+}
+// Funkcja do pobierania employee_id z URL
+function getEmployeeIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const staffIdString = urlParams.get('staff');
+    return parseInt(staffIdString);
+}
+// Przypisanie zdarzenia kliknięcia do przycisku "Back" w sekcji staffSection
+const changeDetailsButton = document.querySelector('.change-details');
+changeDetailsButton.addEventListener('click', function() {
+    document.getElementById('staffSection').style.display = 'none';
+    document.getElementById('scheduleSection').style.display = 'block';
+    document.getElementById('serviceInfoSection').style.display = 'none';
+    document.getElementById('summaryConfirmationSection').style.display = 'none';
+});
 // Przewijanie miesięcy za pomocą strzałek w lewo i prawo
 document.getElementById('prevMonthArrow').addEventListener('click', function() {
     if (currentMonth === 0) {

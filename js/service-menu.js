@@ -160,7 +160,7 @@ function initializeDatabase() {
       employeeServicesStore.createIndex('price', 'price', { unique: false });
 
       // Utwórz tabelę Appointments
-      const appointmentsStore = db.createObjectStore('Appointments', { keyPath: 'appointment_id' });
+      const appointmentsStore = db.createObjectStore('Appointments', { keyPath: 'appointment_id', autoIncrement: true  });
       appointmentsStore.createIndex('service_id', 'service_id', { unique: false });
       appointmentsStore.createIndex('employee_id', 'employee_id', { unique: false });
       appointmentsStore.createIndex('customer_id', 'customer_id', { unique: false });
