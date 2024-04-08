@@ -2,6 +2,8 @@
 **HTML**<br>
 **CSS**<br>
 **JavaScript**<br>
+## Adres URL:
+https://coderookie0.github.io/hair_salon_website/html/
 
 ## Additional info:<br>
 This project is not commercial. The main goal of "Hair Salon Website" is to learn programming in HTML, CSS and JavaScript, understand syntax, layout and style rules, and improve my skills.
