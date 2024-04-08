@@ -1,7 +1,8 @@
 # Hair Salon Website<br>
-**HTML**<br>
-**CSS**<br>
-**JavaScript**<br>
+## Technologies:
+* HTML
+* CSS
+* JavaScript
 ## Adres URL:
 https://coderookie0.github.io/hair_salon_website/html/
 
