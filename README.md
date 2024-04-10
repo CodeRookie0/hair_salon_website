@@ -1,5 +1,6 @@
 # Hair Salon Website
 ChickLocks hair salon website created using HTML, CSS, JavaScript
+
 ![Page structure](./page_preview.png)
 # Table of Content
 * [General info](#general-info)
